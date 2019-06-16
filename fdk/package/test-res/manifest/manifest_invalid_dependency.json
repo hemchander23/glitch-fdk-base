@@ -1,0 +1,16 @@
+{
+  "platform-version": "2.0",
+  "dependencies": {
+    "abcxrt": "2.72.0"
+  },
+  "product": {
+    "freshdesk": {
+      "location": {
+        "ticket_sidebar": {
+          "url": "template.html",
+          "icon": "logo.png"
+        }
+      }
+    }
+  }
+}

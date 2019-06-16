@@ -1,0 +1,23 @@
+{
+	  "testAction": {
+      "display_name" : "" ,
+			"parameters" : {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "$id": "myfirstId",
+        "required": [
+          "checked"
+        ],
+        "properties": {
+          "checked": {
+            "$id": "#/properties/checked",
+            "type": "boolean",
+            "title": "The Checked Schema",
+            "examples": [
+              false
+            ]
+          }
+        }
+      },
+      "description": "Test description"
+  }
+}

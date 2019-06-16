@@ -1,0 +1,138 @@
+node {
+  setBuildProperties()
+  def NODE_VERSION = 8
+  try {
+    stage('Checkout Code') {
+      checkoutCode(NODE_VERSION)
+      sh """#!/bin/bash --login
+      set -e
+      git checkout $BRANCH_NAME
+      """
+    }
+
+    stage('Code Sanity') {
+      doCodeSanity(NODE_VERSION)
+    }
+
+    if(BRANCH_NAME.startsWith('dev')){
+            stage('Generate fdk & addon package') {
+                    sh """#!/bin/bash --login
+                    set -e
+                    source /home/jenkins/.nvm/nvm.sh
+                    nvm use ${NODE_VERSION}
+                    rm -rf *.tgz *.zip
+                    npm pack
+                    yarn run generate-addon
+                    git reset --hard
+                    """
+                  }
+            stage('Upload SDK to S3') {
+              def local_path = sh returnStdout: true, script: 'ls -Art *.tgz | tail -n 1'
+              uploadAssetsToS3(local_path.trim(), "s3://fa-ci-backup/sdk/${env.BRANCH_NAME}.tgz --force", "us-west-2")
+            }
+
+            stage('Upload Addon to S3') {
+              def addon_file_name = sh returnStdout: true, script: 'ls -Art *.zip | tail -n 1'
+              uploadAssetsToS3(addon_file_name.trim(), "s3://dl.freshcloud.io/cli-addon/${addon_file_name.trim()} --force", "us-west-2")
+            }
+        }
+
+    stage('Unit Tests') {
+      runUnitTests(NODE_VERSION)
+    }
+
+    if(BRANCH_NAME.startsWith('staging')) {
+      stage('SDK :Upgrade Version') {
+        mail to: 'freshapps-engg@freshdesk.com',
+        subject: "FDK Release: Awaiting Input",
+        body: "A new commit has been made to FDK. Branch:${BRANCH_NAME} .Please visit ${BUILD_URL} to release/abort it."
+        choice = new ChoiceParameterDefinition('ReleaseType', ['-', 'major', 'minor', 'patch'] as String[], 'Sepcify the Release Type')
+        def releaseType = input message: 'Do you want to release?', parameters: [choice]
+        if(releaseType != '-') {
+          echo ("ReleaseType for SDK: "+ releaseType)
+          sh """#!/bin/bash --login
+            set -e
+            source /home/jenkins/.nvm/nvm.sh
+            git reset --hard
+            npm version $releaseType
+            git push
+          """
+        }
+      }
+
+      stage('Addon :Upgrade Version') {
+        mail to: 'freshapps-engg@freshdesk.com',
+        subject: "FDK Release: Awaiting Input",
+        body: "A new commit has been made to FDK. Branch:${BRANCH_NAME} .Please visit ${BUILD_URL} to release/abort it."
+        choice = new ChoiceParameterDefinition('ReleaseType', ['-', 'major', 'minor', 'patch'] as String[], 'Sepcify the Release Type')
+        def releaseType = input message: 'Do you want to release?', parameters: [choice]
+        if(releaseType != '-') {
+          echo ("ReleaseType for Addon: "+ releaseType)
+          sh """#!/bin/bash --login
+            set -e
+            source /home/jenkins/.nvm/nvm.sh
+            npm version $releaseType --prefix ./addon
+            git add ./addon/package.json
+            git commit -m "addon - release"
+            git push
+          """
+        }
+      }
+
+      stage('Commit version.json') {
+        sh """#!/bin/bash --login
+          set -e
+          source /home/jenkins/.nvm/nvm.sh
+          yarn run generate-version
+          git add version-ws/version.json
+          git commit -m "version.json"
+          git push
+        """
+      }
+    }
+
+    if(BRANCH_NAME.startsWith('release')) {
+      stage('Generate fdk & addon package') {
+        sh """#!/bin/bash --login
+        set -e
+        source /home/jenkins/.nvm/nvm.sh
+        nvm use ${NODE_VERSION}
+        rm -rf *.tgz
+
+        yarn run generate-fdk
+        yarn run generate-addon
+        """
+      }
+
+      stage('Upload SDK to S3') {
+        def cli_zip_name = sh returnStdout: true, script: 'ls -Art *.tgz | tail -n 1'
+        uploadAssetsToProdS3(cli_zip_name.trim(), "s3://dl.freshdev.io/cli/${cli_zip_name.trim()}", "us-east-1")
+      }
+
+      stage('Upload Addon to S3') {
+        def addon_zip_name = sh returnStdout: true, script: 'ls -Art *.zip | tail -n 1'
+        uploadAssetsToProdS3(addon_zip_name.trim(), "s3://dl.freshdev.io/cli-addon/${addon_zip_name.trim()}", "us-east-1")
+      }
+
+      stage('Upload Version document to S3') {
+        uploadAssetsToProdS3('version-ws/version.json', "s3://ws.freshdev.io/cli/version.json", "us-east-1")
+      }
+    }
+
+    if(!BRANCH_NAME.startsWith('release')) {
+      def nextStage = (BRANCH_NAME == 'dev_v2' ? 'Staging' : 'Release');
+      stage('Promote to ' + "$nextStage") {
+        mergeCode(NODE_VERSION);
+      }
+    }
+
+    currentBuild.result = 'SUCCESS'
+  } catch(any) {
+    currentBuild.result = 'FAILURE'
+    claimBuild()
+    throw any
+  } finally {
+    sendEmail()
+    deleteDir()
+  }
+}
