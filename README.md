@@ -2,6 +2,9 @@
 
 Congratulations on creating your first app! Feel free to replace this text with your app's actual description.
 
+1. You can modify the glitch app here. 
+2. Make sure to run the proxy script locally to connect this app to your freshchat tenant
+
 ### Folder structure explained
 
     .
@@ -16,3 +19,23 @@ Congratulations on creating your first app! Feel free to replace this text with 
     │   ├── iparams.json           Contains the parameters that will be collected during installation
     │   └── iparam_test_data.json  Contains sample Iparam values that will used during testing
     └── manifest.json              Contains app meta data and configuration information
+    
+Run this script locally    
+
+```
+var express = require('express');
+var proxy = require('http-proxy-middleware');
+
+var app = express();
+
+app.use(
+    '**',
+    proxy({
+        ws: true,
+        target: 'http://accurate-edge.glitch.me',
+        changeOrigin: true
+    })
+);
+app.listen(10001);
+
+```
