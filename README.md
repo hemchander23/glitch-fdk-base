@@ -1,4 +1,4 @@
-## Your First App
+## Your First Freshchat App on Glitch
 
 Congratulations on creating your first app! Feel free to replace this text with your app's actual description.
 
