@@ -6,7 +6,7 @@ $(document).ready( function() {
             function() {
                 client.data.get('loggedInAgent')
                     .then(function(data) {
-                        $('#apptext').text("Agent logged in is " + data.loggedInAgent.email);
+                        $('#apptext').text("We have an agent logged in and it iss: " + data.loggedInAgent.email);
                     })
                     .catch(function(e) {
                         console.log('Exception - ', e);

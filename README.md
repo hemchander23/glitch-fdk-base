@@ -25,6 +25,7 @@ Congratulations on creating your first app! Feel free to replace this text with 
 2. To link this app to your freshchat account, run this script locally: 
 
 ```
+// Maintain FW_GLITCH_USER and FW_GLITCH_PASSWORD in the .env file of your Glitch project
 var express = require('express');
 var proxy = require('http-proxy-middleware');
 
@@ -34,8 +35,9 @@ app.use(
     '**',
     proxy({
         ws: true,
-        target: 'http://freshchat.glitch.me', // Change as per your glitch URL.
-        changeOrigin: true
+        target: 'http://freshchat.glitch.me',
+        changeOrigin: true,
+        auth: '<FW_GLITCH_USER>:<FW_GLITCH_PASSWORD>'
     })
 );
 app.listen(10001);
