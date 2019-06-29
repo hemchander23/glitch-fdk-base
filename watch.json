@@ -1,0 +1,7 @@
+{
+  "restart": {
+    "exclude": [
+      "^app/*"
+    ]
+  }
+}
