@@ -10,7 +10,7 @@
     "start": "pnpm install && node /app/fdk/package/index.js run"
   },
   "dependencies": { 
-
+  
   },
   "devDependencies":{
     "adm-zip": "^0.4.13",
