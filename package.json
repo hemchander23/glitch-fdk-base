@@ -7,7 +7,7 @@
   "description": "You can run freshchat front-end apps on Glitch without local installation.Just make sure you follow the steps in README",
   "main": "server.js",
   "scripts": {
-    "start": "node /app/fdk/package/index.js run"
+    //"start": "node /app/fdk/package/index.js run"
   },
   "dependencies": {
     "express-basic-auth": "^1.2.0",
@@ -33,7 +33,6 @@
     "moment-timezone": "^0.5.25",
     "node-dir": "^0.1.17",
     "nodetree": "^0.0.3",
-    "npm": "^6.9.1",
     "passport": "^0.4.0",
     "passport-oauth2": "^1.5.0",
     "passport-oauth2-refresh": "^1.1.0",
