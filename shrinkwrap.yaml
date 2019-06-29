@@ -2775,7 +2775,7 @@ shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
   adm-zip: ^0.4.13
-  ajv: ^4.11.8
+  ajv: 4.11.8
   archiver: ^3.0.0
   async: ^3.1.0
   body-parser: ^1.19.0
