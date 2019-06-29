@@ -1,11 +1,26 @@
-<h2 id="yourfirstfreshchatapponglitch">Your First Freshchat App on Glitch</h2>
-<img src="app/freshchat_logo.png"/>
-<p>Congratulations on creating your first app! Feel free to replace this text with your app's actual description.</p>
+<html>
+
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+
+
+<img src="https://www.freshworks.com/static-assets/images/common/company/logos/logo-fchat-black.svg" width="400px" /><hr>
+<h2 id="yourfirstfreshchatapponglitch">Freshchat App on Glitch</h2>
+
+<p>Congratulations on creating your first Freshchat remix ! Feel free to replace this text with your app's actual description.</p>
 
 <ol>
-<li>You can modify the glitch app here. </li>
+    <li>You can modify the glitch app here. </li>
 
-<li>Make sure to run the proxy script locally to connect this app to your freshchat tenant</li>
+    <li>Make sure to run the proxy script locally to connect this app to your freshchat instance</li>
 </ol>
 
 <h3 id="folderstructureexplained">Folder structure explained</h3>
@@ -25,9 +40,9 @@
 </code></pre>
 
 <ol>
-<li>To make sure this app runs, hit <code>http://freshchat.glitch.me/iframe/api</code> in the browser. It will throw a metadata json.        </li>
+    <li>To make sure this app runs, hit <code>http://freshchat.glitch.me/iframe/api</code> in the browser. It will throw a metadata json. </li>
 
-<li>To link this app to your freshchat account, run this script locally: </li>
+    <li>To link this app to your freshchat account, run this script locally: </li>
 </ol>
 
 <pre><code>// Maintain FW_GLITCH_USER and FW_GLITCH_PASSWORD in the .env file of your Glitch project
@@ -47,3 +62,5 @@ app.use(
 );
 app.listen(10001);
 </code></pre>
+
+</html>
