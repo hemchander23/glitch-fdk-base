@@ -1,6 +1,6 @@
 dependencies:
   adm-zip: 0.4.13
-  ajv: 6.10.0
+  ajv: 4.11.8
   archiver: 3.0.0
   async: 3.1.0
   body-parser: 1.19.0
@@ -22,6 +22,7 @@ dependencies:
   moment-timezone: 0.5.25
   node-dir: 0.1.17
   nodetree: 0.0.3
+  npm: 4.1.1
   passport: 0.4.0
   passport-oauth2: 1.5.0
   passport-oauth2-refresh: 1.1.0
@@ -179,6 +180,13 @@ packages:
       node: '>=0.3.0'
     resolution:
       integrity: sha512-fERNJX8sOXfel6qCBCMPvZLzENBEhZTzKqg6vrOW5pvoEaQuJhRU4ndTAh6lHOxn1I6jnz2NHra56ZODM751uw==
+  /ajv/4.11.8:
+    dependencies:
+      co: 4.6.0
+      json-stable-stringify: 1.0.1
+    dev: false
+    resolution:
+      integrity: sha1-gv+wKynmYq5TvcIK8VlHcGc5xTY=
   /ajv/6.10.0:
     dependencies:
       fast-deep-equal: 2.0.1
@@ -501,6 +509,13 @@ packages:
     dev: false
     resolution:
       integrity: sha1-/xnt6Kml5XkyQUewwR8PvLq+1jk=
+  /co/4.6.0:
+    dev: false
+    engines:
+      iojs: '>= 1.0.0'
+      node: '>= 0.12.0'
+    resolution:
+      integrity: sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ=
   /color-convert/1.9.3:
     dependencies:
       color-name: 1.1.3
@@ -1517,6 +1532,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
+  /json-stable-stringify/1.0.1:
+    dependencies:
+      jsonify: 0.0.0
+    dev: false
+    resolution:
+      integrity: sha1-mnWdOcXy/1A/1TAGRu1EX4jE+a8=
   /json-stringify-safe/5.0.1:
     dev: false
     resolution:
@@ -1527,6 +1548,10 @@ packages:
       graceful-fs: 4.2.0
     resolution:
       integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=
+  /jsonify/0.0.0:
+    dev: false
+    resolution:
+      integrity: sha1-LHS27kHZPKUbe1qu6PUDYx0lKnM=
   /jsonpath/1.0.2:
     dependencies:
       esprima: 1.2.2
@@ -1806,6 +1831,98 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
+  /npm/4.1.1:
+    bundledDependencies:
+      - abbrev
+      - ansi-regex
+      - ansicolors
+      - ansistyles
+      - aproba
+      - archy
+      - asap
+      - chownr
+      - cmd-shim
+      - columnify
+      - config-chain
+      - debuglog
+      - dezalgo
+      - editor
+      - fs-vacuum
+      - fs-write-stream-atomic
+      - fstream
+      - fstream-npm
+      - glob
+      - graceful-fs
+      - has-unicode
+      - hosted-git-info
+      - iferr
+      - imurmurhash
+      - inflight
+      - inherits
+      - ini
+      - init-package-json
+      - JSONStream
+      - lockfile
+      - lodash._baseindexof
+      - lodash._baseuniq
+      - lodash._bindcallback
+      - lodash._cacheindexof
+      - lodash._createcache
+      - lodash._getnative
+      - lodash.clonedeep
+      - lodash.restparam
+      - lodash.union
+      - lodash.uniq
+      - lodash.without
+      - mkdirp
+      - node-gyp
+      - nopt
+      - normalize-git-url
+      - normalize-package-data
+      - npm-cache-filename
+      - npm-install-checks
+      - npm-package-arg
+      - npm-registry-client
+      - npm-user-validate
+      - npmlog
+      - once
+      - opener
+      - osenv
+      - path-is-inside
+      - read
+      - read-cmd-shim
+      - read-installed
+      - read-package-json
+      - read-package-tree
+      - readable-stream
+      - readdir-scoped-modules
+      - realize-package-specifier
+      - request
+      - retry
+      - rimraf
+      - semver
+      - sha
+      - slide
+      - sorted-object
+      - sorted-union-stream
+      - strip-ansi
+      - tar
+      - text-table
+      - uid-number
+      - umask
+      - unique-filename
+      - unpipe
+      - validate-npm-package-license
+      - validate-npm-package-name
+      - which
+      - wrappy
+      - write-file-atomic
+      - mississippi
+      - uuid
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha1-dtjx8yqHYZ8ADg4loOa+kFYUhNQ=
   /nth-check/1.0.2:
     dependencies:
       boolbase: 1.0.0
@@ -2658,7 +2775,7 @@ shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
   adm-zip: ^0.4.13
-  ajv: ^6.10.0
+  ajv: ^4.11.8
   archiver: ^3.0.0
   async: ^3.1.0
   body-parser: ^1.19.0
@@ -2680,6 +2797,7 @@ specifiers:
   moment-timezone: ^0.5.25
   node-dir: ^0.1.17
   nodetree: ^0.0.3
+  npm: ^4.1.1
   passport: ^0.4.0
   passport-oauth2: ^1.5.0
   passport-oauth2-refresh: ^1.1.0
