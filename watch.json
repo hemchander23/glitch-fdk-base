@@ -2,6 +2,12 @@
   "restart": {
     "exclude": [
       "^app/*"
+    ],
+    "include": [
+      "watch.json",
+      "package.json",
+      "manifest.json"
     ]
-  }
+  },
+  "throttle": 5000
 }
