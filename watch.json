@@ -1,0 +1,16 @@
+{
+  "restart": {
+    "exclude": [
+      "\\*.js$",
+      "\\*.html$",
+      "\\*.htm$"
+    ],
+    "include": [
+      "watch.json",
+      "package.json",
+      "manifest.json",
+      ".env"
+    ]
+  },
+  "throttle": 5000
+}
