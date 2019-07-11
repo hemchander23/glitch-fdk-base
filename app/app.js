@@ -1,4 +1,4 @@
-$(document).ready( function() {
+$(document).ready( function() { 
     app.initialized()
         .then(function(_client) {
           var client = _client;
