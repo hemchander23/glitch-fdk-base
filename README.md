@@ -21,7 +21,7 @@ Congratulations on creating your first app! Feel free to replace this text with 
     │   └── iparam_test_data.json  Contains sample Iparam values that will used during testing
     └── manifest.json              Contains app meta data and configuration information
     
-1. To make sure this app runs, hit `http://freshchat.glitch.me/iframe/api` in the browser. It will throw a metadata json.        
+1. To make sure this app runs, hit `http://<GLITCH_APP_NAME>.glitch.me/iframe/api` in the browser. It will throw a metadata json.        
 2. To link this app to your freshchat account, run this script locally: 
 
 ```
@@ -35,7 +35,7 @@ app.use(
     '**',
     proxy({
         ws: true,
-        target: 'http://freshchat.glitch.me',
+        target: 'http://<GLITCH_APP_NAME>.glitch.me',
         changeOrigin: true,
         auth: '<FW_GLITCH_USER>:<FW_GLITCH_PASSWORD>'
     })
