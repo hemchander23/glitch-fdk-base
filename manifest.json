@@ -1,9 +1,9 @@
 {
   "platform-version": "2.0",
   "product": {
-    "freshchat": {
+    "freshdesk": {
       "location": {
-        "conversation_user_info": {
+        "ticket_sidebar": {
           "url": "template.html",
           "icon": "icon.svg"
         }

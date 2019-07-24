@@ -1,10 +1,10 @@
 {
-  "//1": "Freshchat app - Glitch run",
+  "//1": "Freshdesk app - Glitch run",
   "//2": "https://docs.npmjs.com/files/package.json",
   "//3": "updating this file will download and update your packages",
-  "name": "freshchat-glitch",
+  "name": "freshdesk-glitch",
   "version": "0.0.1",
-  "description": "You can run freshchat front-end apps on Glitch without local installation.Just make sure you follow the steps in README",
+  "description": "You can run freshdesk front-end apps on Glitch without local installation.Just make sure you follow the steps in README",
   "main": "server.js",
   "scripts": {
     "start": "pnpm install && node /app/fdk/package/index.js run"
