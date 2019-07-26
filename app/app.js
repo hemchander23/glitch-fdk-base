@@ -20,6 +20,16 @@ $(document).ready(() => {
       }).catch((e) => { 
         console.log('Exception -',e);
       }); 
+      client.interface.trigger("showConfirm", {
+        title: "Sample Confirm",
+        message: "Do you want to save the changes?", saveLabel: "save", cancelLabel: "ignore"
+        /*"title" and "message" should be plain text.*/
+      }).then(function(result) {
+        /* "result" will be either "save" or "ignore" */
+        console.log(result);
+      }).catch(function(error) {
+        // error - error object;
+      });
     });
   });
 });
