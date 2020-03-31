@@ -1,0 +1,16 @@
+{
+  "platform-version": "2.0",
+  "product": {
+    "freshdesk": {
+      "location": {
+        "ticket_sidebar": {
+          "url": "abc.html",
+          "icon": "logo.png"
+        }
+      }
+    }
+  },
+  "whitelisted-domains": [
+    "https://www.google.com"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+	 "testAction": {
+     "display_name" : "display",
+			"parameters" : {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "$id": "myfirstId",
+        "required": [
+          "checked"
+        ],
+        "properties": [
+        ]
+      },
+    "description": "Test description"
+  }
+}

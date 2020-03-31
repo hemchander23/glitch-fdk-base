@@ -1,0 +1,18 @@
+{
+  "client_id": "CLIENT ID",
+  "client_secret": "CLIENT SECRET",
+  "authorize_url": "AUTHORIZE URL",
+  "token_url": "ACCESS TOKEN URL",
+  "options": {
+    "scope": "SCOPE"
+  },
+  "token_type": "account",
+  "oauth_iparams": {
+    "subdomain": {
+      "display_name": "Subdomain",
+      "description": "Subdomain of shopify",
+      "type": "integer",
+      "required": false
+    }
+  }
+}

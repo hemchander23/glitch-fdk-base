@@ -1,0 +1,103 @@
+.box {
+  width:80%;
+  height:720px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  margin: auto;
+  margin-top: 3%;
+}
+
+.logo-div {
+  height: 80px;
+  background-color: #cdf;
+  text-align: center;
+}
+
+.logo-block {
+  padding-top: 20px;
+}
+
+.logo {
+  height: 40px;
+}
+
+.dev-text {
+  color: #697067;
+  font-family: helvetica
+}
+
+.box-row, .box-row-err {
+  height: 50px;
+  background-color: #fbfbfb;
+  text-align: center;
+}
+
+.box-row-err {
+  background-color: transparent;
+}
+
+.box-title {
+  font-family: arial;
+  padding-top: 10px;
+  color: #697067;
+}
+
+.form-div {
+  height: 74%;
+  overflow-y: auto;
+  margin-left: 2%;
+}
+
+.form-actions {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+#snackbar {
+    visibility: hidden;
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+#snackbar.show {
+    visibility: visible;
+}
+
+.snackbar-success {
+  background-color: #02b875;
+}
+
+iframe {
+  border: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.snackbar-failure {
+  background-color: #d34836;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

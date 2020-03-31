@@ -1,0 +1,35 @@
+<label>Name</label>
+<input type="text" name="name" id="name">
+<label>Email</label>
+<input type="text" name="email" id="email">
+<label>Notes</label>
+<textarea id="note"></textarea>
+
+
+<script type= "text/javascript">
+  function postConfigs() {
+    return {
+      name: jQuery("#name").val(),
+      email: jQuery("#email").val(),
+      note: jQuery("#note").val(),
+    }
+  }
+
+  function getConfigs(configs) {
+    jQuery("#name").val(configs.name);
+    jQuery("#email").val(configs.email);
+    jQuery("#note").val(configs.note);
+  }
+
+  mkp.request('https://api.onedrive.com/v1.0/drive/root:/:/children', {
+    headers: {
+      Authorization: 'bearer <%= access_token %>'
+    }
+  })
+  .then(function(data) {
+    JSON.parse(data.response).value.forEach(function(d) {
+      console.log(d.name);
+    })
+  });
+
+</script>

@@ -1,0 +1,48 @@
+.box, .err-box {
+  width:600px;
+  height: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  margin: auto;
+  margin-top: 7%;
+}
+
+.logo-div {
+  height: 80px;
+  background-color: #cdf;
+  text-align: center;
+}
+
+.logo-block {
+  padding-top: 20px;
+}
+
+.logo {
+  height: 40px;
+}
+
+.dev-text {
+  color: #697067;
+  font-family: helvetica
+}
+
+.box-row {
+  height: 50px;
+  background-color: #fbfbfb;
+  text-align: center;
+}
+
+.box-title {
+  font-family: arial;
+  padding-top: 15px;
+  color: #697067;
+}
+
+.oauth-form {
+  width: 60%;
+  padding: 10 10 10 10;
+}
+
+.input-label {
+  color: #697067;
+}

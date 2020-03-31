@@ -1,0 +1,9 @@
+{
+  "client_id": "CLIENT ID",
+  "client_secret": "CLIENT SECRET",
+  "authorize_url": "AUTHORIZE URL",
+  "token_url": "ACCESS TOKEN URL",
+  "options": {
+    "scope": "SCOPE"
+  }
+}

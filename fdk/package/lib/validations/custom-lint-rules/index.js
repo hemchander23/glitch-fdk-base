@@ -1,0 +1,9 @@
+'use strict';
+
+[
+  'no-unhandled-promise',
+  'no-logging-rejections',
+  'no-dependency-mismatch',
+  'no-deprecated-functions',
+  'no-cross-scope-assign'
+].forEach(rule => module.exports[rule] = require(`./${rule}.js`));
