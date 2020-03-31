@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>maximise</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Web-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="maximise" transform="translate(2.000000, 2.000000)" fill="#000000" fill-rule="nonzero">
+            <path d="M53.3333335,53.3333335 L6.66666665,53.3333335 L6.66666665,6.66666665 L30,6.66666665 L30,0 L6.66666665,0 C2.98333334,0 0,2.98333334 0,6.66666665 L0,53.3333335 C0,57.0166665 2.98333334,60 6.66666665,60 L53.3333335,60 C57.0166665,60 60,57.0166665 60,53.3333335 L60,30 L53.3333335,30 L53.3333335,53.3333335 Z M36.6666666,0 L36.6666666,6.66666665 L48.6166666,6.66666665 L15.85,39.4333333 L20.5666666,44.15 L53.3333335,11.3833334 L53.3333335,23.3333333 L60,23.3333333 L60,0 L36.6666666,0 Z"></path>
+        </g>
+    </g>
+</svg>

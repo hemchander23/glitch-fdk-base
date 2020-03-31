@@ -1,0 +1,7 @@
+{
+  "account_id": "12345",
+  "domain": "sample.freshcaller.com",
+  "event": "onScheduledEvent",
+  "timestamp": 1583839686,
+  "region": "US"
+}
