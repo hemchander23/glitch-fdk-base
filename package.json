@@ -7,7 +7,7 @@
   "description": "You can run freshdesk front-end apps on Glitch without local installation.Just make sure you follow the steps in README",
   "main": "server.js",
   "scripts": {
-    "start": "pnpm install && node /app/fdk/package/index.js run"
+    "start": "pnpm install && node /app/fdk/package/index.js run --skip-coverage"
   },
   "dependencies": { 
   
