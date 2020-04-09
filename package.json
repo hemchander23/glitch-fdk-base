@@ -8,7 +8,7 @@
   "main": "server.js",
   "scripts": {
     "prestart":"pnpm install",
-    "start": "node /app/.fdk/fdk/package/index.js run --skip-coverage -t"
+    "start": "cd /app && node /app/.fdk/fdk/package/index.js run $FDK_ARGS"
   },
   "dependencies": { 
 
