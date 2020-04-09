@@ -1,1 +1,8 @@
-{}
+{
+  "Contact-Address": {
+    "display_name": "Contact address",
+    "description": "Please enter the contact address",
+    "type": "paragraph",
+    "required": true
+  }
+}
