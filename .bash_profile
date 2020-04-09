@@ -1,3 +1,3 @@
 #!/bin/bash
 
-alias fdk='node /app/fdk/package/index.js'
+alias fdk='node /app/.fdk/fdk/package/index.js'
