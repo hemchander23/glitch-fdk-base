@@ -1,20 +1,18 @@
-## Freshchat App Project
+## Your First App
 
-Congratulations on creating your App Project! Feel free to replace this text with your project description.
+Congratulations on creating your first app! Feel free to replace this text with your app's actual description.
 
-### Project folder structure explained
+### Folder structure explained
 
     .
-    ├── README.md                  This file.
-    ├── config                     Installation parameter configs.
-    │   ├── iparams.json           Installation parameter config in English language.
-    │   └── iparam_test_data.json  Installation parameter data for local testing.
-    └── manifest.json              Project manifest.
-    └── server                     Business logic for remote request and event handlers.
-        ├── lib
-        ├── server.js
-        └── test_data
-            ├── onAppInstall.json
-            ├── onAppUninstall.json
-            ├── onScheduledEvent.json
-            └── onExternalEvent.json
+    ├── README.md                  This file
+    ├── app                        Contains the files that are required for the front end component of the app
+    │   ├── app.js                 JS to render the dynamic portions of the app
+    │   ├── icon.svg               Sidebar icon SVG file. Should have a resolution of 64x64px.
+    │   ├── freshchat_logo.png     The Freshchat logo that is displayed in the app
+    │   ├── style.css              Style sheet for the app
+    │   ├── template.html          Contains the HTML required for the app’s UI
+    ├── config                     Contains the installation parameters and OAuth configuration
+    │   ├── iparams.json           Contains the parameters that will be collected during installation
+    │   └── iparam_test_data.json  Contains sample Iparam values that will used during testing
+    └── manifest.json              Contains app meta data and configuration information
