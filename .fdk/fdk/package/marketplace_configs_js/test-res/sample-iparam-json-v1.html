@@ -1,0 +1,69 @@
+<script type="text/javascript">
+  function toggleContact(target) {
+    var selectedOption = jQuery('option:selected', target).val();
+    if(selectedOption === 'Phone') {
+      jQuery('.contact-phone').attr('style', '');
+      jQuery('.contact-email').attr('style', 'display:none;');
+    } else {
+      jQuery('.contact-email').attr('style', '');
+      jQuery('.contact-phone').attr('style', 'display:none;');
+    }
+  };
+  function getConfigs(configs) {
+    if(configs) {
+      jQuery('#contact_type option').attr('selected', false);
+      jQuery('#contact_type option[value="'+ configs.contact_type + '"]').attr('selected', true);
+      this.toggleContact(jQuery('#contact_type'));
+      if(configs.contact_type === 'Phone'){
+        jQuery('#contact-phone').val(configs.contact);
+      } else {
+        jQuery('#contact-email').val(configs.contact);
+      }
+    }
+    jQuery(document).on('change', '#contact_type', function(e) { toggleContact(this); })
+  };
+  function postConfigs() {
+    var selectedOption = jQuery('#contact_type option:selected').val();
+    var result = {};
+    if(selectedOption === 'Phone') {
+      result =  {
+        contact_type: selectedOption,
+        contact: jQuery('#contact-phone').val()
+      }
+    } else {
+      result = {
+        contact_type: selectedOption,
+        contact: jQuery('#contact-email').val()
+      };
+    }
+    return result;
+  };
+  
+</script>
+<div class="span10 fa-info">
+  <ul class="installer-form">
+    <li class="field">
+      <label class="form-lbl"> Contact Type 
+      </label>
+        <select id='contact_type' class="select2 fa-elements select2-offscreen" style="width:200px;" tabindex="-1" name="contact_type">
+            <option value="Phone">Phone</option>
+            <option value="Email">Email</option>
+        </select>
+        <p class="help-text"> Please select the contact type </p>
+    </li>
+    <li class="field">
+        <div class='contact-email'>
+          <label class="form-lbl"> Email 
+          </label>
+          <input id='contact-email' type="email" class="fa-textip fa-elements" name="contact" required>
+        </div>
+        <div class='contact-phone'>
+          <label class="form-lbl"> Phone
+          </label>
+          <input id='contact-phone' type="tel" class="fa-textip fa-elements" name="contact" required>
+        </div>
+        <br/>
+        <p class="help-text"> Please enter the contact details </p>
+    </li>
+  </ul>
+</div>

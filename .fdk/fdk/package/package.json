@@ -1,0 +1,159 @@
+{
+  "_from": "https://dl.freshdev.io/cli/fdk-6.2.4.tgz",
+  "_id": "fdk@6.2.4",
+  "_inBundle": false,
+  "_integrity": "sha512-jOm/fyxYPe81TIFOx8wHbUyc/vMDavrK+y8Jntvk9upUMswkhlZPAjX7y3RaRUf/9fZjc/6BDj0y0aL6b+jRKA==",
+  "_location": "/fdk",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "remote",
+    "raw": "https://dl.freshdev.io/cli/fdk-6.2.4.tgz",
+    "rawSpec": "https://dl.freshdev.io/cli/fdk-6.2.4.tgz",
+    "saveSpec": "https://dl.freshdev.io/cli/fdk-6.2.4.tgz",
+    "fetchSpec": "https://dl.freshdev.io/cli/fdk-6.2.4.tgz"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://dl.freshdev.io/cli/fdk-6.2.4.tgz",
+  "_shasum": "0188dabcdc004c3f76ba6622bcb4103affb716d5",
+  "_spec": "https://dl.freshdev.io/cli/fdk-6.2.4.tgz",
+  "_where": "/Volumes/dev/freshworks_apps/samples/marketplace-sample-apps/Freshworks-Samples/App-Development-Features/Testing-Framework/InsightCrew assignment_github_integration_app",
+  "author": {
+    "name": "Subhash"
+  },
+  "bin": {
+    "fdk": "index.js"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "adm-zip": "^0.4.11",
+    "ajv": "4.11.8",
+    "archiver": "^1.0.0",
+    "async": "^2.1.4",
+    "body-parser": "^1.15.0",
+    "cheerio": "0.22.0",
+    "eslint": "4.19.1",
+    "esprima": "^4.0.1",
+    "express": "^4.13.4",
+    "express-ws": "^3.0.0",
+    "faker": "4.1.0",
+    "fs-extra": "1.0.0",
+    "image-size": "0.5.1",
+    "inquirer": "^7.0.4",
+    "istanbul": "^0.4.5",
+    "istanbul-lib-instrument": "3.3.0",
+    "jquery-deferred": "0.3.1",
+    "json-schema-faker": "0.5.0-rc16",
+    "lodash": "4.17.10",
+    "moment-timezone": "^0.5.14",
+    "ngrok": "^3.2.5",
+    "node-dir": "0.1.16",
+    "nodetree": "^0.0.3",
+    "npm": "4.1.1",
+    "passport": "^0.3.2",
+    "passport-oauth2": "^1.3.0",
+    "passport-oauth2-refresh": "^1.0.0",
+    "request": "2.88.0",
+    "requestretry": "^4.0.2",
+    "sync-request": "5.0.0",
+    "uuid": "^3.1.0",
+    "validator": "^9.0.0",
+    "wiz-cliparse": "^0.5.4"
+  },
+  "deprecated": false,
+  "description": "Freshworks Development Kit",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "gulp": "^4.0.0",
+    "gulp-replace": "^0.5.4",
+    "mocha": "^5.0.0",
+    "nock": "^9.1.4",
+    "nyc": "^11.2.1",
+    "proxyquire": "^2.1.1",
+    "sinon": "6.3.5",
+    "supertest": "^3.0.0",
+    "tmp": "^0.0.33",
+    "websocket": "^1.0.25"
+  },
+  "engines": {
+    "node": "10"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-freshapps",
+    "globals": {
+      "__debug": true,
+      "APP_SOURCE": true,
+      "PLATFORM_SOURCE": true,
+      "jQuery": true,
+      "window": true,
+      "nukeCache": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 9
+    },
+    "rules": {
+      "no-console": 0,
+      "global-require": 0,
+      "complexity": 0,
+      "max-nested-callbacks": 0,
+      "init-declarations": 0
+    },
+    "overrides": {
+      "files": [
+        "test/**/*",
+        "tests/**/*",
+        "integration/**/*"
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "views/",
+    "coverage/",
+    "test/",
+    "test-res/",
+    "addon/",
+    "extras/",
+    "marketplace_configs_js/"
+  ],
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "name": "fdk",
+  "nyc": {
+    "check-coverage": true,
+    "lines": 82,
+    "reporter": [
+      "clover",
+      "html",
+      "text-summary",
+      "json"
+    ],
+    "exclude": [
+      "coverage",
+      "gulpfile.js",
+      "extras",
+      "template",
+      "index.js",
+      "test-res",
+      "lib/web/assets/**",
+      "test/**",
+      "addon/**",
+      "_test"
+    ]
+  },
+  "preferGlobal": true,
+  "private": true,
+  "scripts": {
+    "code-sanity": "yarn check --integrity && yarn lint",
+    "future-tests": "NODE_ENV=test nyc --all mocha _test/**",
+    "generate-addon": "./node_modules/gulp/bin/gulp.js generate-addon-zip",
+    "generate-fdk": "./node_modules/gulp/bin/gulp.js production && npm pack",
+    "generate-version": "./node_modules/gulp/bin/gulp.js generate-version",
+    "lint": "eslint -f table .",
+    "precommit": "yarn install && yarn code-sanity && yarn test && yarn remote-parity",
+    "remote-parity": "git fetch && [ \"$(git rev-parse HEAD)\" == \"$(git rev-parse @{u})\" ]",
+    "test": "yarn unit-tests",
+    "unit-tests": "NODE_ENV=test nyc mocha --exit -t 15000 ./test/*.js"
+  },
+  "version": "6.2.4"
+}
