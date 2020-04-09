@@ -10,7 +10,7 @@
     "start": "pnpm install && node /app/fdk/package/index.js run --skip-coverage"
   },
   "dependencies": { 
-  
+    "express": "^4.16.4"
   },
   "devDependencies":{
     "adm-zip": "^0.4.13",
@@ -21,7 +21,7 @@
     "cheerio": "0.22.0",
     "eslint": "^6.0.1",
     "esprima": "^4.0.1",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",
     "express-ws": "^4.0.0",
     "faker": "4.1.0",

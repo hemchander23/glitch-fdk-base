@@ -1,0 +1,16 @@
+{
+  "account_id": "12345",
+  "event": "onExternalEvent",
+  "timestamp": 1583839686,
+  "region": "US",
+  "domain": "sample.freshcaller.com",
+  "data": {
+    "call": {
+      "id": 123456,
+      "phone_number": "+1234567891"
+    }
+  },
+  "headers": {
+    "Content-Type": "application/json"
+  }
+}

@@ -1,0 +1,366 @@
+{
+  "freshdesk": [
+    {
+      "name": "onTicketCreate",
+      "external_event_name": "ticket_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onTicketUpdate",
+      "external_event_name": "ticket_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onConversationCreate",
+      "external_event_name": "note_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onContactCreate",
+      "external_event_name": "user_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onContactUpdate",
+      "external_event_name": "user_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onAppInstall",
+      "external_event_name": "onAppInstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onAppUninstall",
+      "external_event_name": "onAppUninstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onExternalEvent",
+      "external_event_name": "onExternalEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onScheduledEvent",
+      "external_event_name": "onScheduledEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onTimeEntryCreate",
+      "external_event_name": "time_sheet_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onTimeEntryUpdate",
+      "external_event_name": "time_sheet_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onTimeEntryDelete",
+      "external_event_name": "time_sheet_destroy",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onCompanyCreate",
+      "external_event_name": "company_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onCompanyUpdate",
+      "external_event_name": "company_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onCompanyDelete",
+      "external_event_name": "company_destroy",
+      "event_type": "product_event"
+    }
+  ],
+  "freshsales": [
+    {
+      "name": "onContactCreate",
+      "external_event_name": "contact_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onContactUpdate",
+      "external_event_name": "contact_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onContactDelete",
+      "external_event_name": "contact_delete",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onLeadCreate",
+      "external_event_name": "lead_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onLeadUpdate",
+      "external_event_name": "lead_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onLeadDelete",
+      "external_event_name": "lead_delete",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onAppInstall",
+      "external_event_name": "onAppInstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onAppUninstall",
+      "external_event_name": "onAppUninstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onDealCreate",
+      "external_event_name": "deal_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onDealUpdate",
+      "external_event_name": "deal_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onDealDelete",
+      "external_event_name": "deal_delete",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onSalesAccountCreate",
+      "external_event_name": "sales_account_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onSalesAccountUpdate",
+      "external_event_name": "sales_account_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onSalesAccountDelete",
+      "external_event_name": "sales_account_delete",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onExternalEvent",
+      "external_event_name": "onExternalEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onScheduledEvent",
+      "external_event_name": "onScheduledEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onCustomModuleCreate",
+      "external_event_name": "custom_module_record_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onCustomModuleUpdate",
+      "external_event_name": "custom_module_record_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onTaskCreate",
+      "external_event_name": "task_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onTaskUpdate",
+      "external_event_name": "task_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onAppointmentCreate",
+      "external_event_name": "appointment_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onAppointmentUpdate",
+      "external_event_name": "appointment_update",
+      "event_type": "product_event"
+    }
+  ],
+  "freshservice": [
+    {
+      "name": "onScheduledEvent",
+      "external_event_name": "onScheduledEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onAppInstall",
+      "external_event_name": "onAppInstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onAppUninstall",
+      "external_event_name": "onAppUninstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onExternalEvent",
+      "external_event_name": "onExternalEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onTicketCreate",
+      "external_event_name": "ticket_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onTicketUpdate",
+      "external_event_name": "ticket_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onConversationCreate",
+      "external_event_name": "note_create",
+      "event_type": "product_event"
+    }
+  ],
+  "freshchat": [
+    {
+      "name": "onExternalEvent",
+      "external_event_name": "onExternalEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onAppInstall",
+      "external_event_name": "onAppInstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onAppUninstall",
+      "external_event_name": "onAppUninstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onScheduledEvent",
+      "external_event_name": "onScheduledEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onConversationCreate",
+      "external_event_name": "conversation_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onConversationUpdate",
+      "external_event_name": "conversation_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onMessageCreate",
+      "external_event_name": "message_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onUserCreate",
+      "external_event_name": "user_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onUserUpdate",
+      "external_event_name": "user_update",
+      "event_type": "product_event"
+    }
+  ],
+  "freshteam": [
+    {
+      "name": "onEmployeeCreate",
+      "external_event_name": "employee_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onEmployeeUpdate",
+      "external_event_name": "employee_update",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onNewHireCreate",
+      "external_event_name": "newhire_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onAppInstall",
+      "external_event_name": "onAppInstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onAppUninstall",
+      "external_event_name": "onAppUninstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onExternalEvent",
+      "external_event_name": "onExternalEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onScheduledEvent",
+      "external_event_name": "onScheduledEvent",
+      "event_type": "external_event"
+    }
+  ],
+  "freshconnect": [
+    {
+      "name": "onAppInstall",
+      "external_event_name": "onAppInstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onAppUninstall",
+      "external_event_name": "onAppUninstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onExternalEvent",
+      "external_event_name": "onExternalEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onScheduledEvent",
+      "external_event_name": "onScheduledEvent",
+      "event_type": "external_event"
+    }
+  ],
+  "freshcaller": [
+    {
+      "name": "onAppInstall",
+      "external_event_name": "onAppInstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onAppUninstall",
+      "external_event_name": "onAppUninstall",
+      "event_type": "app_setup_event"
+    },
+    {
+      "name": "onExternalEvent",
+      "external_event_name": "onExternalEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onScheduledEvent",
+      "external_event_name": "onScheduledEvent",
+      "event_type": "external_event"
+    },
+    {
+      "name": "onCallCreate",
+      "external_event_name": "call_create",
+      "event_type": "product_event"
+    },
+    {
+      "name": "onCallUpdate",
+      "external_event_name": "call_update",
+      "event_type": "product_event"
+    }
+  ]
+}
