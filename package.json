@@ -2,12 +2,13 @@
   "//1": "Freshdesk app - Glitch run",
   "//2": "https://docs.npmjs.com/files/package.json",
   "//3": "updating this file will download and update your packages",
-  "name": "freshdesk-glitch",
-  "version": "0.0.1",
-  "description": "You can run freshdesk front-end apps on Glitch without local installation.Just make sure you follow the steps in README",
+  "name": "freshworks-glitch",
+  "version": "1.0.0",
+  "description": "You can run Freshworks front-end apps on Glitch without local installation.Just make sure you follow the steps in README",
   "main": "server.js",
   "scripts": {
-    "start": "pnpm install && node /app/fdk/package/index.js run --skip-coverage -t && alias fdk='node /app/fdk/package/index.js'"
+    "prestart":"pnpm install",
+    "start": "node /app/fdk/package/index.js run --skip-coverage"
   },
   "dependencies": { 
 
@@ -56,8 +57,8 @@
   },
   "license": "MIT",
   "keywords": [
-    "node",
-    "glitch",
-    "express"
+    "fdk",
+    "freshworks",
+    "freshhuddle"
   ]
 }
