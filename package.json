@@ -47,7 +47,7 @@
     "wiz-cliparse": "^0.5.4"
   },
   "engines": {
-    "node": "8.x"
+    "node": "10.x"
   },
   "repository": {
     "url": "https://he.ms"
