@@ -14,7 +14,7 @@ const MISSING_ATTR_ERR = {
   message: 'Mandatory attributes (key or value) is missing',
   status: httpUtil.status.bad_request
 };
-const DPROUTER_URL = 'http://localhost:10001/dprouter';
+const DPROUTER_URL = 'http://localhost:3000/dprouter';
 const DB_FEATURE = 'db';
 const POST = 'post';
 
