@@ -2,6 +2,7 @@
 
 watch.json
 index.html
-package.jsons
+package.json
+.report.json
 .bash_profile
 run_fdk.sh
