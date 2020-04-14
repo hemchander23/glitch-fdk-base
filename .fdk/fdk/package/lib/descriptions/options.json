@@ -1,0 +1,6 @@
+{
+    "files" : ["oauth_config.json", "iparams.json", "iparams.html", "server.js", "manifest.json"],
+    "iparamType" : ["text", "dropdown", "email", "number", "phone_number", "date", "url", "radio", "checkbox", "multiselect", "paragraph", "domain", "api_key"],
+    "oauthType" : ["account", "agent"],
+    "starterFiles" : ["oauth starter kit", "external events app starter kit"]
+}

@@ -1,0 +1,63 @@
+<style>
+  .open-box {
+    background-color: #fefef1;
+    padding: 5px 0 0 0;
+    border: solid 1px #CCC;
+    border-radius: 4px 4px;
+    text-align: center;
+    width: 100%;
+  }
+  .oauth-text {
+    color: #bcbcbc
+  }
+  .btn {
+    padding: 4px 14px;
+    font-size: 13px;
+    line-height: 16px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #373737;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-family: inherit;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: bold;
+  }
+</style>
+
+<div class='open-box'>
+  <p class="oauth-text">
+    Oauth2 feature is enabled. Please authorize to proceed.
+  </p>
+  <div class="text-center" style="margin-bottom:6px;">
+    <button id="authButton" class="btn">Authorize</button>
+  </div>
+</div>
+<script src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
+
+<script type="text/javascript">
+  /**
+    Initializing the client object.
+    When authorize button is clicked, inform the parent to authorize the app.
+    Using the requestApi get method to inform the parent.
+  */
+  window.frsh_init().then( function(client) {
+
+    document.getElementById("authButton").onclick = function () {
+
+      var url = 'http://localhost:10001/auth/index';
+      var options = {
+        feature: 'oauth'
+      };
+      client.request.get(url, options).then(
+        function(data) {
+          console.log(data);
+        },
+        function(err) {
+          console.log(err);
+        }
+      );
+    }
+  });
+</script>

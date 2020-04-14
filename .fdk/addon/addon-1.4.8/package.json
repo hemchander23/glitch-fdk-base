@@ -1,0 +1,6 @@
+{
+  "name": "addon",
+  "version": "1.4.8",
+  "main": "index.js",
+  "license": "MIT"
+}
