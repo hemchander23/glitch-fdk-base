@@ -18,7 +18,6 @@ function enableCORS(res, req) {
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, UPDATE, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers',  '*');
   res.setHeader('Access-Control-Allow-Origin',  '*');
-  console.log("OK");
 }
 
 module.exports = {

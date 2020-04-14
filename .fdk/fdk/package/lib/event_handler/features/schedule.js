@@ -15,7 +15,7 @@ const MANDATORY_WRITE_FIELDS = ['name', 'data', 'schedule_at'];
 const MANDATORY_RECURRING_FIELDS = ['time_unit', 'frequency', 'timezone'];
 const ALLOWED_TIME_UNITS = ['minutes', 'hours', 'days'];
 const SCHEDULED_EVENT = 'onScheduledEvent';
-const SCHEDULED_EVENT_TRIGGER_URL = 'http://localhost:10001/event/execute?name=onScheduledEvent';
+const SCHEDULED_EVENT_TRIGGER_URL = 'http://localhost:3000/event/execute?name=onScheduledEvent';
 const SCHEDULED_WAIT_TIME = 3000;
 const MAX_KEY_LENGTH = 30;
 const MAX_DATA_SIZE = 4096;

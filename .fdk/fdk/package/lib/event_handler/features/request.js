@@ -5,7 +5,7 @@ const request = require('requestretry');
 
 const httpUtil = require('../../utils/http-util');
 
-const DP_ROUTER_URL = 'http://localhost:10001/dprouter';
+const DP_ROUTER_URL = 'http://localhost:3000/dprouter';
 
 const RETRY_STRATEGY=request.RetryStrategies.HTTPOrNetworkError;
 

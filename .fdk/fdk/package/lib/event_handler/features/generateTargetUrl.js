@@ -8,7 +8,7 @@ const MISSING_EVENT_CALLBACK_ERR = 'Unsupported operation: The generateTargetUrl
 const UNSUPPORTED_OPERATION = 'Unsupported operation: The generateTargetUrl method cannot be used';
 const UNSUPPORTED_OPTION = 'Invalid argument type: The \'options\' argument should be of type string or cannot be greater than 100 characters';
 const MAX_LENGTH = 100;
-const LOCAL_URL = 'http://localhost:10001';
+const LOCAL_URL = 'http://localhost:3000';
 const EXTERNAL_EVENT_SUPPORT = [
   'onTicketCreate',
   'onTicketUpdate',
