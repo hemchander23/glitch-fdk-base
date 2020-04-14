@@ -5,7 +5,7 @@ $(document).ready(function() {
       client.data
         .get("contact")
         .then(function(data) {
-          $("#apptext").text("Ticket created by " + data.contact.name);
+          $("#apptext").text("Ticket created not by " + data.contact.name);
         })
         .catch(function(e) {
           console.log("Exception - ", e);
