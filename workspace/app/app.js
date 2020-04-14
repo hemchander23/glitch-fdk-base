@@ -67,7 +67,7 @@ function getNote() {
                         console.error('No note is saved yet.');
                         showNotification('warning', "No note is saved yet.");
                     } else {
-                        console.error('Failed to get conversation details.');
+                        console.error('Failed to get ');
                         console.error(error);
                         showNotification('danger', "Failed to get note. Retry later.");
                     }
