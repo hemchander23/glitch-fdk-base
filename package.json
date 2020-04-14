@@ -47,9 +47,7 @@
     "validator": "^10.11.0",
     "wiz-cliparse": "^0.5.4"
   },
-  "devDependencies": {
-
-  },
+  "devDependencies": {},
   "engines": {
     "node": "10.x"
   },
