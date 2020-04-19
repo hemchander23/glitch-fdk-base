@@ -8,7 +8,7 @@ const PREFIX = 'convo-';
  * @param {String} conversationId - The conversation_id of the Agent conversation.
  **/
 function retrieveNote(conversationId) {
-  return $db.get(`${PREFIX}${conversationId}`); 
+  return $db.get(`${PREFIX}${conversationId}`);
 }
 
 exports = {
