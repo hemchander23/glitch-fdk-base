@@ -6,3 +6,4 @@ package.json
 .report.json
 .bash_profile
 run_fdk.sh
+node_modules/
