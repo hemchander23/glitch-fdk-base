@@ -189,7 +189,7 @@ module.exports = {
     app.use(webEventsRouter);
     app.use(oauthRouter);
     app.use(actionsRouter);
-
+    app.use('/coverage', express.static('/app/workspace/coverage'));
     // Finally, listen:
     const server = app.listen(HTTP_PORT, async () => {
       if (manifest.features.includes('backend')) {
