@@ -25,6 +25,19 @@ export default {
           headers: {
             Authorization: `Bearer ${apikey}`
           }
+        },
+        freshcaller: {
+          url: `https://${domainName}.freshcaller.com/api/v1/users`,
+          headers: {
+            accept: 'application/json',
+            'X-Api-Auth': `${apikey}`
+          }
+        },
+        freshteam: {
+          url: `https://${domainName}.freshteam.com/api/branches`,
+          headers: {
+            Authorization: `Bearer ${apikey}`
+          }
         }
       };
 
