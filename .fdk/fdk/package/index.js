@@ -16,7 +16,10 @@ const updater = require('./lib/updater');
 const writeMetric = require('./lib/utils/metric-util');
 const suggest = require('./lib/utils/command-util').suggestCommand;
 
+global.PLATFORM_SOURCE = 'PLATFORM';
+global.APP_SOURCE = 'APP';
 global.pjson = pjson;
+
 const validationConst = require('./lib/validations/constants').validationContants;
 // Cli Parsing:
 const NODE_MAJOR = 10;
@@ -83,7 +86,7 @@ cmdValidate.addOpt('v', 'skip-validation', 'Skip specific validations.', {
   hasArg: true
 });
 cmdValidate.addOpt('h', 'help', 'run command help.');
-
+cmdValidate.addOpt('f', 'fix', 'automatically fix validation warnings and errors');
 const cmdPack = prg.addCmd('pack', '# Package the app into a zip file');
 
 cmdPack.addOpt('d', 'app-dir', 'App directory.', {
@@ -100,6 +103,16 @@ cmdVersion.addOpt('d', 'app-dir', 'App directory.', {
   hasArg: true
 });
 cmdVersion.addOpt('h', 'help', 'run command help.');
+
+const cmdTest = prg.addCmd('test', '# Run tests defined for the current app');
+
+cmdTest.addOpt('c', 'clear-coverage', 'clear code-coverage stats');
+cmdTest.addOpt('s', 'skip-coverage', 'skip instrumenting code');
+cmdTest.addOpt('d', 'app-dir', 'App directory.', {
+  hasArg: true
+});
+cmdTest.addOpt('h', 'help', 'run command help.');
+
 
 // 2. Parse cli options:
 let res = null;
@@ -220,7 +233,7 @@ function runCLI(error) {
     case 'validate': {
       showHelp('validate');
       const validationMessages = require('./lib/cli/validate').run(
-        validationConst.PRE_PKG_VALIDATION, res.optArg.get('v'));
+        validationConst.PRE_PKG_VALIDATION, res.optArg.get('v'), res.opts.has('fix'));
 
       errorHandler.printError('Validation failed due to the following issue(s):', validationMessages);
       console.log('Validation Successful');
@@ -245,11 +258,17 @@ function runCLI(error) {
       break;
     }
 
-    case 'help': {
-      prg.printHelp(res);
-      console.log(`Installed: ${pjson.version}`);
-      break;
-    }
+  case 'test': {
+    showHelp('test');
+    require('./lib/cli/test').run(res.opts.has('c'), res.opts.has('s'));
+    break;
+  }
+
+  case 'help': {
+    prg.printHelp(res);
+    console.log(`Installed: ${pjson.version}`);
+    break;
+  }
   }
 }
 
