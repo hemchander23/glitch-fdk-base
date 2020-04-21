@@ -49,17 +49,22 @@ function makeCall(body) {
   return dbDeferred;
 }
 
-module.exports = {
-  set: (key, val, options={}) => {
+class DBApi {
+  set(key, val, options={}) {
     return makeCall({dbKey: key, data: val, action: 'store', options: options});
-  },
-  get: (key) => {
+  }
+
+  get(key) {
     return makeCall({dbKey: key, action: 'fetch'});
-  },
-  update: (key, type, attributes) => {
+  }
+
+  update(key, type, attributes) {
     return makeCall({dbKey: key, action: 'update', type, attributes});
-  },
-  delete: (key) => {
+  }
+
+  delete(key) {
     return makeCall({dbKey: key, action: 'delete'});
   }
-};
+}
+
+module.exports = DBApi;

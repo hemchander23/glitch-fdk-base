@@ -50,20 +50,18 @@ function handleRequest(req, res) {
   }
   let methodParams = null;
 
-  if (req.query.name === 'onScheduledEvent') {
-    methodParams = req.body;
-  }
-  else {
-
-    try {
-      methodParams = JSON.parse(fileUtil.readFile(`${process.cwd()}/server/test_data/${req.query.name}.json`));
-      if (methodParams === null) {
-        methodParams = {};
-      }
-    } catch (err) {
-      debuglog(`The necessary file/s could not be loaded due to: ${err.message}`);
+  try {
+    methodParams = JSON.parse(fileUtil.readFile(`${process.cwd()}/server/test_data/${req.query.name}.json`));
+    if (methodParams === null) {
       methodParams = {};
     }
+  } catch (err) {
+    debuglog(`The necessary file/s could not be loaded due to: ${err.message}`);
+    methodParams = {};
+  }
+
+  if (req.query.name === 'onScheduledEvent' && !_.isEmpty(req.body)) {
+    methodParams.data = req.body;
   }
   methodParams.iparams = iParamConfigs();
   methodParams.event = req.query.name;
@@ -81,7 +79,7 @@ function handleRequest(req, res) {
     /*
   Product events & External events are considered as productEvent
   App setup events are considered as appEvent
-*/
+ */
     categoryName: _.includes(WAIT_FOR_RESPONSE_EVENTS, req.query.name)
       ? APP_EVENTS_CATEGORY : PRODUCT_EVENTS_CATEGORY,
     categoryArgs: {
@@ -104,7 +102,7 @@ function handleRequest(req, res) {
       }
     }, APP_SETUP_WAIT_TIME);
   }
-  else if (!res.headersSent){
+  else if (!res.headersSent) {
     res.status(HTTP_OK).json({ success: true });
   }
 }

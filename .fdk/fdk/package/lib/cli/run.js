@@ -193,22 +193,14 @@ module.exports = {
     // Finally, listen:
     const server = app.listen(HTTP_PORT, async () => {
       if (manifest.features.includes('backend')) {
-        dependencyInstaller.run(async (err) => {
-          if (err) {
-            console.log(err);
-            process.exit(1);
-          }
-          if (enableTunnel) {
-            await createTunnel(authToken);
-          }
-          logServerStartMsg();
-        });
-      } else {
-        if (enableTunnel) {
-          await createTunnel(authToken);
-        }
-        logServerStartMsg();
+        await dependencyInstaller.run(manifest.dependencies);
       }
+
+      if (enableTunnel) {
+        await createTunnel(authToken);
+      }
+
+      logServerStartMsg();
     });
 
     process.on('SIGINT', async () => {
@@ -217,7 +209,6 @@ module.exports = {
         await ngrok.kill();
         console.log('Tunnel successfully closed');
       }
-      coverageUtil.closeCoverage();
     });
 
     process.on('uncaughtException', async (err) => {

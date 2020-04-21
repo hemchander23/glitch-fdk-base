@@ -107,6 +107,7 @@ function reload() {
   module.exports.features = inferFeatures();
   module.exports.product = doc.product;
   module.exports.dependencies = doc.dependencies || {};
+  module.exports.devDependencies = doc.devDependencies || {};
   module.exports.actions = getActions();
 }
 

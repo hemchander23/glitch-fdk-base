@@ -110,17 +110,18 @@ class Request {
 
 class RequestApi {
   constructor() {
-    REQUEST_METHODS.forEach((method) => {
-      this[method] = (url, options) => {
-        const requestParams = Object.assign({
-          url,
-          method
-        }, options);
-
-        return new Request(requestParams).makeRequest();
-      };
-    });
   }
 }
+
+REQUEST_METHODS.forEach((method) => {
+  RequestApi.prototype[method] = (url, options) => {
+    const requestParams = Object.assign({
+      url,
+      method
+    }, options);
+
+    return new Request(requestParams).makeRequest();
+  };
+});
 
 module.exports = RequestApi;

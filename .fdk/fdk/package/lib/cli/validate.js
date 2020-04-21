@@ -8,7 +8,7 @@ const appClassifier = require('../utils/app-util').appClassifier;
 const fileUtil = require('../utils/file-util');
 
 module.exports = {
-  run: function(validationType, skipValidation = '') {
+  run: function(validationType, skipValidation = '', fix) {
     skipValidation = skipValidation.split(',');
 
     debuglog(`Asked to skip the following validations, ${skipValidation}`);
@@ -29,7 +29,7 @@ module.exports = {
 
         debuglog(`Running ${file}`);
 
-        errMessage.push(validator.validate(appType));
+        errMessage.push(validator.validate(appType, fix));
       }
     });
 

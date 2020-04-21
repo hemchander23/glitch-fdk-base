@@ -5,7 +5,7 @@ const boldify = text => `\n\x1b[1m${text}\x1b[0m\n\t`;
 const MESSAGES = {
   'create'  : `${boldify('USAGE:')}fdk create [--app-dir DIR] [--products PRODUCT] [--template TEMPLATE]
               ${boldify('OPTIONS:')}--app-dir   DIR where DIR is the path to the directory where the app will be created. If this option is not specified, the app will be created in the current directory.\n\t--products  PRODUCT where PRODUCT is a Freshworks product. If this option is not specified, a prompt is displayed with the list of supported products.\n\t--template  TEMPLATE where TEMPLATE is the name of one of the templates that can be used as a starting point for development. If this option is not specified, a prompt is displayed with the list of supported templates for the given product.
-              ${boldify('EXAMPLE:')}$ fdk create\n\t$ fdk create --products freshservice your_first_app\n\t$ fdk create --app-dir /Users/user/myfirstapp
+              ${boldify('EXAMPLE:')}$ fdk create\n\t$ fdk create --products freshservice --template your_first_app\n\t$ fdk create --app-dir /Users/user/myfirstapp
               \nCreates a new app. The directories and files created will vary depending on the chosen template.`,
   'run'     : `${boldify('USAGE:')}fdk run [--app-dir DIR]
               ${boldify('OPTIONS:')}--app-dir         DIR where DIR is the path to the directory that contains the manifest file. If this option is not specified, the current directory is assumed to contain the manifest file.\n\t--clear-coverage  Reset coverage data collected so far.\n\t--skip-coverage   Skip instrumenting code during the current run.\n\t--tunnel   To start a tunnel using ngrok.\n\t--tunnel-auth <auth-token>   Authorization token to be used for ngrok.

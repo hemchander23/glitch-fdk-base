@@ -6,7 +6,6 @@ const fs = require('fs');
 const vm = require('vm');
 const _ = require('lodash');
 const path = require('path');
-const util = require('util');
 const uuid = require('uuid');
 
 const serverScriptPath = `${process.cwd()}/server/server.js`;
@@ -15,6 +14,8 @@ const coverageUtil = require('../utils/coverage-util');
 const httpUtil = require('../utils/http-util');
 const RequestAPI = require('./features/request');
 const ScheduleAPI = require('./features/schedule');
+const DBAPI = require('./features/db');
+const HookAPI = require('./features/hook');
 
 const INVALID_DATA_ERR_MSG = 'The error should be a JSON Object with a message or a status parameter.';
 const TIMEOUT_ERR_MSG = 'Timeout error while processing the request.';
@@ -41,11 +42,11 @@ function getFeatures(self) {
   const isInstall = self.event.categoryArgs.methodParams.isInstall;
 
   if (!isInstall) {
-    enabledFeatures.generateTargetUrl = (options) => {
-      return require('./features/generateTargetUrl')(self, options, tunnel);
+    enabledFeatures.generateTargetUrl = options => {
+      return new HookAPI(self).generateTargetUrl(options, tunnel);
     };
     enabledFeatures.$schedule = new ScheduleAPI(self);
-    enabledFeatures.$db = require('./features/db');
+    enabledFeatures.$db = new DBAPI(self);
   }
   enabledFeatures.$request = new RequestAPI();
   return enabledFeatures;
@@ -72,7 +73,6 @@ class Framework {
       We are running the developers code in the sandbox.
       By running in sandbox, we allow the user to only use certain methods.
       We use require to load the node modules [in loadDependency] as it contains the methods, which are outside of the context.
-      We load the local library files[ loadLib ] by reading the files, restricting the user from using only the methods passed to the context.
     */
     this.sandboxAPI = _.extend({
       __fdkcoverage__: {},
@@ -82,13 +82,6 @@ class Framework {
         info: console.info,
         error: console.error
       },
-      loadLib: util.deprecate(function loadLib(fileName) {
-        fileName = path.basename(fileName);
-        const libScript = coverageUtil.instrument(`${process.cwd()}/server/lib/${fileName}.js`);
-
-        return self.sandboxExecutor(libScript);
-      }, '`loadLib` will be deprecated soon. Please use `require`.'),
-      loadDependency: util.deprecate(loadDependency, '`loadDependency` will be deprecated soon. Please use `require`.'),
       require:  (relativePath) => {
         let script,
           exported,
@@ -133,7 +126,7 @@ class Framework {
 
     (() => {
       let previous;
-      const INTERVAL_MS = 2000;
+      const INTERVAL_MS = 500;
 
       setInterval(() => {
         const current = JSON.stringify(self.sandboxAPI.__fdkcoverage__);
@@ -265,7 +258,7 @@ class Request extends Framework {
 
       setTimeout(() => {
         if (!self.res._headerSent) {
-          self.res.status(httpUtil.status.ok).send({
+          self.res.status(httpUtil.status.ok).json({
             status: httpUtil.status.gateway_timeout,
             message: TIMEOUT_ERR_MSG,
             errorSource: APP_SOURCE

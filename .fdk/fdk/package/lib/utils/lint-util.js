@@ -25,11 +25,7 @@ const appRules = {
   'no-cross-scope-assign': WARN
 };
 const serverRules = {
-  'no-dependency-mismatch': [ERROR, ['require', 'loadDependency']],
-  'no-deprecated-functions': [ERROR, {
-    loadLib: 'require',
-    loadDependency: 'require'
-  }]
+  'no-dependency-mismatch': [ERROR, ['require']]
 };
 //Lint rules that apply for files that are not minified.
 const nonMinifiedRules = {
