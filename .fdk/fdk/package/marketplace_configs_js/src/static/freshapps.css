@@ -1,3 +1,15 @@
+
+/*
+ Dynamic Injecting Product CSS cause Flickering issue, to solve this to add display none in body and enable it via freshclient once Product CSS injected.
+*/
+body {
+  display: none;
+}
+
+fieldset {
+  border: none;
+}
+
  .vue-form-generator .form-control {
    box-shadow: none;
    transition: none;
@@ -120,3 +132,7 @@
  .help-block {
    margin-bottom: 0;
  }
+
+ .flatpickr-current-month {
+  display: flex;
+}

@@ -2,16 +2,15 @@ const helper = require('../helper/element_helper');
 
 function create(element) {
   return {
-    type: 'input',
-    inputType: 'date',
+    type: 'date-picker',
     label: element.label,
     model: element.name,
     id: `${element.name}-id`,
     inputName: element.name,
+    placeholder: 'yyyy-mm-dd',
     visible: element.visible,
     disabled: element.disabled || false,
     required: element.required,
-    default: element.default_value,
     hint: element.hint,
     validator: helper.getValidation(element),
     attributes: {

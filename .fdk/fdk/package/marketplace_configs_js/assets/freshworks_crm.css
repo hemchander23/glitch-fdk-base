@@ -1699,12 +1699,12 @@ mark,
 }
 
 .text-primary {
-  color: #ffa800;
+  color: #16364d;
 }
 
 a.text-primary:hover,
 a.text-primary:focus {
-  color: #cc8600;
+  color: #0d2638;
 }
 
 .text-success {
@@ -1745,12 +1745,12 @@ a.text-danger:focus {
 
 .bg-primary {
   color: #fff;
-  background-color: #ffa800;
+  background-color: #16364d;
 }
 
 a.bg-primary:hover,
 a.bg-primary:focus {
-  background-color: #cc8600;
+  background-color: #0d2638;
 }
 
 .bg-success {
@@ -3357,8 +3357,8 @@ input[type='radio']:hover {
 }
 
 input[type='checkbox']:checked {
-  background: #ffa800;
-  border: 3px solid #ffa800;
+  background: #16364d;
+  border: 3px solid #16364d;
   padding: 0px;
 }
 
@@ -3405,14 +3405,14 @@ input[type='radio']:before {
 }
 
 input[type='radio']:checked {
-  background: #ffa800;
-  border: 1px solid #ffa800;
+  background: #16364d;
+  border: 1px solid #16364d;
   outline: none;
 }
 
 input[type='radio']:checked:before {
-  border: solid 1px #ffa800;
-  background-color: #ffa800;
+  border: solid 1px #16364d;
+  background-color: #16364d;
   box-shadow: inset 0 0 0 2px #ffffff;
 }
 
@@ -3434,7 +3434,7 @@ input[type="number"]:focus,
 input[type="email"]:focus,
 input[type="url"]:focus,
 input[type="tel"]:focus {
-  border-color: #ffa800;
+  border-color: #16364d;
   outline: 0;
 }
 
@@ -3470,7 +3470,7 @@ output {
 }
 
 .form-control:focus {
-  border-color: #ffa800;
+  border-color: #16364d;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 168, 0, 0.6);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 168, 0, 0.6);
@@ -4114,20 +4114,20 @@ fieldset[disabled] .btn-default.focus {
 
 .btn-primary {
   color: #ffffff;
-  background-color: #ffa800;
+  background-color: #16364d;
   border-color: transparent;
 }
 
 .btn-primary:focus,
 .btn-primary.focus {
   color: #ffffff;
-  background-color: #cc8600;
+  background-color: #0d2638;
   border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-primary:hover {
   color: #ffffff;
-  background-color: #cc8600;
+  background-color: #0d2638;
   border-color: rgba(0, 0, 0, 0);
 }
 
@@ -4135,7 +4135,7 @@ fieldset[disabled] .btn-default.focus {
 .btn-primary.active,
 .open>.dropdown-toggle.btn-primary {
   color: #ffffff;
-  background-color: #cc8600;
+  background-color: #0d2638;
   border-color: rgba(0, 0, 0, 0);
 }
 
@@ -4149,7 +4149,7 @@ fieldset[disabled] .btn-default.focus {
 .btn-primary.active.focus,
 .open>.dropdown-toggle.btn-primary.focus {
   color: #ffffff;
-  background-color: #a86f00;
+  background-color: #0d2638;
   border-color: rgba(0, 0, 0, 0);
 }
 
@@ -4168,12 +4168,12 @@ fieldset[disabled] .btn-primary:focus,
 .btn-primary.disabled.focus,
 .btn-primary[disabled].focus,
 fieldset[disabled] .btn-primary.focus {
-  background-color: #ffa800;
+  background-color: #16364d;
   border-color: transparent;
 }
 
 .btn-primary .badge {
-  color: #ffa800;
+  color: #16364d;
   background-color: #ffffff;
 }
 
@@ -5192,7 +5192,7 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 .nav-tabs>li.active>a:focus {
   color: #333333;
   background-color: #ffffff;
-  border: 1px solid #ffa800;
+  border: 1px solid #16364d;
   border-bottom-color: transparent;
   cursor: default;
 }
@@ -6067,7 +6067,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   z-index: 3;
   color: #333333;
   background-color: #fff8eb;
-  border-color: #ffa800;
+  border-color: #16364d;
   cursor: default;
 }
 
@@ -6205,12 +6205,12 @@ a.label:focus {
 }
 
 .label-primary {
-  background-color: #ffa800;
+  background-color: #16364d;
 }
 
 .label-primary[href]:hover,
 .label-primary[href]:focus {
-  background-color: #cc8600;
+  background-color: #0d2638;
 }
 
 .label-success {
@@ -6528,7 +6528,7 @@ a.thumbnail.active {
   line-height: 17px;
   color: #ffffff;
   text-align: center;
-  background-color: #ffa800;
+  background-color: #16364d;
   -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   -webkit-transition: width 0.6s ease;
@@ -7193,26 +7193,26 @@ button.list-group-item-danger.active:focus {
 }
 
 .panel-primary {
-  border-color: #ffa800;
+  border-color: #16364d;
 }
 
 .panel-primary>.panel-heading {
   color: #ffffff;
-  background-color: #ffa800;
-  border-color: #ffa800;
+  background-color: #16364d;
+  border-color: #16364d;
 }
 
 .panel-primary>.panel-heading+.panel-collapse>.panel-body {
-  border-top-color: #ffa800;
+  border-top-color: #16364d;
 }
 
 .panel-primary>.panel-heading .badge {
-  color: #ffa800;
+  color: #16364d;
   background-color: #ffffff;
 }
 
 .panel-primary>.panel-footer+.panel-collapse>.panel-body {
-  border-bottom-color: #ffa800;
+  border-bottom-color: #16364d;
 }
 
 .panel-success {
@@ -8640,13 +8640,13 @@ img {
 .btn-default.active,
 .btn-default.active:focus {
   background-color: #fff8eb;
-  border-color: #ffa800;
+  border-color: #16364d;
 }
 
 .btn-primary {
   color: #fff;
-  background: #ffaf14;
-  border-color: #ffa800;
+  background: #16364d;
+  border-color: #12344d;
 }
 
 .btn-primary:hover,
@@ -8654,13 +8654,13 @@ img {
 .btn-primary.focus,
 .btn-primary:active,
 .btn-primary.active {
-  background-color: #eb9b00;
+  background-color: #0D2638;
 }
 
 .btn-primary:active:focus,
 .btn-primary.active:focus {
-  background-color: #eb9b00;
-  border-color: #e5e5e5;
+  background-color: #0D2638;
+  border-color: transparent;
   outline: none;
 }
 
@@ -8671,8 +8671,8 @@ img {
 
 .btn-primary-inverse {
   background: #fff;
-  border-color: #ffa800;
-  color: #ffa800;
+  border-color: #12344d;
+  color: #16364d;
 }
 
 .btn-primary-inverse:hover,
@@ -8680,12 +8680,12 @@ img {
 .btn-primary-inverse.focus,
 .btn-primary-inverse:active,
 .btn-primary-inverse.active {
-  color: #eb9b00;
+  color: #0D2638;
 }
 
 .btn-secondary {
-  background: #ffaf14;
-  border-color: #ffa800;
+  background: #16364d;
+  border-color: #12344d;
   color: #fff;
 }
 
@@ -8694,12 +8694,12 @@ img {
 .btn-secondary.focus,
 .btn-secondary:active,
 .btn-secondary.active {
-  background-color: #eb9b00;
+  background-color: #0D2638;
   color: #fff;
 }
 
 .btn-saving {
-  background: #ffcb66;
+  background: #213b4d;
   position: relative;
 }
 
@@ -8712,7 +8712,7 @@ img {
   animation-duration: 3000ms;
   animation-iteration-count: infinite;
   animation-name: buttonSave;
-  background: #ffad0f;
+  background: #16364d;
   border-radius: 2px;
   bottom: 0;
   content: "";
@@ -8874,8 +8874,8 @@ img {
 }
 
 .custom-checkbox input[type=checkbox]:checked+label::before {
-  background-color: #ffa800;
-  border-color: #ffa800;
+  background-color: #16364d;
+  border-color: #16364d;
   transition: background-color 0.2s linear 0s, border-color 0.2s linear 0s;
 }
 

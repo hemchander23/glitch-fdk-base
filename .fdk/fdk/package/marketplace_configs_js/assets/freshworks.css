@@ -1,0 +1,7 @@
+
+/*
+ Dynamic Injecting Product CSS cause Flickering issue, to solve this to add display none in body and enable it via freshclient once Product CSS injected.
+*/
+body {
+  display: none;
+}

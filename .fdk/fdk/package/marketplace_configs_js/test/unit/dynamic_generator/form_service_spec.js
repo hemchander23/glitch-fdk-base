@@ -362,8 +362,7 @@ describe('FormService Tests', () => {
 
   it('check the Date "Birthday"', function (done) {
     expect(jsonObj.model['Birthday']).equal('');
-    expect(jsonObj.fields[6].type).equal('input');
-    expect(jsonObj.fields[6].inputType).equal('date');
+    expect(jsonObj.fields[6].type).equal('date-picker');
     expect(jsonObj.fields[6].label).equal('Birthday');
     expect(jsonObj.fields[6].id).equal('Birthday-id');
     expect(jsonObj.fields[6].inputName).equal('Birthday');

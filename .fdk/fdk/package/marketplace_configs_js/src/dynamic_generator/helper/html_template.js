@@ -6,6 +6,7 @@ const htmlTemplate =
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://unpkg.com/vue-form-generator@2.3.4/dist/vfg.css">
         <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4/dist/flatpickr.min.css">
         <%= CSS %>
       </head>
       <body>
@@ -22,6 +23,7 @@ const htmlTemplate =
         <script src="https://unpkg.com/vue@2.5.17/dist/vue.min.js"></script>
         <script src="https://unpkg.com/vue-form-generator@2.3.4/dist/vfg.js"></script>
         <script src="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr@4/dist/flatpickr.min.js"></script>
         <%= javascript %>
       </body>
     </html>`;

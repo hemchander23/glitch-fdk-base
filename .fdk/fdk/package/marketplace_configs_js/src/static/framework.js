@@ -1,4 +1,5 @@
 import domain from './components/domain';
+import datePicker from './components/datePicker';
 import authmixin from './authMixin';
 
 const FUNCTION = 'function';
@@ -20,6 +21,7 @@ window.Vue.use(window.VueFormGenerator, {
 
 window.Vue.component('multiselect', window.VueMultiselect.default);
 window.Vue.component('field-domain', domain);
+window.Vue.component('field-date-picker', datePicker);
 
 function setCustomValidity(element, value) {
   if (element) {

@@ -12,6 +12,14 @@ html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
+
+/*
+ Dynamic Injecting Product CSS cause Flickering issue, to solve this to add display none in body and enable it via freshclient once Product CSS injected.
+*/
+body {
+  display: none;
+}
+
 body {
   margin: 0;
 }
@@ -1327,6 +1335,113 @@ input[type="checkbox"]:focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  background: #fff;
+  border: solid 1px #dadfe3;
+  height: 13px;
+  position: relative;
+  width: 13px;
+  border-radius: 2px;
+}
+
+input[type='checkbox']:hover {
+  outline: none;
+}
+
+input[type='checkbox']:hover,
+input[type='radio']:hover {
+  border: solid 1px #9aa1a6;
+}
+
+input[type='checkbox']:checked {
+  background: #66afe9;
+  border: 3px solid #66afe9;
+  padding: 0px;
+}
+
+input[type='checkbox']:checked:before {
+  border: 0px;
+  position: relative;
+  left: 2px;
+  top: -2px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
+  content: '';
+  display: block;
+  width: 4px;
+  height: 9px;
+}
+
+input[type='radio'] {
+  -webkit-appearance: none;
+  background: #fff;
+  border: solid 1px #dadfe3;
+  height: 13px;
+  position: relative;
+  width: 13px;
+  border-radius: 50%;
+  padding: 2px;
+}
+
+input[type='radio']:hover {
+  border: solid 1px #9aa1a6
+}
+
+input[type='radio']:before {
+  content: '';
+  display: block;
+  border-radius: 100%;
+  width: 13px;
+  height: 13px;
+  top: -3px;
+  left: -3px;
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+}
+
+input[type='radio']:checked {
+  background: #66afe9;
+  border: 1px solid #66afe9;
+  outline: none;
+}
+
+input[type='radio']:checked:before {
+  border: solid 1px #66afe9;
+  background-color: #66afe9;
+  box-shadow: inset 0 0 0 2px #ffffff;
+}
+
+textarea,
+input[type="text"],
+input[type="date"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="tel"] {
+  border-color: #dadfe3;
+  box-shadow: none;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="tel"]:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+select:focus {
+  outline: none !important;
+}
+
 output {
   display: block;
   padding-top: 7px;
@@ -4816,7 +4931,7 @@ body {
   position: relative;
 }
 .title-new .title {
-  line-height: 50px;  
+  line-height: 50px;
 }
 
 .title-new .back {
