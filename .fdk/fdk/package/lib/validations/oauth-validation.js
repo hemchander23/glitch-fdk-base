@@ -92,12 +92,6 @@ module.exports = {
     if (_.includes(mf.features, OAUTH) || _.includes(mf.features, AGENT_OAUTH)) {
       try {
         oauthConfig = JSON.parse(fileUtil.readFile('./config/oauth_config.json'));
-
-        //For omni Apps Validation
-        if (_.keys(mf.product).length > 1 && oauthConfig) {
-          throw new Error('oauth Iparams app not supported in omni apps');
-        }
-        // End of omni apps validation
       }
       catch (e) {
         return [`oauth_config.json - ${e.message}`];

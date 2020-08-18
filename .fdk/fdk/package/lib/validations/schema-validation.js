@@ -3,25 +3,33 @@
 const validationConst = require('./constants').validationContants;
 const _ = require('lodash');
 const manifest = require('../manifest');
-const os = require('os');
 const fileUtil = require('../utils/file-util');
-const DataStore = require('../utils/data-util').DataStore;
 
 const path = `${process.cwd()}/server/test_data`;
-const dbApi = new DataStore({
-  location: `${os.homedir()}/.fdk/`
-});
-const addonVersion = dbApi.fetch('version_details').addon.version;
+const errorLog = require('../utils/error-util');
 
-const responseSchemaPath = `${os.homedir()}/.fdk/addon/addon-${addonVersion}/actions/response_schema.json`;
 //ajv init
 const Ajv = require('ajv');
-var ajvOptions = {inlineRefs: false, allErrors: true, meta: false};
+const ajvOptions = {
+  inlineRefs: false,
+  allErrors: true,
+  meta: false
+};
 const ajv = new Ajv(ajvOptions);
 //var metaSchema = require(`${os.homedir()}/node_modules/ajv/lib/refs/json-schema-draft-04.json`);
 var metaSchema = require('../../node_modules/ajv/lib/refs/json-schema-draft-04.json');
 
 ajv.addMetaSchema(metaSchema);
+
+function printError(errors, name){
+  const title = `${name} has following schema errors`;
+
+  const formattedErrors = errors.map((error)=>{
+    return `data${error.dataPath} ${error.message}`;
+  });
+
+  errorLog.printError(title, formattedErrors, false);
+}
 
 function validateschema(schema, name) {
   var err = [];
@@ -40,7 +48,7 @@ function validateschema(schema, name) {
       var valid = ajv.validate(schema, payload);
 
       if (!valid){
-        console.log(ajv.errors);
+        printError(ajv.errors, name);
         err.push(ajv.errorsText());
       }
       return err;
@@ -78,7 +86,7 @@ function validateData(schema, data) {
   var valid = ajv.validate(schema, data);
 
   if (!valid){
-    console.log(ajv.errors);
+    printError(ajv.errors, 'Triggered action');
     err = ajv.errorsText();
   }
 
@@ -88,6 +96,10 @@ function validateData(schema, data) {
 
 function isBackendApp() {
   return _.includes(manifest.features, 'backend');
+}
+
+function fetchResponseSchema(actionName) {
+  return manifest.getActions(true)[actionName].response;
 }
 
 module.exports = {
@@ -111,7 +123,7 @@ module.exports = {
 
     try {
       if (type !== 'request') {
-        schema = JSON.parse(fileUtil.readFile(responseSchemaPath));
+        schema = fetchResponseSchema(actionName);
       }
 
       if (type === 'request') {

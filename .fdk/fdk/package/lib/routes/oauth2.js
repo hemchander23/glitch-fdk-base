@@ -200,8 +200,8 @@ function refreshInit(req, res) {
           const responsePayLoad = {
             action : 'refresh',
             tokens : {
-              access_token : cryptoUtil.encryptToken(accessToken),
-              refresh_token : cryptoUtil.encryptToken(refreshToken)
+              access_token : cryptoUtil.encryptToken(credentials.access_token),
+              refresh_token : cryptoUtil.encryptToken(credentials.refresh_token)
             }
           };
 

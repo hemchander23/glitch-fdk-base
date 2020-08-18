@@ -5,6 +5,7 @@
 const eventListTimeout = 3000;
 const SIMULATE_BUTTON_TIMEOUT = 2000;
 const MONACO_MODEL_MARKER_UPDATE = 700;
+const INTERNAL_SERVER_ERROR_STATUS = 500;
 const list = ['events', 'actions'];
 var modelURI;
 
@@ -18,13 +19,20 @@ function ajaxRequest(options, callback) {
     });
 }
 
+function resetSimulateButton() {
+  setTimeout(function() {
+    jQuery('#simulate-event').html('Simulate');
+    jQuery('#simulate-event').attr('disabled', false);
+  }, SIMULATE_BUTTON_TIMEOUT);
+}
+
 function displayPayload(name, type) {
   var url;
 
   if (type === 'actions') {
     url = 'http://localhost:10001/web/actions/' + name;
   }
-  else if (type === 'events') {
+  else {
     url = 'http://localhost:10001/web/events/' + name;
   }
   jQuery('#editor-btns').show();
@@ -80,7 +88,7 @@ function showEditor(value, type) {
       });
       monaco.editor.getModel(modelURI).onDidChangeContent(() => {
         setTimeout(function() {
-          var modelMarkers = window.monaco.editor.getModelMarkers();
+          var modelMarkers = window.monaco.editor.getModelMarkers({});
 
           if (modelMarkers.length > 0) {
             jQuery('#simulate-event').attr({
@@ -107,12 +115,13 @@ function showEditor(value, type) {
 }
 
 function showError(xhr) {
+  jQuery('#simulate-event').html('<i class="fa fa-times" aria-hidden="true" style="color:red;"></i> Failed');
+
   if (xhr.getResponseHeader('showinui') === 'true') {
     jQuery('#info-banner').html('<i class="fa fa-times" aria-hidden="true" style="color:red;"></i> ' + xhr.responseJSON.message);
   }
-  else {
-    jQuery('#simulate-event').html('<i class="fa fa-times" aria-hidden="true" style="color:red;"></i> Failed');
-  }
+
+  resetSimulateButton();
 }
 
 function processRequest(url, payload, callback) {
@@ -130,52 +139,43 @@ function runAction(action) {
 
   processRequest(url, data, function(err, actiondata, xhr) {
     if (err) {
-      showError(xhr);
+      return showError(xhr);
     }
 
-    if (!err) {
-      var options = {
-        method: 'POST',
-        url: 'http://localhost:10001/dprouter',
-        headers: {
-          'content-type': 'application/json',
-          'mkp-route': 'smi'
-        },
-        data: JSON.stringify({
-          methodName: action,
-          methodParams: JSON.parse(monaco.editor.getModel(modelURI).getValue()),
-          action: 'invoke'
-        })
-      };
+    var options = {
+      method: 'POST',
+      url: 'http://localhost:10001/dprouter',
+      headers: {
+        'content-type': 'application/json',
+        'mkp-route': 'smi'
+      },
+      data: JSON.stringify({
+        methodName: action,
+        methodParams: JSON.parse(monaco.editor.getModel(modelURI).getValue()),
+        action: 'invoke'
+      })
+    };
 
-      ajaxRequest(options, function(err, actiondata, xhr) {
+    ajaxRequest(options, function(err, actiondata, xhr) {
+      if (err || (actiondata && actiondata.status >= INTERNAL_SERVER_ERROR_STATUS)) {
+        return showError(xhr);
+      }
+
+      url = 'http://localhost:10001/web/validateAction/' + action;
+      data = JSON.stringify(actiondata.response);
+
+      processRequest(url, data, function(err, data, xhr) {
         if (err) {
-          showError(xhr);
+          return showError(xhr);
         }
-        else {
-          url = 'http://localhost:10001/web/validateAction/' + action;
-          data = JSON.stringify(actiondata.response);
+        else if (data) {
+          jQuery('#info-banner').html('<i class="fa fa-check" aria-hidden="true" style="color:green;"></i> ' + JSON.stringify(data, null, 2));
+          jQuery('#simulate-event').html('<i class="fa fa-check" aria-hidden="true" style="color:green;"></i> Success');
+        }
 
-          processRequest(url, data, function(err, data, xhr) {
-            if (err) {
-              showError(xhr);
-            }
-            else if (data.success) {
-              jQuery('#info-banner').html('Select an event to simulate');
-              jQuery('#simulate-event').html('<i class="fa fa-check" aria-hidden="true" style="color:green;"></i> Success');
-            }
-            else {
-              jQuery('#info-banner').html('<i class="fa fa-times" aria-hidden="true" style="color:red;"></i> ' + data.error);
-            }
-          });
-        }
+        resetSimulateButton();
       });
-    }
-
-    setTimeout(function() {
-      jQuery('#simulate-event').html('Simulate');
-      jQuery('#simulate-event').attr('disabled', false);
-    }, SIMULATE_BUTTON_TIMEOUT);
+    });
   });
 }
 
@@ -190,16 +190,12 @@ function runEvent(event) {
         url: 'http://localhost:10001/event/execute?name=' + event
       }, function(err, data, xhr) {
         if (err) {
-          showError(xhr);
-        }
-        else {
-          jQuery('#simulate-event').html('<i class="fa fa-check" aria-hidden="true" style="color:green;"></i> Success');
+          return showError(xhr);
         }
 
-        setTimeout(function() {
-          jQuery('#simulate-event').html('Simulate');
-          jQuery('#simulate-event').attr('disabled', false);
-        }, SIMULATE_BUTTON_TIMEOUT);
+        jQuery('#simulate-event').html('<i class="fa fa-check" aria-hidden="true" style="color:green;"></i> Success');
+
+        resetSimulateButton();
       });
     }
   });
@@ -214,11 +210,9 @@ $(document).ready(function() {
   }, function(err, data) {
     if (!err) {
       if (data.actions.length > 0) {
-        jQuery('#type-sel').text('actions');
         jQuery('#type-main-div').removeClass('hide');
       }
       else {
-        jQuery('#type-sel').text('events');
         jQuery('#dropdownBox').removeClass('hide');
         jQuery('#event-main-div').removeClass('hide');
       }
@@ -248,7 +242,7 @@ jQuery('#type-dropdown').on('click', function(e) {
     jQuery('#event-main-div').addClass('hide');
     jQuery('#actions-sel').text('Select an action');
   }
-  else if (type === 'events'){
+  else {
     jQuery('#actions-main-div').addClass('hide');
     jQuery('#event-main-div').removeClass('hide');
     jQuery('#event-sel').text('Select an event');
@@ -346,7 +340,7 @@ jQuery('#reset-event').on('click', function() {
 
     url = 'http://localhost:10001/web/actions/reset/' + action;
   }
-  else if (type === 'events') {
+  else {
     var event = jQuery('#event-sel').text();
 
     url = 'http://localhost:10001/web/events/reset/' + event;

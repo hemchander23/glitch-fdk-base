@@ -42,7 +42,7 @@ module.exports = {
     process.exit(exitStatus);
   },
 
-  printError: function (title, messages) {
+  printError: function (title, messages, exit = true) {
     messages = normalize(messages);
 
     if (!isEmpty(messages.warnings)) {
@@ -57,7 +57,10 @@ module.exports = {
       console.log(title);
       messages.errors.forEach(message => console.log(`\x1b[31m[ERROR]\x1b[0m ${message.value}`));
 
-      process.exit(1);
+      if (exit) {
+        process.exit(1);
+      }
+      console.log();
     }
   },
   CustomError

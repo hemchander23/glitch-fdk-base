@@ -11,13 +11,12 @@ var fs = require('fs');
 const Ajv = require('ajv');
 var ajvOptions = {inlineRefs: false, allErrors: true, meta: false};
 const ajv = new Ajv(ajvOptions);
-//var metaSchema = require(`${os.homedir()}/node_modules/ajv/lib/refs/json-schema-draft-04.json`);
 var metaSchema = require('../../node_modules/ajv/lib/refs/json-schema-draft-04.json');
 
 ajv.addMetaSchema(metaSchema);
 
 const debuglog = __debug.bind(null, __filename);
-const SUPPORTED_ACTION_FIELDS = ['parameters', 'name', 'display_name', 'description'];
+const SUPPORTED_ACTION_FIELDS = ['parameters', 'name', 'display_name', 'description', 'response'];
 
 function compileSchema(schema) {
   var err = [];

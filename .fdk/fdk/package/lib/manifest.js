@@ -59,13 +59,16 @@ function processActions(actions) {
   return actionsList;
 }
 
-function getActions() {
+function getActions(raw = false) {
   let loadActions;
 
   if (fs.existsSync(actionsFile)) {
     try {
       loadActions = JSON.parse(fileUtil.readFile(actionsFile, 'utf8'));
-      return processActions(loadActions);
+      if (!raw) {
+        return processActions(loadActions);
+      }
+      return loadActions;
     }
     catch (err) {
       console.log('Error while parsing actions file', err);
@@ -118,7 +121,8 @@ module.exports = {
   product: null,
   features: null,
   dependencies: null,
-  actions: null
+  actions: null,
+  getActions
 };
 
 // Load the manifest the first time:

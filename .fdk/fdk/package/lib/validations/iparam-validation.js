@@ -14,6 +14,7 @@ const VALID_KEYS = [
   'description',
   'type',
   'required',
+  'visible',
   'default_value',
   'options',
   'regex',
@@ -51,6 +52,12 @@ const VALID_REGEX_TYPES = [
 const VALID_EVENTS = [
   'change'
 ];
+const SECURE_SUBSETS = [
+  'auth',
+  'token',
+  'key',
+  'secret'
+];
 
 const OPTIONS = 'options';
 const DEFAULT_VALUE = 'default_value';
@@ -70,6 +77,7 @@ const PRODUCT = 'product';
 const FRESHCHAT = 'freshchat';
 const MANDATORY_TYPE_ATTRIBUTE = ['product'];
 const EVENTS = 'events';
+const WARNING = 1;
 
 const debuglog = __debug.bind(null, __filename);
 const productList = productInfo.getProductList();
@@ -327,6 +335,27 @@ function iparamHTMLValidator() {
   return errs;
 }
 
+function isIparamSecureLike(key) {
+  return SECURE_SUBSETS.some(subset => key.includes(subset) && !key.includes('api_domain'));
+}
+
+function checkSecure() {
+  const content = configUtil.getConfig();
+  const errs = [];
+
+  for (const key in content) {
+    if (isIparamSecureLike(key.toLowerCase()) && !content[key][SECURE]) {
+      errs.push(
+        {
+          severity: WARNING,
+          value: `iparam '${key}' appears to be a secure param but it isn't marked as secure.`
+        }
+      );
+    }
+  }
+  return errs;
+}
+
 module.exports = {
   validate() {
     try {
@@ -344,6 +373,7 @@ module.exports = {
         } else {
           errMsgs.push(iparamKeysValidator());
           errMsgs.push(optionsValidator());
+          errMsgs.push(checkSecure());
         }
       } else {
         errMsgs.push('Mandatory folder(s) missing: config');

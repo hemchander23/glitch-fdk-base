@@ -17,6 +17,8 @@ const FormService = require('../../marketplace_configs_js');
 const Router = require('express').Router;
 const configsRouter = new Router();
 
+const OMNIAPP = 'freshworks';
+
 /*
   Save custom Iparams data to storage (file) with namespace
 */
@@ -155,8 +157,9 @@ async function customIParamsForm(req, res) {
   if (configUtil.hasJSONConfig()) {
     // !! DONOT REPLACE THIS LINE WITH REQUIRE AS IT CACHES IPARAMS AND WE DONT WANT THAT !!
     const iparamJSON = iparamToFormServJSON(configUtil.getConfig());
+    const products = Object.keys(manifest.product);
 
-    const productName = Object.keys(manifest.product)[0];
+    const productName = products.length > 1 ? OMNIAPP : products[0] ;
 
     const config = constructConfigs(productName);
     // eslint-disable-next-line new-cap

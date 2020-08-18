@@ -175,7 +175,7 @@ const iparams_html = [
     type: 'list',
     name: 'product',
     message: 'Select product css you need to link?',
-    choices: ['none', 'freshdesk', 'freshservice', 'freshsales']
+    choices: ['none', 'freshdesk', 'freshservice', 'freshsales', 'freshchat', 'freshconnect', 'freshcaller', 'freshteam', 'freshworks_crm', 'freshworks']
   }
 ];
 

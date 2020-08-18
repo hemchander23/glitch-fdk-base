@@ -4,9 +4,10 @@ const { isEmpty } = require('lodash');
 const manifest = require('../manifest');
 const debuglog = __debug.bind(null, __filename);
 const fileUtil = require('../utils/file-util');
+const path = require('path');
 
 const jsf = require('json-schema-faker');
-const path = `${process.cwd()}/server/test_data`;
+const testDataPath = path.join(process.cwd(), 'server/test_data');
 
 jsf.extend('faker', function(){
   var faker = require('faker');
@@ -20,15 +21,22 @@ jsf.extend('faker', function(){
   return faker;
 });
 
-function generateFake(action) {
-  var request = action.parameters;
-  var name = action.name;
+function getActionFilePath(name) {
+  return path.join(testDataPath, `${name}.json`);
+}
+
+function generateFake(action, overwrite = false) {
+  const request = action.parameters;
+  const name = action.name;
+  const fileName = getActionFilePath(name);
 
   if (!isEmpty(request)) {
-    var fileName = `${path}/${name}.json`;
-    var data = jsf(request);
+    if (fileUtil.fileExists(fileName) && !overwrite) {
+      return;
+    }
+    const fakeData = jsf.generate(request);
 
-    fileUtil.writeFile(fileName, JSON.stringify(data));
+    fileUtil.writeFile(fileName, JSON.stringify(fakeData));
   }
   return;
 }
@@ -78,7 +86,7 @@ function createFakeJSON() {
 
 function restoreActionData(action) {
   let err = '';
-  var fileName = `${path}/${action}.json`;
+  var fileName = getActionFilePath(action);
 
   try {
     var newaction = manifest.actions.filter(function (item) {
@@ -88,7 +96,7 @@ function restoreActionData(action) {
       return;
     });
 
-    err = generateFake(newaction[0]);
+    err = generateFake(newaction[0], true);
     if (!err) {
       return JSON.parse(fileUtil.readFile(fileName));
     }

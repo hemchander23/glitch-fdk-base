@@ -4,19 +4,21 @@
 
 const _ = require('lodash');
 const os = require('os');
-const fs = require('fs');
 
 const fileUtil = require('../utils/file-util');
 const manifest = require('../manifest');
 const sizeOf = require('image-size');
-const validationConst = require('./constants').validationContants;
+const constants = require('./constants');
 
 const addonVersion = require('../utils/product-info-util').getAddonVersion();
 const productLocations = require(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/locations/product_locations`);
+const fdkconfig = require(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/product_info.json`);
 
 const SUPPORTED_PLATFORMS = ['2.0'];
 const ICON_HEIGHT = 64;
 const ICON_WIDTH = 64;
+const validationConst = constants.validationContants;
+const validOmniAppProducts = fdkconfig.omni_products;
 
 function validatePlatform() {
   if (!(_.includes(SUPPORTED_PLATFORMS, manifest.pfVersion))) {
@@ -40,24 +42,13 @@ function validateProduct() {
 }
 
 //For the validation of omni apps
-function validateOmniApp(appType) {
+function validateOmniApp() {
   const productArray = _.keys(manifest.product);
-  let code;
 
-  if (fs.existsSync(`${process.cwd()}/server/server.js`, 'utf8')) {
-    code = fs.readFileSync( `${process.cwd()}/server/server.js`, 'utf8');
-  }
+  const invalidOmniAppProducts = _.difference(productArray, validOmniAppProducts);
 
-  if (code) {
-    return 'Serverless Apps not supported as part of omni apps';
-  }
-
-  if (_.includes(productArray, 'freshdesk')) {
-    return 'Invalid product(s) mentioned for building omni apps in manifest.json: Freskdesk not supported';
-  }
-
-  if (_.includes(appType, 'purebackend')) {
-    return 'Invalid purebackend apps are not supported as part of omni apps';
+  if (invalidOmniAppProducts.length) {
+    return `Omniapps is available only for - ${validOmniAppProducts}`;
   }
 }
 
@@ -135,7 +126,7 @@ module.exports = {
     let locationErr;
 
     if (isNoOfProductMoreThanOne) {
-      omniError = validateOmniApp(appType);
+      omniError = validateOmniApp();
     }
 
     if (_.isUndefined(productErr)) {
