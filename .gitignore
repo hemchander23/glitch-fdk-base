@@ -1,9 +1,9 @@
 # Do not alter this file! Always create files under `workspace` directory using `fdk create`. User,Password and FDK arguments can be provided in `.env` file
 
-watch.json
-index.html
-package.json
-.report.json
-.bash_profile
-run_fdk.sh
-node_modules/
+# watch.json
+# index.html
+# package.json
+# .report.json
+# .bash_profile
+# run_fdk.sh
+# node_modules/
