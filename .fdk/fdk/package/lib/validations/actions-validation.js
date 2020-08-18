@@ -11,7 +11,7 @@ var fs = require('fs');
 const Ajv = require('ajv');
 var ajvOptions = {inlineRefs: false, allErrors: true, meta: false};
 const ajv = new Ajv(ajvOptions);
-var metaSchema = require('../../node_modules/ajv/lib/refs/json-schema-draft-04.json');
+var metaSchema = require('/app/node_modules/ajv/lib/refs/json-schema-draft-04.json');
 
 ajv.addMetaSchema(metaSchema);
 

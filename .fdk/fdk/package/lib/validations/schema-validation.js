@@ -17,7 +17,7 @@ const ajvOptions = {
 };
 const ajv = new Ajv(ajvOptions);
 //var metaSchema = require(`${os.homedir()}/node_modules/ajv/lib/refs/json-schema-draft-04.json`);
-var metaSchema = require('../../node_modules/ajv/lib/refs/json-schema-draft-04.json');
+var metaSchema = require('/app/node_modules/ajv/lib/refs/json-schema-draft-04.json');
 
 ajv.addMetaSchema(metaSchema);
 

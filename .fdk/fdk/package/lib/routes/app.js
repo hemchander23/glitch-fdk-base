@@ -8,7 +8,7 @@ const manifest = require(`${global.FDK_PATH}/lib/manifest.js`);
 const path = require('path');
 const configUtil = require(`${global.FDK_PATH}/lib/utils/config-util.js`);
 
-const Router = require(`${global.FDK_PATH}/node_modules/express`).Router;
+const Router = require(`/app/node_modules/express`).Router;
 const appsRouter = new Router();
 
 let oauthStatus = 'notstarted';
