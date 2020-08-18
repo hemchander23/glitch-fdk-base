@@ -30,7 +30,7 @@
     "istanbul-lib-instrument": "3.3.0",
     "jquery-deferred": "0.3.1",
     "json-schema-faker": "0.5.0-rc16",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "mocha": "^5.0.0",
     "moment-timezone": "^0.5.25",
     "ngrok": "^3.2.5",
