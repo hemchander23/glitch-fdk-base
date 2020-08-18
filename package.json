@@ -7,7 +7,6 @@
   "description": "You can run Freshworks front-end apps on Glitch without local installation.Just make sure you follow the steps in README",
   "main": "server.js",
   "scripts": {
-    "prestart": "pnpm install && pnpm i request@2.88.0",
     "start": "chmod +x run_fdk.sh && ./run_fdk.sh"
   },
   "dependencies": {
