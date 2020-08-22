@@ -58,16 +58,22 @@ function hasJSONConfig() {
   return fileUtil.fileExists(`${process.cwd()}/config/${jsonFile}`);
 }
 
-function hasConfig() {
-  return this.hasJSONConfig() || this.hasHTMLConfig();
-}
-
 function getConfig() {
   return getJSONContent(jsonFile);
 }
 
 function setConfig(config) {
   return storage.store(nsUtil.getInternalNamespace('custom_iparams'), config);
+}
+
+function hasConfig() {
+  if (this.hasJSONConfig()) {
+    const config = getConfig();
+
+    return Object.keys(config).length !== 0;
+  }
+
+  return this.hasHTMLConfig();
 }
 
 function purgeConfig() {

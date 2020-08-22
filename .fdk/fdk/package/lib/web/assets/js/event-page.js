@@ -8,6 +8,7 @@ const MONACO_MODEL_MARKER_UPDATE = 700;
 const INTERNAL_SERVER_ERROR_STATUS = 500;
 const list = ['events', 'actions'];
 var modelURI;
+var products = {};
 
 function ajaxRequest(options, callback) {
   jQuery.ajax(options)
@@ -298,9 +299,21 @@ jQuery('#actions-sel').on('click', function() {
   }
 });
 
+function validateAndShowDeprecationWarning(event) {
+  if (products.hasOwnProperty('freshdesk') || products.hasOwnProperty('freshservice')) {
+    return;
+  }
+  if (event === 'onAppInstall' || event === 'onAppUninstall') {
+    jQuery('#info-banner').html('<i class="fa fa-warning" aria-hidden="true" style="color:orange;"></i> We recommend using end-to-end testing to simulate app setup events.');
+  } else {
+    jQuery('#info-banner').html('Select an event or action to simulate');
+  }
+}
+
 jQuery('#event-dropdown').on('click', function(e) {
   var event = e.target.text;
 
+  validateAndShowDeprecationWarning(event);
   jQuery('#event-sel').text(event);
   showEditor(event, 'events');
 });
@@ -360,6 +373,7 @@ jQuery.ajax({
   url: 'http://localhost:10001/iframe/api',
   method: 'get'
 }).done(function(data) {
+  products = data.product;
   if (data.features.indexOf('oauth') !== -1) {
     jQuery.ajax({
       url: 'http://localhost:10001/accesstoken',
