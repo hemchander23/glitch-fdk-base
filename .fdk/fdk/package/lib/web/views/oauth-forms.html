@@ -11,15 +11,23 @@
     <div class="box">
       <div class="logo-div">
         <div class="logo-block">
-            <img src="/web/assets/freshworks_logo.svg" class="logo" align="middle">
-            <span class="dev-text">{ developers }</span>
+          <a href="https://community.developers.freshworks.com/" target="_blank">
+            <img src="/web/assets/developer-logo.png" class="logo" align="middle"/>
+          </a>
         </div>
       </div>
-      <div class="box-row">
-        <div class="box-title">
-          <span id="info-banner">
-            OAuth Parameters
-          </span>
+      <div class="box-container">
+        <div class="btn-container hide" id="btnContainerId">
+          <button type="button" class="btn btn-link btn-sm" id="backBtnId">back</button>
+        </div>
+        <div class="box-row">
+          <div>
+            <span class="box-title" id="productNameId">
+            </span> -
+            <span class="box-title">
+              OAuth Parameters
+            </span>
+          </div>
         </div>
       </div>
       <div class="oauth-form" >
@@ -28,32 +36,69 @@
     </div>
     <!-- <script src="/web/assets/js/event-page.js"></script> -->
     <script>
-      jQuery.get("http://localhost:10001/oauth_iparams", function(data) {
-        if (data) {
-          Object.keys(data).forEach(function(key) {
-            var oauthIParamItem = data[key];
-            jQuery("#oauth_form").append(`
-              <div class="form-group">
-                <label class="input-label">${oauthIParamItem['display_name']}</label>
-                <input type="text" class="form-control input-sm" id="conf_${key}" ${oauthIParamItem['required'] == true ? 'required' : ''}>
-                <div style="padding-top: 5px">
-                  <small class="form-text text-muted">${oauthIParamItem['description']}</small>
-                </div>
-              </div>
-            `);
-          });
-          jQuery("#oauth_form").append(`<button type="submit" class="btn btn-primary btn-sm" id="oauth_redirect_btn">Submit</button>`);
-          jQuery("#oauth_redirect_btn").click(function(e) {
-            var oauthIParamValues = {};
-            Object.keys(data).forEach(function(key) {
-              oauthIParamValues[key] = jQuery(`#conf_${key}`).val();
-            });
-            if (jQuery("#oauth_form")[0].checkValidity() == true) {
-              window.location = `http://localhost:10001/auth/index?oauth_iparams=${encodeURIComponent(JSON.stringify(oauthIParamValues))}&oauth_bypass=true`;
-              e.preventDefault();
-            }
-          });
+      const LOCAL_URL = 'http://localhost:10001';
+      const IFRAME_API_URL = `${LOCAL_URL}/iframe/api`;
+      const PRODUCTS_URL = `${LOCAL_URL}/get_products`;
+
+      /**
+       * get the query string from the url
+       */
+      function getQueryString(key) {
+        // eslint-disable-next-line
+        key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, '\\$&');
+        const match = window.location.search.match(new RegExp('[?&]' + key + '=([^&]+)(&|$)'));
+
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+      }
+
+      jQuery.when(jQuery.get(IFRAME_API_URL), jQuery.get(PRODUCTS_URL))
+      .then(function (appData, productURL) {
+        products = Object.keys(appData[0].product);
+
+        const product = products.length > 1 ? getQueryString('product') : Object.keys(appData[0].product)[0];
+
+        const productsMap = productURL[0].productsMap;
+
+        jQuery('#productNameId').html(productsMap[product].name);
+
+        if (products.length > 1 && (getQueryString('callback').includes(LOCAL_URL))) {
+          jQuery('#btnContainerId').removeClass('hide');
         }
+
+        jQuery('#backBtnId').click(function () {
+          // if the custom_configs will always redirect to product switcher if it is omni app.
+          window.location.href = `${LOCAL_URL}/custom_configs`;
+        });
+
+        const queryString = getQueryString('callback');
+
+        jQuery.get(`${LOCAL_URL}/oauth_iparams?callback=${queryString}&product=${product}`, function(data) {
+          if (data) {
+            Object.keys(data).forEach(function(key) {
+              var oauthIParamItem = data[key];
+              jQuery("#oauth_form").append(`
+                <div class="form-group">
+                  <label class="input-label">${oauthIParamItem['display_name']}</label>
+                  <input type="text" class="form-control input-sm" id="conf_${key}" ${oauthIParamItem['required'] == true ? 'required' : ''} value="${oauthIParamItem['value'] || ''}">
+                  <div style="padding-top: 5px">
+                    <small class="form-text text-muted">${oauthIParamItem['description']}</small>
+                  </div>
+                </div>
+              `);
+            });
+            jQuery("#oauth_form").append(`<button type="submit" class="btn btn-primary btn-sm" id="oauth_redirect_btn">Submit</button>`);
+            jQuery("#oauth_redirect_btn").click(function(e) {
+              var oauthIParamValues = {};
+              Object.keys(data).forEach(function(key) {
+                oauthIParamValues[key] = jQuery(`#conf_${key}`).val();
+              });
+              if (jQuery("#oauth_form")[0].checkValidity() == true) {
+                window.location = `${LOCAL_URL}/auth/index?oauth_iparams=${encodeURIComponent(JSON.stringify(oauthIParamValues))}&oauth_bypass=true&callback=${queryString}&product=${product}`;
+                e.preventDefault();
+              }
+            });
+          }
+        });
       });
     </script>
   </body>
