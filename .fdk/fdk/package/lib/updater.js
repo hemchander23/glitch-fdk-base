@@ -12,7 +12,6 @@ const request = require('request');
 const DataStore = require('./utils/data-util').DataStore;
 const helper = require('./utils/helper-util');
 const packageJSON = require('../package.json');
-const writeMetric = require('./utils/metric-util');
 
 const dbApi = new DataStore({
   location: `${os.homedir()}/.fdk/`
@@ -34,10 +33,6 @@ function checkForUpdate(returnControlToIndex) {
       */
       localInfo = dbApi.fetch('version_details');
 
-      if (writeMetric.fetch('version') === undefined) {
-        writeMetric.store('version', {'fdk_version': `${packageJSON.version}`});
-      }
-
       // Disabled force check for now
 
       // if (localInfo && helper.isGreaterThan(packageJSON.version, localInfo.forced_versions.slice(-1).pop())) {
@@ -57,7 +52,7 @@ function checkForUpdate(returnControlToIndex) {
         if lastUpdated == undefined -> Perform update (missing, or new installation)
         if lastUpdated >= check limit - > Perform update (interval - 1hour has been crossed)
       */
-      if (lastUpdated === undefined || (Date.now() - lastUpdated.time_stamp) / TO_HOUR > ONE_DAY ) {
+      if (lastUpdated === undefined || (Date.now() - lastUpdated.time_stamp) / TO_HOUR > ONE_DAY) {
         debuglog('Checking for availability of new version of addon');
         return callback();
       }
@@ -79,8 +74,7 @@ function checkForUpdate(returnControlToIndex) {
 
         try {
           remoteInfo = JSON.parse(body);
-        }
-        catch (e) {
+        } catch (e) {
           return callback(`Error while fetching the version - ${e.message}`);
         }
 
@@ -103,24 +97,21 @@ function checkForUpdate(returnControlToIndex) {
           /**
             Re-ask if input is neither Yes nor No
           */
-          ans.toUpdate=ans.toUpdate.toLowerCase();
+          ans.toUpdate = ans.toUpdate.toLowerCase();
           if (!ans.toUpdate.match(/^yes|no$/)) {
             return notifyNewVersion(callback);
-          }
-          else if (ans.toUpdate === 'yes') {
+          } else if (ans.toUpdate === 'yes') {
             try {
               // child_process.execSync(remoteInfo.fdkCli.cmd, {
               //   stdio: [0, 1, 2]
               // });
-            }
-            catch (e) {
+            } catch (e) {
               console.log(`Installation failed - ${e.message}`);
             }
           }
           return callback();
         });
-      }
-      else {
+      } else {
         return callback();
       }
     },
@@ -131,8 +122,8 @@ function checkForUpdate(returnControlToIndex) {
         if localInfo.addon.version == undefined -> Perform update (missing, or new installation)
         if localInfo.addon.version <= addon in remote - > Perform update (new version available)
       */
-      if (localInfo === undefined
-        || helper.isGreaterThan(localInfo.addon.version, remoteInfo.addon.version)) {
+      if (localInfo === undefined ||
+        helper.isGreaterThan(localInfo.addon.version, remoteInfo.addon.version)) {
 
         debuglog(`Found new version of addon - ${remoteInfo.addon.version}`);
         debuglog(`Updating local addon to - ${remoteInfo.addon.version}`);
@@ -152,8 +143,7 @@ function checkForUpdate(returnControlToIndex) {
 
           return callback();
         });
-      }
-      else {
+      } else {
         debuglog(`Addon is already at the latest version - ${localInfo.addon.version}`);
         return callback();
       }
@@ -172,7 +162,9 @@ function checkForUpdate(returnControlToIndex) {
     /**
       Update last updated time to now (If Success)
     */
-    dbApi.store('last_updated', {time_stamp: Date.now()});
+    dbApi.store('last_updated', {
+      time_stamp: Date.now()
+    });
 
     returnControlToIndex();
   });
