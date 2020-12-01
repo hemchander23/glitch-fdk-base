@@ -41,8 +41,10 @@ function isBlank(val) {
   return (_.isNumber(val) || _.isBoolean(val)) ? _.isEmpty(String(val)) : _.isEmpty(val);
 }
 
-function fetchKey(key) {
-  return `${nsUtil.getRootFolder()}:${key}`;
+function fetchKey(key, req) {
+  const product = req.meta.product;
+
+  return `${nsUtil.getRootFolder()}:${key}_${product}`;
 }
 
 function isAnyKeyEmpty(entity) {
@@ -295,7 +297,7 @@ module.exports = {
       const options = req.body.options || {};
 
       validate(key, data, options);
-      key = fetchKey(key);
+      key = fetchKey(key, req);
       data = _.assignIn(normalizeItem(data), {
         createdAt: helper.getTimestamp(), updatedAt: helper.getTimestamp()
       });
@@ -319,7 +321,7 @@ module.exports = {
   },
 
   fetch: (req, res) => {
-    const key = fetchKey(req.body.dbKey);
+    const key = fetchKey(req.body.dbKey, req);
     const response = _.omit(dbApi.fetch(key), 'createdAt', 'updatedAt', '__expireAfter');
 
     if (_.isEmpty(response)) {
@@ -339,7 +341,7 @@ module.exports = {
       const action = req.body.type;
 
       validateUpdateAction(key, action, attributes);
-      key = fetchKey(key);
+      key = fetchKey(key, req);
       const response = dbApi.update(key, action, attributes);
 
       debuglog(`Updated ${JSON.stringify(attributes)} with key ${key}`);
@@ -359,7 +361,7 @@ module.exports = {
   },
 
   delete: (req, res) => {
-    const key = fetchKey(req.body.dbKey);
+    const key = fetchKey(req.body.dbKey, req);
     const reponse = dbApi.delete(key);
 
     res.status(httpUtil.status.ok).send(reponse);
