@@ -1,42 +1,57 @@
+const CURRENT_PRODUCT = 'current';
+
 export default {
   methods: {
-    getProductAuthentication(product, domainName, apikey) {
+    getProductAuthentication(product, domainName, apikey, productURL) {
       const productAuth = {
         freshdesk: {
-          url: `https://${domainName}.freshdesk.com/api/v2/settings/helpdesk`,
+          url: `https://${domainName}.${productURL}/api/v2/settings/helpdesk`,
+          productURL: `https://${domainName}.${productURL}`,
           headers: {
             Authorization: `Basic ${btoa(apikey)}`
           }
         },
         freshservice: {
-          url: `https://${domainName}.freshservice.com/api/v2/agents`,
+          url: `https://${domainName}.${productURL}/api/v2/agents`,
+          productURL: `https://${domainName}.${productURL}`,
           headers: {
             Authorization: `Basic ${btoa(apikey)}`
           }
         },
         freshsales: {
-          url: `https://${domainName}.freshsales.io/api/settings/sales_accounts/fields`,
+          url: `https://${domainName}.${productURL}/api/settings/sales_accounts/fields`,
+          productURL: `https://${domainName}.${productURL}`,
           headers: {
             Authorization: `Token token=${apikey}`
           }
         },
         freshchat: {
           url: 'https://api.freshchat.com/v2/agents',
+          productURL: 'https://api.freshchat.com',
           headers: {
             Authorization: `Bearer ${apikey}`
           }
         },
         freshcaller: {
-          url: `https://${domainName}.freshcaller.com/api/v1/users`,
+          url: `https://${domainName}.${productURL}/api/v1/users`,
+          productURL: `https://${domainName}.${productURL}`,
           headers: {
             accept: 'application/json',
             'X-Api-Auth': `${apikey}`
           }
         },
         freshteam: {
-          url: `https://${domainName}.freshteam.com/api/branches`,
+          url: `https://${domainName}.${productURL}/api/branches`,
+          productURL: `https://${domainName}.${productURL}`,
           headers: {
             Authorization: `Bearer ${apikey}`
+          }
+        },
+        freshworks_crm: {
+          url: `https://${domainName}.${productURL}/crm/sales/api/contacts/filters`,
+          productURL: `https://${domainName}.${productURL}/crm`,
+          headers: {
+            Authorization: `Token token=${apikey}`
           }
         }
       };
@@ -79,7 +94,8 @@ export default {
           return {
             domain: api.productName !== 'freshchat' ? domainNode : null,
             api: api,
-            productName: api.productName
+            productName: api.productName !== CURRENT_PRODUCT ?
+              api.productName : this.client.context.product
           };
         });
 
@@ -101,7 +117,7 @@ export default {
         const domain = obj.domain || {};
         const api = obj.api;
         const product = this.getProductAuthentication(obj.productName, this.model[domain.model],
-          this.model[api.model]);
+          this.model[api.model], domain.productURL);
         const options = {
           headers: product.headers
         };
@@ -110,6 +126,14 @@ export default {
         promise.then((result) => {
           const status = result ? '' : 'Invalid field';
           const userErrorMessage = result ? '' : 'Domain or API key is not matching';
+
+          if (result && domain.model) {
+            // generate the $fieldName object and attach it to modal.
+            this.model[`$${domain.model}`] = {
+              url: product.productURL,
+              name: obj.productName
+            };
+          }
 
           domain.userErrorMessage = userErrorMessage;
           api.userErrorMessage = userErrorMessage;

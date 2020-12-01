@@ -136,3 +136,16 @@ fieldset {
  .flatpickr-current-month {
   display: flex;
 }
+
+.dropdown-menu>li>a {
+  font-size: 14px;
+}
+
+.dropdown-toggle {
+  background-color: #f7f7f7 !important;
+}
+
+.form-group.error .dropdown-toggle {
+  border: 1px solid red;
+  background-color: rgba(255, 0, 0, .15) !important;
+}

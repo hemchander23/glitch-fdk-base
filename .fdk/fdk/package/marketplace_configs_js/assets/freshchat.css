@@ -3472,7 +3472,7 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: 32px;
+  height: 34px;
   padding: 6px 12px;
   font-size: 13px;
   line-height: 1.42857143;
@@ -4983,10 +4983,10 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
   font-size: 13px;
   font-weight: normal;
   line-height: 1;
-  color: #498bc1;
+  color: #183247;
   text-align: center;
-  background-color: #ffffff;
-  border: 1px solid #dadfe3;
+  background-color: #f7f7f7;
+  border: 1px solid #9696963d;
   border-radius: 4px;
 }
 
@@ -8422,7 +8422,6 @@ label {
 
 .btn {
   box-shadow: none;
-  text-transform: uppercase;
   letter-spacing: 0.3px;
   text-shadow: none;
   font-size: 12px;

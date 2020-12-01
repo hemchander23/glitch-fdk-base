@@ -83,15 +83,16 @@ class formService {
          }
      }]
    }
+   * @param {Boolean} hasIparamsJs - if true, inclued iparams.js other wise not.
    * @returns Promise object
    */
-  getHtml(formServJSON) {
+  getHtml(formServJSON, hasIparamsJs) {
     return new Promise((resolve, reject) => {
       let htmlStr = '';
 
       try {
         if (formServJSON !== undefined && formServJSON.fields.length > 0) {
-          htmlStr = this.getHtmlTemplate(formServJSON);
+          htmlStr = this.getHtmlTemplate(formServJSON, hasIparamsJs);
         }
         resolve(htmlStr);
       } catch (error) {
@@ -100,13 +101,13 @@ class formService {
     });
   }
 
-  getHtmlTemplate(formServJSON) {
-    const formObjects = this.createFormObjects(formServJSON);
+  getHtmlTemplate(formServJSON, hasIparamsJs) {
+    const convertedIparams = this.createFormObjects(formServJSON);
 
     const constructValue = {
       CSS: this.getCSS(),
-      javascript: this.getScripts(formObjects.hasIparamsJs),
-      formObjects: formObjects.convertedIparams
+      javascript: this.getScripts(hasIparamsJs),
+      formObjects: convertedIparams
     };
     const template = _.template(htmlTemplate);
 
@@ -136,13 +137,12 @@ class formService {
     let staticValue = '';
 
     if (this.config && this.config.assets && this.config.assets.js) {
-      staticValue = this.config.assets.js.reduce((allJs, currentJs) => {
+      staticValue += this.config.assets.js.reduce((allJs, currentJs) => {
         const attributes = this.getAttributes(currentJs);
 
         return allJs + ` <script ${attributes}></script> \n`;
       }, '');
     }
-
     staticValue = hasIparamsJs ? staticValue + '<script src="./assets/iparams.js"></script>' : staticValue;
 
     return staticValue;
@@ -153,8 +153,6 @@ class formService {
       model: {},
       fields: []
     };
-
-    let hasIparamsJs = false;
 
     const elementMappings = {
       text: textbox,
@@ -176,16 +174,10 @@ class formService {
       convertedIparams.model[element.name] = element.default_value || (element.type === 'multiselect' ? [] : '');
       const elementObject = elementMappings[element.type](element);
 
-      if (Object.entries(elementObject.events).length > 0) {
-        hasIparamsJs = true;
-      }
       convertedIparams.fields.push(elementObject);
     });
 
-    return {
-      convertedIparams: JSON.stringify(convertedIparams),
-      hasIparamsJs
-    };
+    return JSON.stringify(convertedIparams);
   }
 }
 

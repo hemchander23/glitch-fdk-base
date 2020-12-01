@@ -3,9 +3,11 @@ import datePicker from './components/datePicker';
 import authmixin from './authMixin';
 
 const FUNCTION = 'function';
+const MOUNTED = 'onFormLoad';
+const DESTROYED = 'onFormUnload';
 const DEBOUNCE_TIME = 300;
 // eslint-disable-next-line no-magic-numbers
-const VUE_DEBOUNCE_TIME = DEBOUNCE_TIME + 100;
+const VUE_DEBOUNCE_TIME = DEBOUNCE_TIME + 1500;
 
 window.Vue.use(window.VueFormGenerator, {
   validators: {
@@ -114,10 +116,26 @@ window.viewModel = new window.Vue({
       client: null
     };
   },
-  mounted() {
+  created() {
     window.app.initialized().then((_client) => {
       this.client = _client;
     });
+  },
+  mounted() {
+    document.onreadystatechange = () => {
+      if (document.readyState === 'complete') {
+        if (typeof window[MOUNTED] === FUNCTION) {
+          window[MOUNTED]();
+        }
+      }
+    };
+    // destroy or before destroy life cycle events on Vue not able to use if user closed the Iparams,
+    // so added the javascript unload function
+    window.onbeforeunload = () => {
+      if (typeof window[DESTROYED] === FUNCTION) {
+        window[DESTROYED]();
+      }
+    };
   },
   methods: {
     onValidate(isValid) {

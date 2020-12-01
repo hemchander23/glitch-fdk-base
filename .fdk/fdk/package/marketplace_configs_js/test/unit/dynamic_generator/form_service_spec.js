@@ -249,7 +249,7 @@ describe('FormService Tests', () => {
   var formServiceHelper = new formService(config);
   var $;
   var jsonObj;
-  formServiceHelper.getHtml(iparamToFormServJSON(IPARAM_JSON)).then((response) => {
+  formServiceHelper.getHtml(iparamToFormServJSON(IPARAM_JSON), false).then((response) => {
     $ = cheerio.load(response);
     var text = $($('script')).text();
     jsonObj = JSON.parse(findTextAndReturn(text, "var formObjects ="));
