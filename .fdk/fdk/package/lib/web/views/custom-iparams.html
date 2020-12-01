@@ -1,41 +1,56 @@
 <html>
-  <head>
-    <title>Installation Page</title>
-    <link rel="icon" href="/web/assets/favicon.png" type="image/x-icon" sizes="16x16 32x32">
-    <link rel="stylesheet" href="/web/assets/css/custom-iparams-page.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://static.freshdev.io/fdk/2.0/assets/freshdesk.css">
-    <script src="https://static.freshdev.io/fdk/2.0/assets/fresh_parent.js"></script>
-  </head>
-  <body>
-    <div id="snackbar" style="display: none;"></div>
-    <div class="box">
-      <div class="logo-div">
-        <div class="logo-block">
-            <img src="/web/assets/freshworks_logo.svg" class="logo" align="middle">
-            <span class="dev-text">{ developers }</span>
-        </div>
+
+<head>
+  <title>Installation Page</title>
+  <link rel="icon" href="/web/assets/favicon.png" type="image/x-icon" sizes="16x16 32x32">
+  <link rel="stylesheet" href="/web/assets/css/custom-iparams-page.css">
+  <script src="https://use.fontawesome.com/ee01689fa7.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://static.freshdev.io/fdk/2.0/assets/freshdesk.css">
+  <script src="https://static.freshdev.io/fdk/2.0/assets/fresh_parent.js"></script>
+</head>
+
+<body>
+  <div id="snackbar" style="display: none;"></div>
+  <div class="box">
+    <div class="logo-div">
+      <div class="logo-block">
+        <img src="/web/assets/freshworks_logo.svg" class="logo" align="middle">
+        <span class="dev-text">{ developers }</span>
+      </div>
+    </div>
+    <div class="box-container recommendation-msg">
+      <i class="fa fa-warning" aria-hidden="true" style="color:orange;"></i>
+      We recommend using end-to-end testing to simulate app setup events.
+    </div>
+    <div class="box-container">
+      <div class="btn-container hide" id="btnContainerId">
+        <button type="button" class="btn btn-link btn-sm" id="backBtnId">back</button>
       </div>
       <div class="box-row">
-        <div style="padding-top:15px;">
+        <div>
+          <span class="box-title" id="productNameId">
+          </span> -
           <span class="box-title">
             Installation Page
           </span>
         </div>
       </div>
-      <div class="box-row-err" hidden>
-        <div style="padding-top:15px;">
-          <p style="color: orange">
-             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This app does not have a installation page
-          </p>
-        </div>
-      </div>
-      <div class="form-div" id="iparams-form"></div>
-      <div class="form-actions">
-        <button class="btn btn-primary" id="iparams-install">INSTALL</button>
+    </div>
+    <div class="box-row-err" hidden>
+      <div style="padding-top:15px;">
+        <p style="color: orange">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This app does not have a installation page
+        </p>
       </div>
     </div>
-    <script src="https://static.freshdev.io/js/configs_assets-1.0.1.min.js"></script>
-    <script src="/web/assets/js/custom-iparams-page.js"></script>
-  </body>
+    <div class="form-div" id="iparams-form"></div>
+    <div class="form-actions">
+      <button class="btn btn-primary hide" id="iparams-install">INSTALL</button>
+    </div>
+  </div>
+  <script src="https://static.freshdev.io/js/configs_assets-1.0.1.min.js"></script>
+  <script src="/web/assets/js/custom-iparams-page.js"></script>
+</body>
+
 </html>

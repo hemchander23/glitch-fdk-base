@@ -7,6 +7,12 @@
   margin-top: 7%;
 }
 
+.warning-footer {
+  text-align: center;
+  margin: auto;
+  margin-top: 3%;
+}
+
 .err-box {
   height: 130px;
 }

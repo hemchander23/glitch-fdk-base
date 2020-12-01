@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Product Switcher</title>
+    <link rel="icon" href="/web/assets/favicon.png" type="image/x-icon" sizes="16x16 32x32">
+    <link rel="stylesheet" href="/web/assets/css/product-switcher.css">
+    <script src="https://use.fontawesome.com/ee01689fa7.js"></script>
+    <link rel="stylesheet" href="https://dl.freshcloud.io/sdk-packages/bootstrap/bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://dl.freshcloud.io/sdk-packages/bootstrap/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="box">
+      <div class="logo-div">
+        <div class="logo-block">
+          <img src="web/assets/freshworks_logo.svg" class="logo" align="middle">
+          <span class="dev-text">{ developers }</span>
+      </div>
+    </div>
+    <div class="box-row">
+      <div>
+        <span class="product-title">
+          Select a product to continue
+        </span>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-box clearfix">
+        <div class="dropdown select-product-container">
+          <a data-toggle="dropdown" id="product-sel" class="product-selector" style="text-decoration:none; font-weight:bold;" href="#">Select Product</a>
+          <span class="caret"></span>
+          <ul class="dropdown-menu" id="product-dropdown" style="margin-left:8%"></ul>
+        </div>
+      </div>
+    </div>
+    </div>
+    <script src="/web/assets/js/product-switcher.js"></script>
+  </body>
+</html>

@@ -1,63 +1,82 @@
 <html>
-  <head>
-    <title>Serverless App Testing</title>
-    <link rel="icon" href="/web/assets/favicon.png" type="image/x-icon" sizes="16x16 32x32">
-    <link rel="stylesheet" href="./assets/css/event-page.css">
-    <script src="https://use.fontawesome.com/ee01689fa7.js"></script>
-    <link rel="stylesheet" href="https://dl.freshdev.io/sdk-packages/bootstrap/bootstrap.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="https://dl.freshdev.io/sdk-packages/bootstrap/bootstrap.min.js"></script>
-  </head>
-  <body>
-    <div class="box">
-      <div class="logo-div">
-        <div class="logo-block">
-            <img src="./assets/freshworks_logo.svg" class="logo" align="middle">
-            <span class="dev-text">{ developers }</span>
-        </div>
-      </div>
-      <div class="box-row">
-        <div style="padding-top:15px;">
-          <span class="event-title" id="info-banner">
-            Select an event or action to simulate
-          </span>
-        </div>
-      </div>
-      <div class="event" id="event-area">
-        <div class="event-box clearfix">
-          <div class="dropdown select-type-container hide" id="type-main-div">
-            <a data-toggle="dropdown" id="type-sel" class="type-selector" style="text-decoration:none; font-weight:bold;" href="#">Select type</a>
-            <span class="caret"></span>
-            <ul class="dropdown-menu" id="type-dropdown" style="margin-left:8%"></ul>
-          </div>
-          <div id="dropdownBox" class="hide">
-            <div class="dropdown hide" id= "event-main-div">
-              <a data-toggle="dropdown" id="event-sel" class="event-selector" style="text-decoration:none; font-weight:bold;" href="#">Select an event</a>
-              <span class="caret"></span>
-              <ul class="dropdown-menu" id="event-dropdown" style="margin-left:8%"></ul>
-            </div>
-            <div class="dropdown hide" id= "actions-main-div">
-              <a data-toggle="dropdown" id="actions-sel" class="actions-selector" style="text-decoration:none; font-weight:bold;" href="#">Select an action</a>
-              <span class="caret"></span>
-              <ul class="dropdown-menu" id="actions-dropdown" style="margin-left:%"></ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div id="editor-container">
-        <div id="editor-btns" hidden>
-          <button id="reset-event" class="btn btn-primary event-btn btn-xs pull-right">Reset</button>
-          <button id="simulate-event" class="btn btn-primary event-btn btn-xs pull-right">Simulate</button>
-        </div>
-        <div id="monaco-container" class="monaco-container"></div>
-      </div>
 
+<head>
+  <title>Serverless App Testing</title>
+  <link rel="icon" href="/web/assets/favicon.png" type="image/x-icon" sizes="16x16 32x32">
+  <link rel="stylesheet" href="./assets/css/event-page.css">
+  <script src="https://use.fontawesome.com/ee01689fa7.js"></script>
+  <link rel="stylesheet" href="https://dl.freshdev.io/sdk-packages/bootstrap/bootstrap.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://dl.freshdev.io/sdk-packages/bootstrap/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="box">
+    <div class="logo-div">
+      <div class="logo-block">
+        <a href="https://community.developers.freshworks.com/" target="_blank">
+          <img src="/web/assets/developer-logo.png" class="logo" align="middle"/>
+        </a>
+      </div>
     </div>
-    <script src="https://dl.freshdev.io/sdk-packages/monaco-editor/0.15.6/min/vs/loader.js"></script>
-    <script>
+    <div class="box-row">
+      <div style="padding-top:15px;">
+        <span class="event-title" id="info-banner">
+          Select an event or action to simulate
+        </span>
+      </div>
+    </div>
+    <div class="event" id="event-area">
+      <div class="event-box clearfix">
+        <div class="dropdown select-type-container hide" id="type-main-div">
+          <a data-toggle="dropdown" id="type-sel" class="type-selector" style="text-decoration:none; font-weight:bold;"
+            href="#">Select type</a>
+          <span class="caret"></span>
+          <ul class="dropdown-menu" id="type-dropdown" style="margin-left:8%"></ul>
+        </div>
+        <div class="dropdown select-type-container hide" id="product-main-div">
+          <a data-toggle="dropdown" id="product-sel" class="product-selector"
+            style="text-decoration:none; font-weight:bold;" href="#">Select product</a>
+          <span class="caret"></span>
+          <ul class="dropdown-menu" id="product-dropdown" style="margin-left:8%"></ul>
+        </div>
+        <div id="dropdownBox" class="hide">
+          <div class="dropdown hide events-menu" id="event-main-div">
+            <a data-toggle="dropdown" id="event-sel" class="event-selector"
+              style="text-decoration:none; font-weight:bold;" href="#">Select an event</a>
+            <span class="caret"></span>
+            <ul class="dropdown-menu" id="event-dropdown" style="margin-left:8%"></ul>
+          </div>
+          <div class="dropdown hide" id="actions-main-div">
+            <a data-toggle="dropdown" id="actions-sel" class="actions-selector"
+              style="text-decoration:none; font-weight:bold;" href="#">Select an action</a>
+            <span class="caret"></span>
+            <ul class="dropdown-menu" id="actions-dropdown" style="margin-left:8%"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div id="editor-container">
+      <div id="editor-btns" hidden>
+        <button id="reset-event" class="btn btn-primary event-btn btn-xs pull-right">Reset</button>
+        <button id="simulate-event" class="btn btn-primary event-btn btn-xs pull-right">Simulate</button>
+      </div>
+      <div id="monaco-container" class="monaco-container hide"></div>
+    </div>
 
-    </script>
-    <script src="./assets/js/event-page.js"></script>
-  </body>
+
+
+  </div>
+  <div class="warning-footer">
+    <div class="hide" id="warning-text"><img src="./assets/warning.svg" /> Platform version 2.0 will be deprecated shortly.
+      Please update the app manifest to latest version (2.1) to use latest features.</div>
+  </div>
+  <script src="https://dl.freshdev.io/sdk-packages/monaco-editor/0.15.6/min/vs/loader.js"></script>
+  <script>
+
+  </script>
+  <script src="./assets/js/event-page.js"></script>
+</body>
+
 </html>
