@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const jQueryDeferred = require('jquery-deferred');
 
 const EVENT_NAME = 'onExternalEvent';
@@ -27,21 +26,23 @@ class HookApi {
   generateTargetUrl(options, tunnelURL) {
     // eslint-disable-next-line new-cap
     const genHookDefer = jQueryDeferred.Deferred();
-    const eventsArray = _.map((this.context.svrExecScript.events || []), 'event');
-    const isNotRegistered = !_.includes(eventsArray, EVENT_NAME);
+    const eventsArray = (this.context.req.meta.events
+      || this.context.svrExecScript.events || [])
+      .map(item => item.event);
+    const isNotRegistered = !eventsArray.includes(EVENT_NAME);
 
     if (isNotRegistered) {
       genHookDefer.reject({ message: MISSING_EVENT_CALLBACK_ERR });
     }
-    else if (!_.includes(EXTERNAL_EVENT_SUPPORT, this.context.event.categoryArgs.methodName)) {
+    else if (!EXTERNAL_EVENT_SUPPORT.includes(this.context.event.categoryArgs.methodName)) {
       genHookDefer.reject({ message: UNSUPPORTED_OPERATION });
     }
-    else if (options && (!_.isString(options) || options.trim('') === '' || options.length > MAX_LENGTH)) {
+    else if (options && (!(options && typeof options.valueOf() === 'string') || options.trim('') === '' || options.length > MAX_LENGTH)) {
       genHookDefer.reject({ message: UNSUPPORTED_OPTION });
     }
     let source = null;
 
-    source = `${tunnelURL || LOCAL_URL}/event/hook`;
+    source = `${tunnelURL || LOCAL_URL}/event/hook/${this.context.product}`;
     const url = options ? `${source}?options=${encodeURIComponent(options)}` : source;
 
     genHookDefer.resolve(url);

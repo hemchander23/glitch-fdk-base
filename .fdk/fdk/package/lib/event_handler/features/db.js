@@ -4,6 +4,8 @@ const _ = require('lodash');
 const jQueryDeferred = require('jquery-deferred');
 const request = require('request');
 
+const EntityFactory = require('./base_entity');
+
 const httpUtil = require('../../utils/http-util');
 
 const SUCCESS_STATUS = [
@@ -18,7 +20,7 @@ const DPROUTER_URL = 'http://localhost:3000/dprouter';
 const DB_FEATURE = 'db';
 const POST = 'post';
 
-function makeCall(body) {
+function makeCall(body, product) {
 
   // eslint-disable-next-line new-cap
   const dbDeferred = jQueryDeferred.Deferred();
@@ -33,7 +35,7 @@ function makeCall(body) {
 
   request({
     method: POST,
-    url: DPROUTER_URL,
+    url: `${DPROUTER_URL}?product=${product}`,
     headers: {
       'MKP-ROUTE': DB_FEATURE
     },
@@ -50,20 +52,27 @@ function makeCall(body) {
 }
 
 class DBApi {
-  set(key, val, options={}) {
-    return makeCall({dbKey: key, data: val, action: 'store', options: options});
+  constructor(args) {
+    this.product = args.product;
+  }
+  set(key, val, options = {}) {
+    return makeCall({ dbKey: key, data: val, action: 'store', options}, this.product);
   }
 
   get(key) {
-    return makeCall({dbKey: key, action: 'fetch'});
+    return makeCall({ dbKey: key, action: 'fetch'}, this.product);
   }
 
   update(key, type, attributes) {
-    return makeCall({dbKey: key, action: 'update', type, attributes});
+    return makeCall({ dbKey: key, action: 'update', type, attributes}, this.product);
   }
 
   delete(key) {
-    return makeCall({dbKey: key, action: 'delete'});
+    return makeCall({ dbKey: key, action: 'delete'}, this.product);
+  }
+
+  entity(params) {
+    return EntityFactory(params);
   }
 }
 

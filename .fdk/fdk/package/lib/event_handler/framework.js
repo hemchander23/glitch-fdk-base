@@ -64,9 +64,9 @@ class Framework {
     this.event = event;
     this.req = req;
     this.res = res;
-
+    this.product = req.meta.product;
     this.cachedModules = {};
-    this.nestedPath = [ `${process.cwd()}/server/` ];
+    this.nestedPath = [`${process.cwd()}/server/`];
 
     this.serverScript = coverageUtil.instrument(serverScriptPath);
     /**
@@ -82,7 +82,7 @@ class Framework {
         info: console.info,
         error: console.error
       },
-      require:  (relativePath) => {
+      require: (relativePath) => {
         let script,
           exported,
           basePath,
@@ -118,7 +118,7 @@ class Framework {
         return loadDependency(relativePath);
       },
       process: {
-        cwd : function() {
+        cwd: function () {
           return `${process.cwd()}/server`;
         }
       }
@@ -140,7 +140,7 @@ class Framework {
 
     // When the developer doesn't use renderData then we don't return the requestID in response. It would be an empty success response.
     _.extend(this.sandboxAPI, {
-      renderData : (error, output) => {
+      renderData: (error, output) => {
         try {
           let returnVal = null;
           let statusCode = 200;
@@ -154,9 +154,10 @@ class Framework {
               (_.isUndefined(error.message) && !error.status)) {
               statusCode = httpUtil.status.bad_request;
               response = {
-                status : statusCode,
-                message : INVALID_DATA_ERR_MSG,
-                errorSource: APP_SOURCE };
+                status: statusCode,
+                message: INVALID_DATA_ERR_MSG,
+                errorSource: APP_SOURCE
+              };
             }
             else {
               if (_.isUndefined(error.message)) {
@@ -164,25 +165,25 @@ class Framework {
               }
               statusCode = error.status || httpUtil.status.internal_server_error;
               response = {
-                status : statusCode,
-                message : error.message,
+                status: statusCode,
+                message: error.message,
                 errorSource: APP_SOURCE
               };
               showInUI = true;
             }
             returnVal = _.extend({
-              requestID : requestID
-            }, response );
+              requestID: requestID
+            }, response);
           }
           else {
             returnVal = {
-              requestID : requestID
+              requestID: requestID
             };
             if (!_.isUndefined(output)) {
               returnVal = _.extend({
-                requestID : requestID
+                requestID: requestID
               }, {
-                response : output
+                response: output
               });
             }
           }
@@ -233,9 +234,9 @@ class Framework {
   handleError(err) {
     console.log(err);
     const output = {
-      requestID : this.req.RequestId,
-      status : httpUtil.status.internal_server_error,
-      message : `${FW_ERROR_MSG} - ${err.message}`,
+      requestID: this.req.RequestId,
+      status: httpUtil.status.internal_server_error,
+      message: `${FW_ERROR_MSG} - ${err.message}`,
       errorSource: APP_SOURCE
     };
 
@@ -281,16 +282,34 @@ class Event extends Framework {
   }
 
   getMethodName() {
-    let methodName = super.getMethodName();
-    const events = this.svrExecScript.events || [];
+    const methodName = super.getMethodName();
+    let events = null;
+    let callbackEvent = null;
+    const errorString = `${methodName} is not configured`;
 
-    for (const i in events) {
-      if (events[i].event === methodName) {
-        methodName = events[i].callback;
-        break;
+    events = this.req.meta.events || this.svrExecScript.events || [];
+    if (this.req.meta.omni) {
+      events = this.req.meta.events || [];
+      if (_.isEmpty(events)) {
+        throw new Error(`Events not configured for product ${this.req.meta.product}`);
       }
     }
-    return methodName;
+
+    callbackEvent = events.find(event => {
+      if (event.event === methodName) {
+        return true;
+      }
+      return false;
+    });
+
+    if (callbackEvent) {
+      return callbackEvent.callback;
+    }
+
+    if (this.req.meta && this.req.meta.omni) {
+      throw new Error(`${errorString} for product ${this.req.meta.product}`);
+    }
+    throw new Error(errorString);
   }
 
   execute() {
@@ -330,23 +349,23 @@ function fetchEventObj(req, res) {
   }
 }
 
-function handler (req, res, tunnelURL) {
+function handler(req, res, tunnelURL) {
   req.RequestId = `${uuid.v4()}`;
   tunnel = tunnelURL;
 
   if (req.body.categoryName) {
-    const obj = fetchEventObj(req, res);
-
     try {
+      const obj = fetchEventObj(req, res);
+
       obj.svrExecScript = obj.sandboxExecutor(obj.serverScript);
       obj.execute();
     }
     catch (err) {
       console.log(err);
       const output = {
-        requestID : req.RequestId,
-        status : httpUtil.status.internal_server_error,
-        message : `${FW_ERROR_MSG} - ${err.message}`,
+        requestID: req.RequestId,
+        status: httpUtil.status.internal_server_error,
+        message: `${FW_ERROR_MSG} - ${err.message}`,
         errorSource: APP_SOURCE
       };
 

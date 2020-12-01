@@ -32,7 +32,7 @@ const UNIT_TO_FREQUENCY = {
 };
 const SCHEDULE_MAP = new Map();
 const TIMEOUT_MAP = new Map();
-let isRecurringSet = false;
+const isRecurringSet = {};
 const SCHEDULE_MESSAGES = {
   'created': 'Schedule created',
   'deleted': 'Schedule deleted',
@@ -123,7 +123,7 @@ const CREATE_OR_UPDATE_VALIDATION = [
   },
 
   function validateScheduleCallback(meta) {
-    if (!_.includes(_.map(meta.scheduleArgs.svrExecScript.events || [], 'event'), SCHEDULED_EVENT)) {
+    if (!_.includes(_.map(meta.scheduleArgs.req.meta.events || meta.scheduleArgs.svrExecScript.events || [], 'event'), SCHEDULED_EVENT)) {
       return 'The app has not registered an onScheduledEvent';
     }
   }
@@ -201,20 +201,22 @@ function validateInput(action, meta) {
   }
 }
 
-function storeScheduleDetails(userInput) {
-  storage.store(nsUtil.getInternalNamespace('schedule', userInput.name), userInput);
+function storeScheduleDetails(userInput, scheduleArgs) {
+  storage.store(nsUtil.getInternalNamespace('schedule', { userInput, scheduleArgs }), userInput);
 }
 
-function fetchScheduleDetails(userInput) {
-  return storage.fetch(nsUtil.getInternalNamespace('schedule', userInput.name));
+function fetchScheduleDetails(userInput, scheduleArgs) {
+  return storage.fetch(nsUtil.getInternalNamespace('schedule', { userInput, scheduleArgs }));
 }
 
-function deleteScheduleDetails(userInput) {
-  storage.delete(nsUtil.getInternalNamespace('schedule', userInput.name));
-  clearInterval(SCHEDULE_MAP.get(userInput.name));
-  SCHEDULE_MAP.delete(userInput.name);
-  clearTimeout(TIMEOUT_MAP.get(userInput.name));
-  TIMEOUT_MAP.delete(userInput.name);
+function deleteScheduleDetails(userInput, scheduleArgs) {
+  const key = `${userInput.name}_${scheduleArgs.product}`;
+
+  storage.delete(nsUtil.getInternalNamespace('schedule', { userInput, scheduleArgs }));
+  clearInterval(SCHEDULE_MAP.get(key));
+  SCHEDULE_MAP.delete(key);
+  clearTimeout(TIMEOUT_MAP.get(key));
+  TIMEOUT_MAP.delete(key);
 }
 
 class Scheduler {
@@ -264,11 +266,11 @@ class Scheduler {
     };
   }
 
-  executeSchedule(userInput, interval) {
+  executeSchedule(userInput, interval, scheduleArgs) {
     if (!interval) {
       request({
         method: 'POST',
-        url: SCHEDULED_EVENT_TRIGGER_URL,
+        url: `${SCHEDULED_EVENT_TRIGGER_URL}&product=${scheduleArgs.product}`,
         json: userInput.data
       });
       this.deleteSchedule(userInput);
@@ -277,38 +279,40 @@ class Scheduler {
     return setInterval(() => {
       request({
         method: 'POST',
-        url: SCHEDULED_EVENT_TRIGGER_URL,
+        url: `${SCHEDULED_EVENT_TRIGGER_URL}&product=${scheduleArgs.product}`,
         json: userInput.data
       });
     }, interval);
   }
 
   createSchedule(userInput) {
-    const scheduleDetails = fetchScheduleDetails(userInput);
+    const scheduleDetails = fetchScheduleDetails(userInput, this.scheduleArgs);
 
     if (!scheduleDetails){
       const repeatData = this.evaluateScheduleTime(userInput.schedule_at, userInput.repeat);
+      const key = `${userInput.name}_${this.scheduleArgs.product}`;
 
-      if (isRecurringSet && repeatData.repeatTime) {
+      if (isRecurringSet[this.scheduleArgs.product] && repeatData.repeatTime) {
         this.scheduleDefer.reject({
           status: httpUtil.bad_request,
           message: SCHEDULE_MESSAGES.max_recurring
         });
       }
       else {
-        storeScheduleDetails(userInput);
+        storeScheduleDetails(userInput, this.scheduleArgs);
         if (repeatData.repeatTime){
-          isRecurringSet = true;
+          isRecurringSet[this.scheduleArgs.product] = true;
         }
         const timeoutId = setTimeout(() => {
-          const scheduleId = this.executeSchedule(userInput, repeatData.repeatTime);
+          const scheduleId = this.executeSchedule(userInput, repeatData.repeatTime,
+            this.scheduleArgs);
 
           if (scheduleId) {
-            SCHEDULE_MAP.set(userInput.name, scheduleId);
+            SCHEDULE_MAP.set(key, scheduleId);
           }
         }, repeatData.waitTime);
 
-        TIMEOUT_MAP.set(userInput.name, timeoutId);
+        TIMEOUT_MAP.set(key, timeoutId);
         this.scheduleDefer.resolve({
           status: httpUtil.status.ok,
           message: SCHEDULE_MESSAGES.created
@@ -325,7 +329,7 @@ class Scheduler {
   }
 
   fetchSchedule(userInput) {
-    const scheduleDetails = fetchScheduleDetails(userInput);
+    const scheduleDetails = fetchScheduleDetails(userInput, this.scheduleArgs);
 
     if (scheduleDetails) {
       this.scheduleDefer.resolve(scheduleDetails);
@@ -339,21 +343,24 @@ class Scheduler {
   }
 
   updateSchedule(userInput) {
-    const scheduleDetails = fetchScheduleDetails(userInput);
+    const scheduleDetails = fetchScheduleDetails(userInput, this.scheduleArgs);
     const repeatData = this.evaluateScheduleTime(userInput.schedule_at, userInput.repeat);
 
     if (scheduleDetails) {
-      deleteScheduleDetails(userInput);
-      storeScheduleDetails(userInput);
+      const key = `${userInput.name}_${this.scheduleArgs.product}`;
+
+      deleteScheduleDetails(userInput, this.scheduleArgs);
+      storeScheduleDetails(userInput, this.scheduleArgs);
       const timeoutId = setTimeout(() => {
-        const scheduleId = this.executeSchedule(userInput, repeatData.repeatTime);
+        const scheduleId = this.executeSchedule(userInput, repeatData.repeatTime,
+          this.scheduleArgs);
 
         if (scheduleId) {
-          SCHEDULE_MAP.set(userInput.name, scheduleId);
+          SCHEDULE_MAP.set(key, scheduleId);
         }
       }, repeatData.waitTime);
 
-      TIMEOUT_MAP.set(userInput.name, timeoutId);
+      TIMEOUT_MAP.set(key, timeoutId);
       this.scheduleDefer.resolve({
         status: httpUtil.status.ok,
         message: SCHEDULE_MESSAGES.updated
@@ -368,13 +375,13 @@ class Scheduler {
   }
 
   deleteSchedule(userInput) {
-    const scheduleDetails = fetchScheduleDetails(userInput);
+    const scheduleDetails = fetchScheduleDetails(userInput, this.scheduleArgs);
 
     if (scheduleDetails) {
       if (scheduleDetails.repeat){
-        isRecurringSet = false;
+        isRecurringSet[this.scheduleArgs.product] = false;
       }
-      deleteScheduleDetails(userInput);
+      deleteScheduleDetails(userInput, this.scheduleArgs);
       this.scheduleDefer.resolve({
         status: httpUtil.status.ok,
         message: SCHEDULE_MESSAGES.deleted
