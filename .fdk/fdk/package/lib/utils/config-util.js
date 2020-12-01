@@ -16,10 +16,9 @@ const iparamsJs = 'iparams.js';
 const oauthConfigFile = 'oauth_config.json';
 const validRoutes = {
   'install': ['smi', 'proxy', 'oauth'],
-  'configure': ['db', 'proxy', 'oauth', 'smi']
+  'configure': ['db', 'proxy', 'oauth', 'smi', 'entity', 'record']
 };
 
-const storage = new DataStore({});
 
 function getJSONContent(fileName) {
   const data = fileUtil.readFile(`${process.cwd()}/config/${fileName}`);
@@ -32,8 +31,12 @@ function getJSONContent(fileName) {
   }
 }
 
-function getIparams(onlyNonSecure) {
-  let iParams = storage.fetch(nsUtil.getInternalNamespace('custom_iparams')) || {};
+function getIparams(product, onlyNonSecure) {
+  const productKey = nsUtil.getInternalNamespace('product_name', { product });
+  const iparamsKey = nsUtil.getInternalNamespace('custom_iparams');
+  const storage = new DataStore({ scope: productKey });
+
+  let iParams = storage.fetch(iparamsKey) || {};
 
   if (onlyNonSecure) {
     if (iParams.__meta) {
@@ -58,12 +61,20 @@ function hasJSONConfig() {
   return fileUtil.fileExists(`${process.cwd()}/config/${jsonFile}`);
 }
 
+function hasIparamsJs() {
+  return fileUtil.fileExists(`${process.cwd()}/config/assets/${iparamsJs}`);
+}
+
 function getConfig() {
   return getJSONContent(jsonFile);
 }
 
-function setConfig(config) {
-  return storage.store(nsUtil.getInternalNamespace('custom_iparams'), config);
+function setConfig(config, product) {
+  const productKey = nsUtil.getInternalNamespace('product_name', { product });
+  const IparamsKey = nsUtil.getInternalNamespace('custom_iparams');
+  const storage = new DataStore({ scope: productKey });
+
+  return storage.store(IparamsKey, config);
 }
 
 function hasConfig() {
@@ -76,24 +87,24 @@ function hasConfig() {
   return this.hasHTMLConfig();
 }
 
-function purgeConfig() {
+function purgeConfig(product) {
   if (this.hasHTMLConfig()) {
-    return this.setConfig({});
+    return this.setConfig({}, product);
   }
 
   const config = getJSONContent(jsonFile);
 
   Object.keys(config).forEach(key => config[key] = '');
 
-  return this.setConfig(config);
+  return this.setConfig(config, product);
 }
 
-function getValuesForLocalTesting() {
-  return getIparams();
+function getValuesForLocalTesting(product) {
+  return getIparams(product);
 }
 
-function getNonSecureValues() {
-  return getIparams(true);
+function getNonSecureValues(product) {
+  return getIparams(product, true);
 }
 
 function getHTMLContent() {
@@ -104,12 +115,12 @@ function getOAuthIparam() {
   return getJSONContent(oauthConfigFile);
 }
 
-function getCustomIparamState() {
-  return (this.hasHTMLConfig() && Object.keys(getIparams()).length === 0) ? 'install' : 'configure';
+function getCustomIparamState(product) {
+  return (this.hasConfig() && Object.keys(getIparams(product)).length === 0) ? 'install' : 'configure';
 }
 
-function isValidRoute(route) {
-  var state = this.getCustomIparamState();
+function isValidRoute(route, product) {
+  var state = this.getCustomIparamState(product);
 
   return validRoutes[state].includes(route);
 }
@@ -122,6 +133,7 @@ module.exports = {
   hasHTMLConfig,
   hasJSONConfig,
   hasConfig,
+  hasIparamsJs,
   getConfig,
   setConfig,
   purgeConfig,

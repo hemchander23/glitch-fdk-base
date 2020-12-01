@@ -16,8 +16,8 @@ function enableCORS(res, req) {
 
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, UPDATE, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers',  '*');
-  res.setHeader('Access-Control-Allow-Origin',  '*');
+  res.setHeader('Access-Control-Allow-Headers', allowedHeaders || '*');
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin || '*');
 }
 
 module.exports = {
@@ -26,6 +26,7 @@ module.exports = {
     // 2xx
     ok: 200,
     created: 201,
+    no_content: 204,
     information_error: 210,
 
     // 3xx

@@ -262,6 +262,10 @@ const internalNameSpace = {
     return `${getNamespace()['app_id']}_custom_iparams`;
   },
 
+  product_name(meta) {
+    return `${getNamespace()['app_id']}_${meta.product}`;
+  },
+
   /*
     Namespace to store md5 hash of dependencies of the project
   */
@@ -273,7 +277,7 @@ const internalNameSpace = {
     Namespace to store schedule events
   */
   schedule(meta) {
-    return `${getNamespace()['app_id']}_schedule_${meta}`;
+    return `${getNamespace()['app_id']}_schedule_${meta.userInput.name}_${meta.scheduleArgs.product}`;
   }
 };
 

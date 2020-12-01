@@ -8,7 +8,7 @@ const istanbul = require('istanbul');
 
 const libInstrument = require('istanbul-lib-instrument');
 
-const reportUtil = require('./metric-util').report;
+const reportUtil = require('./report-util');
 
 /**
  *  The "wrapper" that is prefixed to the instrumented code. This is written generically

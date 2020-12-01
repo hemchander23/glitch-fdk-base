@@ -6,6 +6,7 @@ const DataStore = require('./data-util').DataStore;
 const dbApi = new DataStore({
   location: `${os.homedir()}/.fdk/`
 });
+
 const addonVersion = dbApi.fetch('version_details').addon.version;
 const fdkconfig = require(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/product_info.json`);
 const fdkProductSupport = require(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/locations/product_locations.json`);
@@ -38,8 +39,12 @@ function getProductLocations(product) {
   const locArray = fdkProductSupport[product].location;
   const arr = [];
 
-  locArray.forEach(x => arr.push({name:x}));
+  locArray.forEach(x => arr.push({name: x}));
   return arr;
+}
+
+function getProductsMap() {
+  return fdkconfig.products_map;
 }
 
 module.exports = {
@@ -49,5 +54,6 @@ module.exports = {
   getProductList,
   getAddonVersion,
   getSupportedProducts,
-  getProductLocations
+  getProductLocations,
+  getProductsMap
 };

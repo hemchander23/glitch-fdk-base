@@ -89,6 +89,13 @@ function getTimestamp() {
   return new Date(utcTime).getTime();
 }
 
+function md5Digest(string) {
+  return crypto
+          .createHash('md5')
+          .update(string, DEFAULT_ENCODING)
+          .digest('hex');
+}
+
 function encryptToken(token){
   // eslint-disable-next-line
   const IV = new Buffer(crypto.randomBytes(16));
@@ -135,7 +142,24 @@ const DEFAULT_REGEX_FIELDS = {
 
 const IGNORED_FILES = /^\.(.)*$|^\.Spotlight-V100$|\.Trashes$|^Thumbs\.db$|^desktop\.ini$/g;
 
+/**
+ * Acts as an async wrapper for route handler functions to capture errors and
+ * pass it to `next` function. Since express doesn't treat handlers as async,
+ * any exception would be treated as uncaught.
+ *
+ * @param  {Function} fn - route handler
+ * @returns {Function} async wrapper function
+ */
+function asyncHandler(fn) {
+  return function asyncify(...args) {
+    const next = args[args.length - 1];
+
+    return Promise.resolve(fn(...args)).catch(next);
+  };
+}
+
 module.exports = {
+  asyncHandler,
   capitalize,
   objsize,
   isGreaterThan,
@@ -144,6 +168,7 @@ module.exports = {
   DEFAULT_REGEX_FIELDS,
   IGNORED_FILES,
   crypto:{
+    md5Digest,
     encryptToken,
     decryptToken
   }

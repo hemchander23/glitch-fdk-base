@@ -3,10 +3,14 @@
 const debuglog = __debug.bind(null, __filename);
 
 const fs = require('fs');
+const path = require('path');
+const process = require('process');
+const { Sequelize } = require('sequelize');
+const Umzug = require('umzug');
+
+const sequelize = require('../instances/sequelize');
 const helper = require('./helper-util');
 const httpUtil = require('./http-util');
-const nsUtil = require('./file-util').nsresolver;
-const cryptoUtil = helper.crypto;
 const errorUtil = require('./error-util');
 const MILLI_SECONDS = 1000;
 const BYTE_SIZE = 1024;
@@ -20,10 +24,49 @@ const INVALID_PATH = 'One or more paths in the attributes are invalid or overlap
 const INVALID_REMOVE_KEY = 'The specified key for remove operation does not exist in the data store';
 const ITEM_SIZE_EXCEPTION = 'Item size exceeded the maximum limit of 8 KB';
 
+const umzug = new Umzug({
+  migrations: {
+    path: path.join(__dirname+ '/../migrations'),
+    params: [
+      sequelize.getQueryInterface(),
+      Sequelize
+    ]
+  },
+  logging: false,
+  storage: 'sequelize',
+  storageOptions: {
+    sequelize
+  }
+});
+
+async function setup() {
+  await umzug.up();
+}
+
+async function teardown() {
+  await umzug.down({ to: 0 });
+}
+
 class DataStore {
   constructor(args = {}) {
     this.file = args.file || 'localstore';
     this.location = args.location;
+    this.scope = args.scope;
+
+    this.ensureStore();
+  }
+
+  ensureStore() {
+    const folderPath = this.getDataStoreFolder();
+    const filePath = this.getDataStoreFile();
+
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath);
+    }
+
+    if (!fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, '{}');
+    }
   }
 
   getDataStoreFolder() {
@@ -192,21 +235,30 @@ class DataStore {
   }
 
   store(key, data, options = {}) {
-    var jsonData = this.readLocalStore();
+    const localStoreData = this.readLocalStore();
 
     if ('setIf' in options) {
-      this.validateConditionExpression(key, jsonData, options);
+      this.validateConditionExpression(key, localStoreData, options);
     }
     if ('ttl' in options && options.ttl > 0) {
       data.__expireAfter = this.epochTtl(options.ttl); //eslint-disable-line no-underscore-dangle
     }
+
+    if (this.scope) {
+      localStoreData[this.scope] = localStoreData[this.scope] || {};
+    }
+
+    const jsonData = this.scope ? localStoreData[this.scope] : localStoreData;
+
     jsonData[key] = data;
-    fs.writeFileSync(this.getDataStoreFile(), JSON.stringify(jsonData));
+
+    fs.writeFileSync(this.getDataStoreFile(), JSON.stringify(localStoreData));
     return { 'Created': true };
   }
 
   fetch(key) {
-    const jsonData = this.readLocalStore();
+    const localStoreData = this.readLocalStore();
+    const jsonData = this.scope ? localStoreData[this.scope] || {} : localStoreData;
     const data = jsonData[key];
 
     if (data && data.__expireAfter) { //eslint-disable-line no-underscore-dangle
@@ -214,7 +266,7 @@ class DataStore {
         return jsonData[key];
       }
       delete jsonData[key];
-      fs.writeFileSync(this.getDataStoreFile(), JSON.stringify(jsonData));
+      fs.writeFileSync(this.getDataStoreFile(), JSON.stringify(localStoreData));
       return jsonData[key];
     }
     return jsonData[key];
@@ -238,102 +290,20 @@ class DataStore {
   }
 
   delete(key) {
-    var jsonData = this.readLocalStore();
+    const localStoreData = this.readLocalStore();
+    const jsonData = this.scope ? localStoreData[this.scope] || {} : localStoreData;
 
     delete jsonData[key];
-    fs.writeFileSync(this.getDataStoreFile(), JSON.stringify(jsonData));
+
+    fs.writeFileSync(this.getDataStoreFile(), JSON.stringify(localStoreData));
     return { 'Deleted': true };
-  }
-}
-
-const storage = new DataStore({});
-
-function keyNamespace() {
-  return `${nsUtil.getNamespace()['app_id']}_oauth`;
-}
-
-function stateNamespace() {
-  return `${nsUtil.getNamespace()['app_id']}_oauth_appstate`;
-}
-
-function iparamsNamespace() {
-  return `${nsUtil.getNamespace()['app_id']}_oauth_iparams`;
-}
-
-function fetchCredentialsForAccount() {
-  try {
-    return storage.fetch(keyNamespace());
-  }
-  catch (err) {
-    return err;
-  }
-}
-
-function fetchCredentialsForAgent(req) {
-  const access_token = req.body.tokens.access_token ? cryptoUtil.decryptToken(req.body.tokens.access_token) : '';
-  const refresh_token = req.body.tokens.refresh_token ? cryptoUtil.decryptToken(req.body.tokens.refresh_token) : '';
-
-  return {
-    access_token,
-    refresh_token
-  };
-}
-
-function storeCredentials(data) {
-  try {
-    storage.store(keyNamespace(), data);
-  }
-  catch (err) {
-    return err;
-  }
-}
-
-function storeState(data) {
-  try {
-    storage.store(stateNamespace(), data);
-  }
-  catch (err) {
-    return err;
-  }
-}
-
-function storeIparams(data) {
-  try {
-    storage.store(iparamsNamespace(), data);
-  }
-  catch (err) {
-    return err;
-  }
-}
-
-function fetchState() {
-  try {
-    return storage.fetch(stateNamespace());
-  }
-  catch (err) {
-    return err;
-  }
-}
-
-
-function fetchIparams() {
-  try {
-    return storage.fetch(iparamsNamespace());
-  }
-  catch (err) {
-    return err;
   }
 }
 
 module.exports = {
   DataStore,
-  oauth: {
-    storeState,
-    fetchState,
-    storeIparams,
-    fetchIparams,
-    storeCredentials,
-    fetchCredentialsForAccount,
-    fetchCredentialsForAgent
+  entityDB: {
+    setup,
+    teardown
   }
 };
