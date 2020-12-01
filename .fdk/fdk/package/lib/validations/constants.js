@@ -12,5 +12,18 @@ module.exports = {
     APPEND: 'append',
     SET: 'set',
     REMOVE: 'remove'
+  },
+  model: {
+    limit: {
+      entity: {
+        productName: 32,
+        organisationId: 32,
+        name: 30,
+        prefix: 5
+      },
+      entityField: {
+        type: 32
+      }
+    }
   }
 };

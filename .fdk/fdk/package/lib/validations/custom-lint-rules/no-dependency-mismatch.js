@@ -3,6 +3,7 @@
 const manifest = require('../../manifest');
 const fs = require('../../utils/file-util');
 const _ = require('lodash');
+const path = require('path');
 
 const SKIP_FOLDERS = [ 'node_modules' ];
 const ALLOWED_EXTNS = [ '.js' ];
@@ -55,6 +56,15 @@ module.exports = {
 
         if (manifest.dependencies.hasOwnProperty(dependency)) {
           return;
+        }
+
+        if (dependency.includes('/')) {
+          const modulePath =dependency.split(path.sep);
+
+          dependenciesSeen.push(modulePath[0]);
+          if (manifest.dependencies.hasOwnProperty(modulePath[0])) {
+            return;
+          }
         }
 
         return context.report({
