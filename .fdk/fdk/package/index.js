@@ -13,7 +13,6 @@ const fileUtil = require('./lib/utils/file-util');
 const help = require('./lib/cli/help');
 const pjson = require('./package.json');
 const updater = require('./lib/updater');
-const writeMetric = require('./lib/utils/metric-util');
 const suggest = require('./lib/utils/command-util').suggestCommand;
 
 global.PLATFORM_SOURCE = 'PLATFORM';
@@ -71,6 +70,7 @@ cmdRun.addOpt('a', 'tunnel-auth', 'Auth token for tunnel with ngrok', {
 });
 cmdRun.addOpt('c', 'clear-coverage', 'clear code-coverage stats');
 cmdRun.addOpt('s', 'skip-coverage', 'skip instrumenting code');
+cmdRun.addOpt('r', 'resync-entities', 'resync locally defined entities');
 cmdRun.addOpt('h', 'help', 'run command help.');
 cmdRun.addOpt('t', 'tunnel', 'Enable tunnel with ngrok');
 cmdRun.addOpt('v', 'skip-validation', 'Skip specific validations.', {
@@ -146,8 +146,6 @@ catch (err) {
 
 debuglog(`Running with args ${JSON.stringify(res)}`);
 
-writeMetric.store('command', {'timestamp': `${Date.now()}`, 'command' : `${res.cmd}`, 'arguments': `${JSON.stringify([...res.opts])}`});
-
 function showHelp(command) {
   if (res.opts.has('h')) {
     help.printHelp(command);
@@ -169,7 +167,7 @@ if (res.opts.has('app-dir')) {
   }
 }
 
-function runCLI(error) {
+async function runCLI(error) {
   if (error) {
     console.log(error);
     process.exit(1);
@@ -220,19 +218,19 @@ function runCLI(error) {
       const template = res.optArg.get('t');
       const product = res.optArg.get('p');
 
-      require('./lib/cli/init').run(process.cwd(), template, product);
+      await require('./lib/cli/init').run(process.cwd(), template, product);
       break;
     }
 
     case 'run': {
       showHelp('run');
-      require('./lib/cli/run').run(res.opts.has('c'), res.opts.has('s'), res.optArg.get('v'), res.opts.has('t'), res.opts.has('a') ? res.optArg.get('a') : null);
+      await require('./lib/cli/run').run(res.opts.has('c'), res.opts.has('s'), res.optArg.get('v'), res.opts.has('t'), res.opts.has('a') ? res.optArg.get('a') : null, res.opts.has('r'));
       break;
     }
 
     case 'validate': {
       showHelp('validate');
-      const validationMessages = require('./lib/cli/validate').run(
+      const validationMessages = await require('./lib/cli/validate').run(
         validationConst.PRE_PKG_VALIDATION, res.optArg.get('v'), res.opts.has('fix'));
 
       errorHandler.printError('Validation failed due to the following issue(s):', validationMessages);
@@ -242,25 +240,25 @@ function runCLI(error) {
 
     case 'pack': {
       showHelp('pack');
-      require('./lib/cli/pack').run(res.optArg.get('v'));
+      await require('./lib/cli/pack').run(res.optArg.get('v'));
       break;
     }
 
     case 'version': {
       showHelp('version');
-      require('./lib/cli/version').run();
+      await require('./lib/cli/version').run();
       break;
     }
 
     case 'generate': {
       showHelp('generate');
-      require('./lib/cli/generate').run();
+      await require('./lib/cli/generate').run();
       break;
     }
 
   case 'test': {
     showHelp('test');
-    require('./lib/cli/test').run(res.opts.has('c'), res.opts.has('s'));
+    await require('./lib/cli/test').run(res.opts.has('c'), res.opts.has('s'));
     break;
   }
 
