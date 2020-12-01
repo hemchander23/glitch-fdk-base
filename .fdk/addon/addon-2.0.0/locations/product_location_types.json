@@ -1,0 +1,56 @@
+{
+  "location_types": {
+    "freshdesk": [
+      {
+        "scope": "agent",
+        "folder": "app"
+      }
+    ],
+    "freshservice": [
+      {
+        "scope": "agent",
+        "folder": "app"
+      }
+    ],
+    "freshsales": [
+      {
+        "scope": "agent",
+        "folder": "app"
+      }
+    ],
+    "freshchat": [
+      {
+        "scope": "agent",
+        "folder": "app"
+      },
+      {
+        "scope": "visitor",
+        "folder": "visitor-app"
+      }
+    ],
+    "freshconnect": [
+      {
+        "scope": "agent",
+        "folder": "app"
+      }
+    ],
+    "freshcaller": [
+      {
+        "scope": "agent",
+        "folder": "app"
+      }
+    ],
+    "freshteam": [
+      {
+        "scope": "agent",
+        "folder": "app"
+      }
+    ],
+    "freshworks_crm": [
+      {
+        "scope": "agent",
+        "folder": "app"
+      }
+    ]
+  }
+}

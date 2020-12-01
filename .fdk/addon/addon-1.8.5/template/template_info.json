@@ -1,0 +1,66 @@
+{
+  "template_order": {
+    "freshdesk": [
+      "your_first_app",
+      "your_first_serverless_app",
+      "sample_crm_app",
+      "your_hello_world_app",
+      "advanced_iparams_app"
+    ],
+    "freshservice": [
+      "your_first_app",
+      "your_first_serverless_app"
+    ],
+    "freshsales": [
+      "your_first_app",
+      "your_first_serverless_app"
+    ],
+    "freshchat": [
+      "your_first_app",
+      "your_first_serverless_app"
+    ],
+    "freshconnect": [
+      "your_first_app"
+    ],
+    "freshcaller": [
+      "your_first_app",
+      "your_first_serverless_app"
+    ],
+    "freshteam": [
+      "your_first_app",
+      "your_first_serverless_app"
+    ],
+    "omni": [
+      "your_first_app"
+    ],
+    "freshworks_crm": [
+      "your_first_app",
+      "your_first_serverless_app"
+    ]
+  },
+  "serverless_apps": {
+    "freshdesk": [
+      "your_first_serverless_app"
+    ],
+    "freshsales": [
+      "your_first_serverless_app"
+    ],
+    "freshservice": [
+      "your_first_serverless_app"
+    ],
+    "freshchat": [
+      "your_first_serverless_app"
+    ],
+    "freshconnect": [],
+    "freshcaller": [
+      "your_first_serverless_app"
+    ],
+    "freshteam": [
+      "your_first_serverless_app"
+    ],
+    "freshworks_crm": [
+      "your_first_serverless_app"
+    ],
+    "omni": []
+  }
+}

@@ -1,0 +1,385 @@
+{
+  "freshdesk": {
+    "location": [
+      {
+        "name": "ticket_sidebar",
+        "scope": "agent"
+      },
+      {
+        "name": "contact_sidebar",
+        "scope": "agent"
+      },
+      {
+        "name": "ticket_requester_info",
+        "scope": "agent"
+      },
+      {
+        "name": "ticket_top_navigation",
+        "scope": "agent"
+      },
+      {
+        "name": "ticket_background",
+        "scope": "agent"
+      },
+      {
+        "name": "contact_background",
+        "scope": "agent"
+      },
+      {
+        "name": "ticket_attachment",
+        "scope": "agent"
+      },
+      {
+        "name": "ticket_conversation_editor",
+        "scope": "agent"
+      },
+      {
+        "name": "new_ticket_requester_info",
+        "scope": "agent"
+      },
+      {
+        "name": "new_ticket_background",
+        "scope": "agent"
+      },
+      {
+        "name": "new_email_requester_info",
+        "scope": "agent"
+      },
+      {
+        "name": "new_email_background",
+        "scope": "agent"
+      },
+      {
+        "name": "ticket_time_entry",
+        "scope": "agent"
+      },
+      {
+        "name": "cti_global_sidebar",
+        "scope": "agent"
+      },
+      {
+        "name": "contact_list_background",
+        "scope": "agent"
+      },
+      {
+        "name": "time_entry_background",
+        "scope": "agent"
+      },
+      {
+        "name": "full_page_app",
+        "scope": "agent"
+      },
+      {
+        "name": "global_background",
+        "scope": "agent"
+      },
+      {
+        "name": "company_background",
+        "scope": "agent"
+      },
+      {
+        "name": "company_list_background",
+        "scope": "agent"
+      }
+    ],
+    "location_without_icons": [
+      {
+        "name": "ticket_background",
+        "scope": "agent"
+      },
+      {
+        "name": "contact_background",
+        "scope": "agent"
+      },
+      {
+        "name": "ticket_requester_info",
+        "scope": "agent"
+      },
+      {
+        "name": "new_ticket_requester_info",
+        "scope": "agent"
+      },
+      {
+        "name": "new_ticket_background",
+        "scope": "agent"
+      },
+      {
+        "name": "new_email_requester_info",
+        "scope": "agent"
+      },
+      {
+        "name": "new_email_background",
+        "scope": "agent"
+      },
+      {
+        "name": "contact_list_background",
+        "scope": "agent"
+      },
+      {
+        "name": "time_entry_background",
+        "scope": "agent"
+      },
+      {
+        "name": "global_background",
+        "scope": "agent"
+      },
+      {
+        "name": "company_background",
+        "scope": "agent"
+      },
+      {
+        "name": "company_list_background",
+        "scope": "agent"
+      }
+    ]
+  },
+  "freshservice": {
+    "location": [
+      {
+        "name": "ticket_sidebar",
+        "scope": "agent"
+      },
+      {
+        "name": "contact_sidebar",
+        "scope": "agent"
+      },
+      {
+        "name": "ticket_requester_info",
+        "scope": "agent"
+      },
+      {
+        "name": "change_sidebar",
+        "scope": "agent"
+      },
+      {
+        "name": "ticket_top_navigation",
+        "scope": "agent"
+      },
+      {
+        "name": "ticket_background",
+        "scope": "agent"
+      },
+      {
+        "name": "new_ticket_background",
+        "scope": "agent"
+      },
+      {
+        "name": "new_ticket_sidebar",
+        "scope": "agent"
+      },
+      {
+        "name": "new_change_sidebar",
+        "scope": "agent"
+      },
+      {
+        "name": "new_change_background",
+        "scope": "agent"
+      },
+      {
+        "name": "change_background",
+        "scope": "agent"
+      },
+      {
+        "name": "asset_sidebar",
+        "scope": "agent"
+      },
+      {
+        "name": "asset_top_navigation",
+        "scope": "agent"
+      },
+      {
+        "name": "new_service_request_sidebar",
+        "scope": "agent"
+      },
+      {
+        "name": "full_page_app",
+        "scope": "agent"
+      }
+    ],
+    "location_without_icons": [
+      {
+        "name": "ticket_background",
+        "scope": "agent"
+      },
+      {
+        "name": "new_ticket_background",
+        "scope": "agent"
+      },
+      {
+        "name": "new_change_background",
+        "scope": "agent"
+      },
+      {
+        "name": "change_background",
+        "scope": "agent"
+      }
+    ]
+  },
+  "freshsales": {
+    "location": [
+      {
+        "name": "left_nav_chat",
+        "scope": "agent"
+      },
+      {
+        "name": "left_nav_cti",
+        "scope": "agent"
+      },
+      {
+        "name": "lead_entity_menu",
+        "scope": "agent"
+      },
+      {
+        "name": "deal_entity_menu",
+        "scope": "agent"
+      },
+      {
+        "name": "sales_account_entity_menu",
+        "scope": "agent"
+      },
+      {
+        "name": "contact_entity_menu",
+        "scope": "agent"
+      },
+      {
+        "name": "lead_quick_actions",
+        "scope": "agent"
+      },
+      {
+        "name": "deal_quick_actions",
+        "scope": "agent"
+      },
+      {
+        "name": "sales_account_quick_actions",
+        "scope": "agent"
+      },
+      {
+        "name": "contact_quick_actions",
+        "scope": "agent"
+      },
+      {
+        "name": "full_page_app",
+        "scope": "agent"
+      }
+    ],
+    "location_without_icons": []
+  },
+  "freshchat": {
+    "location": [
+      {
+        "name": "conversation_message_editor",
+        "scope": "agent"
+      },
+      {
+        "name": "conversation_user_info",
+        "scope": "agent"
+      },
+      {
+        "name": "conversation_background",
+        "scope": "agent"
+      },
+      {
+        "name": "messenger_home",
+        "scope": "visitor"
+      }
+    ],
+    "location_without_icons": [
+      {
+        "name": "conversation_background",
+        "scope": "agent"
+      }
+    ]
+  },
+  "freshconnect": {
+    "location": [
+      {
+        "name": "chatbar_actions",
+        "scope": "agent"
+      }
+    ],
+    "location_without_icons": []
+  },
+  "freshcaller": {
+    "location": [
+      {
+        "name": "conversation_card",
+        "scope": "agent"
+      },
+      {
+        "name": "widget_conversation_card",
+        "scope": "agent"
+      },
+      {
+        "name": "notification_card",
+        "scope": "agent"
+      },
+      {
+        "name": "widget_notification_card",
+        "scope": "agent"
+      },
+      {
+        "name": "call_metrics_card",
+        "scope": "agent"
+      }
+    ]
+  },
+  "freshteam": {
+    "location": [
+      {
+        "name": "job_boards",
+        "scope": "agent"
+      },
+      {
+        "name": "full_page_app",
+        "scope": "agent"
+      }
+    ],
+    "location_without_icons": [
+      {
+        "name": "job_boards",
+        "scope": "agent"
+      }
+    ]
+  },
+  "freshworks_crm": {
+    "location": [
+      {
+        "name": "left_nav_chat",
+        "scope": "agent"
+      },
+      {
+        "name": "left_nav_cti",
+        "scope": "agent"
+      },
+      {
+        "name": "deal_entity_menu",
+        "scope": "agent"
+      },
+      {
+        "name": "sales_account_entity_menu",
+        "scope": "agent"
+      },
+      {
+        "name": "contact_entity_menu",
+        "scope": "agent"
+      },
+      {
+        "name": "deal_quick_actions",
+        "scope": "agent"
+      },
+      {
+        "name": "sales_account_quick_actions",
+        "scope": "agent"
+      },
+      {
+        "name": "contact_quick_actions",
+        "scope": "agent"
+      },
+      {
+        "name": "full_page_app",
+        "scope": "agent"
+      }
+    ],
+    "location_without_icons": []
+  }
+}

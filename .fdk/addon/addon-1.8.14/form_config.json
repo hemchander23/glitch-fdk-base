@@ -1,0 +1,17 @@
+{
+  "static_assets": "d16185quy6wls6.cloudfront.net",
+  "freshapps_js": "configs/v3/freshapps.js",
+  "freshapps_css": "configs/v3/freshapps.css",
+  "freshclient_js": "fdk/2.0/assets/fresh_client.js",
+  "product_theme": {
+    "freshdesk": "fdk/2.0/assets/freshdesk.css",
+    "freshsales": "fdk/2.0/assets/freshsales.css",
+    "freshservice": "fdk/2.0/assets/freshservice.css",
+    "freshchat": "fdk/2.0/assets/freshchat.css",
+    "freshconnect": "fdk/2.0/assets/freshconnect.css",
+    "freshcaller": "fdk/2.0/assets/freshcaller.css",
+    "freshteam": "fdk/2.0/assets/freshteam.css",
+    "freshworks_crm": "fdk/2.0/assets/freshworks_crm.css",
+    "freshworks": "fdk/2.0/assets/freshworks.css"
+  }
+}

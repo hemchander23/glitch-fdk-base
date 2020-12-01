@@ -1,0 +1,89 @@
+{
+  "timestamp": 1496400354326,
+  "account_id": 15,
+  "domain": "sample.freshteam.com",
+  "event": "onJobPostingCreate",
+  "region": "US",
+  "data": {
+    "jobposting": {
+      "id": 1,
+      "created_at": "2020-08-06 13:34:34 UTC",
+      "updated_at": "2020-08-07 12:59:19 UTC",
+      "deleted": false,
+      "title": "Sample Job Posting",
+      "description": "<p style=\"text-align: center;\">As a sales team member, you’ll be on the fore-front to uncover the market potential through generating leads, understanding the account opportunity, qualifying and closing sales and more importantly keep the business informed about new product or services that may require from time to time.</p>\n          <p style=\"text-align: center;\">&nbsp;</p>\n          <p style=\"text-align: center;\"><span style=\"font-size: xx-large;\">You’ll</span></p>\n          <p style=\"text-align: center;\">&nbsp;</p>\n          <ul>\n              <li>\n                  <p>Plan, develop business opportunities at your assigned accounts.</p>\n              </li>\n              <li>\n                  <p>Initiate sales process by collecting and understanding account requirements.</p>\n              </li>\n              <li>\n                  <p>Build rapport with potential accounts, clearly presenting our value proposition and capabilities; overcome objections and negotiate to the company’s best interest.</p>\n              </li>\n              <li>\n                  <p>Grow accounts by both introducing them to new products/ services and by expanding existing product/service offered.</p>\n              </li>\n              <li>\n                  <p>Contribute by sharing competitive products information and customer needs to the business.</p>\n              </li>\n              <li>\n                  <p>Achieve revenue goals by leading customer through an end-to-end sales cycles.</p>\n              </li>\n          </ul>\n          <p>&nbsp;</p>\n          <p style=\"text-align: center;\"><span style=\"font-size: xx-large;\">You’ll have</span></p>\n          <p>&nbsp;</p>\n          <ul>\n              <li>\n                  <p>7+ years of relevant work experience in business development and account management.</p>\n              </li>\n              <li>\n                  <p>Experience in highly cross-functional, fast-moving, global environment.</p>\n              </li>\n              <li>\n                  <p>Experience working with executive level business and marketing leaders within client organization.</p>\n              </li>\n              <li>\n                  <p>Passion to learn and solve complex customer requirement.</p>\n              </li>\n          </ul>\n          <p>&nbsp;</p>\n          <p>Experience in similar business would be a plus.</p>\n          <p>&nbsp;</p>\n          <p style=\"text-align: center;\">Think you are an ideal candidate!!! Apply Now.</p>\n          <p>&nbsp;</p>",
+      "status": "published",
+      "salary": {
+        "min": 80000,
+        "max": 100000,
+        "currency": "USD"
+      },
+      "applicant_access_type": "open",
+      "remote": false,
+      "show_pursue_as_career": false,
+      "closing_date": "2020-11-20",
+      "applicant_apply_link": "http://sample.freshteam.com/jobs/zfJ7u-Xsyj73/sample-job-posting",
+      "experience": "Executive/President",
+      "type": "full_time"
+    },
+    "associations": {
+      "branch": {
+        "id": 2,
+        "created_at": "2020-08-06 13:34:06 UTC",
+        "updated_at": "2020-08-06 13:34:06 UTC",
+        "deleted": false,
+        "name": "Branch office",
+        "state": null,
+        "city": "San Francisco",
+        "country_code": "US",
+        "zip": null,
+        "time_zone": "US/Pacific",
+        "currency": "USD",
+        "language": null,
+        "main_office": false,
+        "date_format": "MonthFirst"
+      },
+      "department": {
+        "id": 4,
+        "created_at": "2020-08-06 13:34:06 UTC",
+        "updated_at": "2020-08-06 13:34:06 UTC",
+        "deleted": false,
+        "name": "Sales"
+      },
+      "custom_field_values": {
+      },
+      "skills": [
+
+      ],
+      "remote_branches": [
+
+      ],
+      "requisitions": [
+        {
+          "id": 1,
+          "deleted": false,
+          "title": "Default Requisition",
+          "recruiters": [
+            {
+              "id": 1,
+              "first_name": "John",
+              "last_name": "Smith",
+              "official_email": "john@freshteam.com"
+            }
+          ],
+          "hiring_managers": [
+
+          ],
+          "panel_members": [
+
+          ]
+        }
+      ]
+    },
+    "actor": {
+      "id": 9,
+      "name": "Tyron Dr. Dena",
+      "email": "124498fannie.jones@example.org"
+    }
+  }
+}

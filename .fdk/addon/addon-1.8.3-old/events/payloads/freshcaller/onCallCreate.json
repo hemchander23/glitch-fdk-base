@@ -1,0 +1,68 @@
+{
+  "account_id": "82918",
+  "domain": "sample.freshcaller.com",
+  "event": "onCallCreate",
+  "timestamp": 1583839686,
+  "region": "US",
+  "data": {
+    "call": {
+      "phone_number": "+1234567891",
+      "root_call_id": null,
+      "created_time": "2020-03-10T11:28:05.000Z",
+      "assigned_ivr_id": null,
+      "assigned_team_id": null,
+      "phone_number_id": 46851,
+      "participants": [
+        {
+          "participant_type": "Customer",
+          "duration": null,
+          "caller_id": 7994085,
+          "caller_number": "+11234568791",
+          "created_time": "2020-03-10T11:28:05.000Z",
+          "connection_type": 0,
+          "enqueued_time": null,
+          "cost_unit": "usd",
+          "duration_unit": "seconds",
+          "id": 321,
+          "cost": null,
+          "participant_id": 318,
+          "updated_time": "2020-03-10T11:28:05.000Z",
+          "call_id": 135,
+          "call_status": 0
+        },
+        {
+          "participant_type": "Agent",
+          "duration": null,
+          "caller_id": null,
+          "caller_number": null,
+          "created_time": "2020-03-10T11:28:05.000Z",
+          "connection_type": 1,
+          "enqueued_time": null,
+          "cost_unit": "usd",
+          "duration_unit": "seconds",
+          "id": 322,
+          "cost": null,
+          "participant_id": 694,
+          "updated_time": "2020-03-10T11:28:05.000Z",
+          "call_id": 135,
+          "call_status": 8
+        }
+      ],
+      "direction": "outgoing",
+      "assigned_call_queue_id": null,
+      "id": 135,
+      "parent_call_id": null,
+      "bill_duration": null,
+      "bill_duration_unit": "seconds",
+      "updated_time": "2020-03-10T11:28:05.000Z",
+      "call_notes": "customer needs to cancel flight",
+      "recording_to_redact": null,
+      "recording": null,
+      "assigned_agent_id": 139694
+    },
+    "associations": {},
+    "actor": {
+      "type": "system"
+    }
+  }
+}

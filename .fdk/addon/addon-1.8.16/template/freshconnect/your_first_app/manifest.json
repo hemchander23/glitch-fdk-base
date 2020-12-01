@@ -1,0 +1,13 @@
+{
+  "platform-version": "2.0",
+  "product": {
+    "freshconnect": {
+      "location": {
+        "chatbar_actions": {
+          "url": "template.html",
+          "icon": "icon.svg"
+        }
+      }
+    }
+  }
+}

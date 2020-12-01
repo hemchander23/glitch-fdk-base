@@ -1,0 +1,68 @@
+{
+  "timestamp": 1496400354326,
+  "account_id": "1",
+  "domain": "sample.freshteam.com",
+  "event": "onTimeOffCreate",
+  "region": "US",
+  "data": {
+    "timeoff": {
+      "id": 10,
+      "created_at": "2020-08-17 07:51:52 UTC",
+      "updated_at": "2020-08-17 07:51:52 UTC",
+      "user_id": 1,
+      "start_date": "2020-08-27",
+      "end_date": "2020-08-27",
+      "status": "pending",
+      "leave_units": 1,
+      "optional_leave_units": null,
+      "leave_type_id": 2,
+      "status_comments": "",
+      "approved_by_id": null,
+      "applied_by_id": 1,
+      "cancelled_by_id": null,
+      "rejected_by_id": null,
+      "comments": "fqwefwef",
+      "rejected_at": null,
+      "cancelled_at": null,
+      "cancelled_due_to_exit": false
+    },
+    "associations": {
+      "attachment": {
+        "id": 4,
+        "content_file_name": "sample.docx",
+        "content_file_size": 7448,
+        "description": "timeoff",
+        "url": "files.freshteam.com/docs/sample.docx"
+      },
+      "leave_type": {
+        "id": 2,
+        "deleted": false,
+        "name": "Earned",
+        "description": "Earned Leave",
+        "applicable_for": "all",
+        "default": true,
+        "auto_approve": false,
+        "auto_approve_after": null,
+        "auto_approve_limit": null,
+        "marital_status": "all"
+      },
+      "applied_by": {
+        "id": 1,
+        "first_name": "John",
+        "last_name": "uddeeiopaa",
+        "official_email": "john@freshteam.com"
+      },
+      "user": {
+        "id": 1,
+        "first_name": "John",
+        "last_name": "uddeeiopaa",
+        "official_email": "john@freshteam.com"
+      }
+    },
+    "actor": {
+      "id": 13,
+      "name": "Sean Dr. Greenfelder",
+      "email": "651497celestina@example.com"
+    }
+  }
+}
