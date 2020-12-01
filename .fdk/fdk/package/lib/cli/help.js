@@ -8,7 +8,7 @@ const MESSAGES = {
               ${boldify('EXAMPLE:')}$ fdk create\n\t$ fdk create --products freshservice --template your_first_app\n\t$ fdk create --app-dir /Users/user/myfirstapp
               \nCreates a new app. The directories and files created will vary depending on the chosen template.`,
   'run'     : `${boldify('USAGE:')}fdk run [--app-dir DIR]
-              ${boldify('OPTIONS:')}--app-dir         DIR where DIR is the path to the directory that contains the manifest file. If this option is not specified, the current directory is assumed to contain the manifest file.\n\t--clear-coverage  Reset coverage data collected so far.\n\t--skip-coverage   Skip instrumenting code during the current run.\n\t--tunnel   To start a tunnel using ngrok.\n\t--tunnel-auth <auth-token>   Authorization token to be used for ngrok.
+              ${boldify('OPTIONS:')}--app-dir         DIR where DIR is the path to the directory that contains the manifest file. If this option is not specified, the current directory is assumed to contain the manifest file.\n\t--clear-coverage  Reset coverage data collected so far.\n\t--skip-coverage   Skip instrumenting code during the current run.\n\t--tunnel          To start a tunnel using ngrok.\n\t--tunnel-auth <auth-token>   Authorization token to be used for ngrok.\n\t--resync-entities Flush local entity database and resync
               ${boldify('EXAMPLE:')}$ fdk run\n\t$ fdk run --app-dir /Users/user/myfirstapp
               \nRuns the app on a local server for testing.\
               \nOnce the server has started, append 'dev=true' to your Freshdesk support URL to start testing\

@@ -14,8 +14,12 @@ const validator = require('./validate');
 const digestFile = require('../utils/file-util').digest;
 const manifest = require('../manifest');
 const nsUtil = require('../utils/file-util').nsresolver;
-const validationConst = require('../validations/constants').validationContants;
-const writeMetric = require('../utils/metric-util');
+
+const {
+  PRE_PKG_VALIDATION,
+  POST_PKG_VALIDATION
+} = require('../validations/constants').validationContants;
+
 const productInfo = require('../utils/product-info-util');
 
 const pkgName = `${nsUtil.getRootFolder()}${nsUtil.pkgExt}`;
@@ -80,10 +84,6 @@ function fetchDigestFile(callback) {
   return digestFile.genDigestFile(() => callback(null, [ './digest.md5' ]));
 }
 
-function fetchMetricFile(callback) {
-  return writeMetric.addMetrics(() => callback());
-}
-
 function generateZIP(zipper) {
   function packFiles(error, files) {
     if (error) {
@@ -106,7 +106,6 @@ function generateZIP(zipper) {
     fetchServerDirectory,
     fetchConfigDirectory,
     fetchManifestFile,
-    fetchMetricFile,
     fetchActionFile,
     fetchReportFile,
     fetchREADMEFile,
@@ -116,7 +115,6 @@ function generateZIP(zipper) {
 
 function cleanFiles(errored) {
   digestFile.delDigestFile();
-  writeMetric.removeMetrics();
 
   if (errored) {
     debuglog('Deleting dist/ directory.');
@@ -133,14 +131,14 @@ function packApp(skipValidation) {
 
   const outputStream = fileUtil.createWriteStream(dest);
 
-  outputStream.on('close', function(error) {
+  outputStream.on('close', async function(error) {
     if (error) {
       cleanFiles(true);
       debuglog(`Error while creating package ${error.message}`);
       return eh.error(new Error(PACKAGE_ERROR_MESSAGE));
     }
 
-    const postPkgValidation = validator.run(validationConst.POST_PKG_VALIDATION, skipValidation);
+    const postPkgValidation = await validator.run(POST_PKG_VALIDATION, skipValidation);
     const product = Object.keys(manifest.product)[0];
 
     if (!_.isEmpty(postPkgValidation)) {
@@ -165,10 +163,10 @@ function packApp(skipValidation) {
 }
 
 module.exports = {
-  run: function(skipValidation) {
+  run: async function(skipValidation) {
     debuglog(`'pack' called with ${JSON.stringify(arguments)}`);
 
-    const errors = validator.run(validationConst.PRE_PKG_VALIDATION, skipValidation);
+    const errors = await validator.run(PRE_PKG_VALIDATION, skipValidation);
 
     if (errors.length > 0) {
       eh.printError('Packing failed due to the following issue(s):', errors);

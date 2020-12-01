@@ -18,7 +18,8 @@ const Mocha = require('mocha'),
 const manifest = require('../manifest.js'),
       fileUtil = require('../utils/file-util.js'),
       coverageUtil = require('../utils/coverage-util.js'),
-      dependencyInstaller = require('../utils/install-util.js');
+      dependencyInstaller = require('../utils/install-util.js'),
+      eventUtil = require('../utils/event-util');
 
 const eventHandler = require('../event_handler/framework.js');
 
@@ -43,22 +44,26 @@ Object.assign(Promise.prototype, {
   fail: util.deprecate(Promise.prototype.catch, '`Promise.fail` will soon be deprecated, please use `Promise.catch`')
 });
 
-function getCategoryNameforEvent(event) {
+function getCategoryNameforEvent(event, product) {
   if ([ 'onAppInstall', 'onAppUninstall' ].includes(event)) {
     return 'appEvent';
   }
 
-  if (event.startsWith('on')) {
+  if (eventUtil.isValidEvent(product, event)) {
     return 'productEvent';
   }
 
   return 'request';
 }
 
-function invoke(event, payload) {
+function invoke(event, payload, reqProduct) {
+  const product = reqProduct || Object.keys(manifest.product)[0];
   const request = {
+    meta:{
+      product: product
+    },
     body: {
-      categoryName: getCategoryNameforEvent(event),
+      categoryName: getCategoryNameforEvent(event, product),
       categoryArgs: {
         methodName: event,
         methodParams: payload
@@ -66,6 +71,10 @@ function invoke(event, payload) {
     },
     timeout: 5000
   };
+
+  if (eventUtil.manifestEvents){
+    request.meta.events = eventUtil.manifestEvents.events[product];
+  }
 
   debuglog(`invoking ${event} with "${JSON.stringify(request)}"`);
 

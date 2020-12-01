@@ -49,6 +49,5 @@ module.exports = {
     inquirer.prompt(questions.ques_file).then(ans => {
       generateFile[ans.file_name]();
     });
-
   }
 };

@@ -16,6 +16,7 @@ const _ = require('lodash');
 const appRouter = require('../routes/app');
 const eventsRouter = require('../routes/beevents');
 const dpRouter = require('../routes/data-pipe');
+const productSwitchRouter = require('../routes/productSwitcher');
 const configsRouter = require('../routes/configs');
 const iframeRouter = require('../routes/iframe');
 const oauthRouter = require('../routes/oauth2').oauthRouter;
@@ -32,31 +33,33 @@ const validator = require('./validate');
 const validationConst = require('../validations/constants').validationContants;
 const watcher = require('../watcher');
 const configUtil = require('../utils/config-util');
+const coUtil = require('../utils/custom-objects');
 
 const app = express();
 var cred = {};
 cred[process.env.FW_GLITCH_USER || 'admin'] = process.env.FW_GLITCH_PASSWORD || 'password';
 //Home
-app.get("/",function(req,res){
-	var homeContent = "Check the README.MD";
-	try{
-	  homeContent = fs.readFileSync("/app/index.html");
-	}catch(e){
-	}
-	res.status(200).type('text/html').send(homeContent);
+app.get("/", function (req, res) {
+  var homeContent = "Check the README.MD";
+  try {
+    homeContent = fs.readFileSync("/app/index.html");
+  } catch (e) {}
+  res.status(200).type('text/html').send(homeContent);
 });
 //Set the basic auth to protect unauthorized access
-if(!process.env.INSEC)
-app.use(basicAuth({
-	users: cred
-}));
+if (!process.env.INSEC)
+  app.use(basicAuth({
+    users: cred
+  }));
 
 const expressWs = ws(app);
 const istanbulBodyParser = bodyParser.json({
   limit: '5MB'
 });
 const normalBodyParser = bodyParser.json();
-const textBodyParser = bodyParser.text({ type: '*/*' });
+const textBodyParser = bodyParser.text({
+  type: '*/*'
+});
 const exWss = expressWs.getWss('/notify-change');
 const productInfo = require('../utils/product-info-util');
 
@@ -71,19 +74,27 @@ const CONFIG_ASSETS = '/custom_configs/assets';
 global.PLATFORM_SOURCE = 'PLATFORM';
 global.APP_SOURCE = 'APP';
 
+function listenOn(app, port) {
+  return new Promise((resolve, reject) => {
+    const server = app.listen(port)
+      .once('listening', () => resolve(server))
+      .once('error', reject);
+  });
+}
+
 async function createTunnel(authToken) {
   try {
-  console.log('Establishing ngrok tunnel. Please wait...');
-  const tunnelUrl = await ngrok.connect({
-    authtoken: authToken || '',
-    addr: HTTP_PORT
-  });
+    console.log('Establishing ngrok tunnel. Please wait...');
+    const tunnelUrl = await ngrok.connect({
+      authtoken: authToken || '',
+      addr: HTTP_PORT
+    });
 
-  eventsRouter.setTunnel(tunnelUrl);
-  console.log(`\nTunnel Open. Tunnel URL: ${tunnelUrl}\n`);
-} catch (err){
-  console.error(`Error while establishing connection with tunnel host:\n${JSON.stringify(err, null, 2)}\nPlease verify authorization details`);
-}
+    eventsRouter.setTunnel(tunnelUrl);
+    console.log(`\nTunnel Open. Tunnel URL: ${tunnelUrl}\n`);
+  } catch (err) {
+    console.error(`Error while establishing connection with tunnel host:\n${JSON.stringify(err, null, 2)}\nPlease verify authorization details`);
+  }
 }
 
 function logServerStartMsg() {
@@ -103,9 +114,20 @@ function logServerStartMsg() {
   }
 }
 
+function setupLifeCycle(forceResyncEntities) {
+  return coUtil.syncEntities(forceResyncEntities);
+}
+
 module.exports = {
-  run: (clearCoverage, skipCoverage, skipValidation, enableTunnel, authToken) => {
-    const validationMessages = validator.run(validationConst.RUN_VALIDATION, skipValidation);
+  async run(
+    clearCoverage,
+    skipCoverage,
+    skipValidation,
+    enableTunnel,
+    authToken,
+    forceResyncEntities
+  ) {
+    const validationMessages = await validator.run(validationConst.RUN_VALIDATION, skipValidation);
 
     eh.printError('The local server could not be started due to the following issue(s):', validationMessages);
 
@@ -119,7 +141,7 @@ module.exports = {
       coverageUtil.snooze();
     }
 
-    if (authToken &&!enableTunnel){
+    if (authToken && !enableTunnel) {
       console.error('WARNING: Please pass --tunnel flag to enable tunnel. Only auth token has been passed');
     }
 
@@ -133,9 +155,9 @@ module.exports = {
       }
 
       /**
-        * Provided selective template regex to make lodash skip ES6 template
-        * literal ${}
-        */
+       * Provided selective template regex to make lodash skip ES6 template
+       * literal ${}
+       */
       return callback(null, _.template(CACHED_VIEWS[templatePath], {
         interpolate: /<%=([\s\S]+?)%>/g
       })(options));
@@ -183,6 +205,7 @@ module.exports = {
 
     app.use(dpRouter);
     app.use(iframeRouter);
+    app.use(productSwitchRouter);
     app.use(configsRouter);
     app.use(eventsRouter);
     app.use(appRouter);
@@ -190,8 +213,11 @@ module.exports = {
     app.use(oauthRouter);
     app.use(actionsRouter);
     app.use('/coverage', express.static('/app/workspace/coverage'));
+
     // Finally, listen:
-    const server = app.listen(HTTP_PORT, async () => {
+    const server = await listenOn(app, HTTP_PORT);
+
+    try {
       if (manifest.features.includes('backend')) {
         await dependencyInstaller.run(manifest.dependencies);
       }
@@ -200,8 +226,13 @@ module.exports = {
         await createTunnel(authToken);
       }
 
+      await setupLifeCycle(forceResyncEntities);
+
       logServerStartMsg();
-    });
+    } catch (error) {
+      console.error(JSON.stringify(error.errors));
+      process.exit(1);
+    }
 
     process.on('SIGINT', async () => {
       if (enableTunnel) {
@@ -214,8 +245,7 @@ module.exports = {
     process.on('uncaughtException', async (err) => {
       if (err.code === 'EADDRINUSE') {
         console.error('Another instance of server running? Port in use.');
-      }
-      else {
+      } else {
         console.error(err);
       }
       if (enableTunnel) {
