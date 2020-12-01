@@ -1,34 +1,43 @@
 {
-  "_from": "https://dl.freshdev.io/cli/fdk-6.5.4.tgz",
-  "_id": "fdk@6.5.4",
+  "_from": "https://dl.freshdev.io/cli/fdk-6.9.0.tgz",
+  "_id": "fdk@6.9.0",
   "_inBundle": false,
-  "_integrity": "sha512-b49A+lONiltpDbEoQc1+4/Xtqy5UqQK4QTQeii75pt7KopvRfKnhS5FuaU3aXK9HLjPeyCzYcr996Fso+jHd2g==",
+  "_integrity": "sha512-7H3fYBoxQxbjr30MlH9jgnra0EOmpvnBbMZdGMTcBX0Poul81KxMWsKa5QcVJqahGfW7iEKeRJBjKKhPG2Ag/A==",
   "_location": "/fdk",
   "_phantomChildren": {},
   "_requested": {
     "type": "remote",
-    "raw": "https://dl.freshdev.io/cli/fdk-6.5.4.tgz",
-    "rawSpec": "https://dl.freshdev.io/cli/fdk-6.5.4.tgz",
-    "saveSpec": "https://dl.freshdev.io/cli/fdk-6.5.4.tgz",
-    "fetchSpec": "https://dl.freshdev.io/cli/fdk-6.5.4.tgz"
+    "raw": "https://dl.freshdev.io/cli/fdk-6.9.0.tgz",
+    "rawSpec": "https://dl.freshdev.io/cli/fdk-6.9.0.tgz",
+    "saveSpec": "https://dl.freshdev.io/cli/fdk-6.9.0.tgz",
+    "fetchSpec": "https://dl.freshdev.io/cli/fdk-6.9.0.tgz"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "https://dl.freshdev.io/cli/fdk-6.5.4.tgz",
-  "_shasum": "6688e04f2cf85e95d57850c30acd74c70818a46e",
-  "_spec": "https://dl.freshdev.io/cli/fdk-6.5.4.tgz",
-  "_where": "/private/tmp/fc1",
+  "_resolved": "https://dl.freshdev.io/cli/fdk-6.9.0.tgz",
+  "_shasum": "c8f83956c17c89fdc24503717a27b3b9444767e5",
+  "_spec": "https://dl.freshdev.io/cli/fdk-6.9.0.tgz",
+  "_where": "/Users/hemchandersundar/Desktop/temp2",
   "author": {
-    "name": "Subhash"
+    "name": "Freshworks Inc"
   },
   "bin": {
     "fdk": "index.js"
   },
   "bundleDependencies": false,
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "./cz-config.js"
+    }
+  },
   "dependencies": {
     "adm-zip": "^0.4.11",
     "ajv": "4.11.8",
+    "ajv-keywords": "^3.5.2",
     "archiver": "^1.0.0",
     "async": "^2.1.4",
     "body-parser": "^1.15.0",
@@ -57,8 +66,12 @@
     "passport-oauth2-refresh": "^1.0.0",
     "request": "2.88.0",
     "requestretry": "^4.0.2",
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0",
     "sinon": "6.3.5",
+    "sqlite3": "^5.0.0",
     "sync-request": "5.0.0",
+    "umzug": "^2.3.0",
     "uuid": "^3.1.0",
     "validator": "^9.0.0",
     "wiz-cliparse": "^0.5.4"
@@ -67,8 +80,11 @@
   "description": "Freshworks Development Kit",
   "devDependencies": {
     "chai": "^4.1.2",
+    "commitizen": "^4.1.2",
+    "cz-customizable": "^6.2.0",
     "gulp": "^4.0.0",
     "gulp-replace": "^0.5.4",
+    "husky": "^4.2.5",
     "mocha": "^5.0.0",
     "nock": "^9.1.4",
     "nyc": "^11.2.1",
@@ -99,7 +115,8 @@
       "global-require": 0,
       "complexity": 0,
       "max-nested-callbacks": 0,
-      "init-declarations": 0
+      "init-declarations": 0,
+      "new-cap": "off"
     },
     "overrides": {
       "files": [
@@ -118,6 +135,11 @@
     "extras/",
     "marketplace_configs_js/"
   ],
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
+  },
   "license": "Apache-2.0",
   "main": "index.js",
   "name": "fdk",
@@ -148,6 +170,7 @@
   "private": true,
   "scripts": {
     "code-sanity": "yarn check --integrity && yarn lint",
+    "commit": "git-cz",
     "future-tests": "NODE_ENV=test nyc --all mocha _test/**",
     "generate-addon": "./node_modules/gulp/bin/gulp.js generate-addon-zip",
     "generate-fdk": "./node_modules/gulp/bin/gulp.js production && npm pack",
@@ -156,7 +179,7 @@
     "precommit": "yarn install && yarn code-sanity && yarn test && yarn remote-parity",
     "remote-parity": "git fetch && [ \"$(git rev-parse HEAD)\" == \"$(git rev-parse @{u})\" ]",
     "test": "yarn unit-tests",
-    "unit-tests": "NODE_ENV=test nyc mocha --exit -t 15000 ./test/*.js"
+    "unit-tests": "NODE_ENV=test nyc mocha --file ./test/utils/init.js --exit -t 15000 ./test/*.js"
   },
-  "version": "6.5.4"
+  "version": "6.9.0"
 }
