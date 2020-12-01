@@ -10,7 +10,7 @@ const appUtil = require(`${global.FDK_PATH}/lib/utils/app-util`);
 const fileUtil = require(`${global.FDK_PATH}/lib/utils/file-util`);
 const nsUtil = fileUtil.nsresolver;
 
-const Router = require(`${global.FDK_PATH}/node_modules/express`).Router;
+const Router = require(`/app/node_modules/express`).Router;
 const appsRouter = new Router();
 const LOCAL_URL = 'http://localhost:10001';
 let oauthStatus = 'notstarted';
