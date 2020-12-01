@@ -6,13 +6,14 @@ const OAuth2Strategy = require('passport-oauth2').Strategy;
 const passport = require('passport');
 const refresh = require('passport-oauth2-refresh');
 const uuid = require('uuid');
+const manifest = require('../manifest');
 
 const configUtil = require('../utils/config-util');
 const helper = require('../utils/helper-util');
 
 const httpUtil = require('../utils/http-util');
 const cryptoUtil = helper.crypto;
-const oauthUtil = require('../utils/data-util').oauth;
+const oauthUtil = require('../utils/oauth-util');
 
 const charset = 'utf8';
 const STRATEGY = 'oauth2';
@@ -28,6 +29,8 @@ const express = require('express');
 const Router = express.Router;
 
 const oauthRouter = new Router();
+
+const products = Object.keys(manifest.product);
 
 function readOAuthConfig() {
   if (cachedOAuthConfig) {
@@ -53,20 +56,21 @@ function isNotAgent() {
 */
 let oauthIParams = {};
 let callback = '';
+let product = '';
 
-function fetchOauthIparams() {
-  return oauthUtil.fetchIparams();
+function fetchOauthIparams(product) {
+  return oauthUtil.fetchIparams(product);
 }
 
-function fetchCredentials(req) {
+function fetchCredentials(req, product) {
   if (isNotAgent()) {
-    return oauthUtil.fetchCredentialsForAccount();
+    return oauthUtil.fetchCredentialsForAccount(product);
   }
 
   return oauthUtil.fetchCredentialsForAgent(req);
 }
 
-function tokenHandler(accessToken, refreshToken, oauthIparams, res) {
+function tokenHandler(accessToken, refreshToken, oauthIparams, res, product) {
   const credentials = {
     access_token : isNotAgent() ? accessToken : cryptoUtil.encryptToken(accessToken)
   };
@@ -78,8 +82,8 @@ function tokenHandler(accessToken, refreshToken, oauthIparams, res) {
   }
 
   if (isNotAgent()) {
-    oauthUtil.storeIparams(oauthIparams);
-    oauthUtil.storeCredentials(credentials);
+    oauthUtil.storeIparams(oauthIparams, product);
+    oauthUtil.storeCredentials(credentials, product);
 
     res.writeHead(httpUtil.status.found, {
       'Location': callback
@@ -93,6 +97,15 @@ function tokenHandler(accessToken, refreshToken, oauthIparams, res) {
   });
 }
 
+function getProductName(req) {
+  try {
+    return new URL(req.query.callback).searchParams.get('product') || req.query.product || products[0];
+  }
+  catch (ex) {
+    return products[0];
+  }
+}
+
 function getOAuthIparams(req) {
   /**
     If the authorization takes place for the first time, oauth_iparams are
@@ -102,13 +115,18 @@ function getOAuthIparams(req) {
   */
 
   if (isNotAgent()) {
-    const oauthIparamsCredentials = fetchOauthIparams();
+    const product = getProductName(req);
+    const oauthIparamsCredentials = fetchOauthIparams(product);
 
     if (req.query.oauth_iparams) {
       oauthIParams = JSON.parse(req.query.oauth_iparams);
     }
     else if (oauthIparamsCredentials && oauthIparamsCredentials.oauth_iparams) {
       oauthIParams = oauthIparamsCredentials;
+    } else if (oauthIparamsCredentials) {
+      oauthIParams = oauthIparamsCredentials;
+    } else {
+      oauthIParams = {};
     }
   }
 
@@ -116,9 +134,7 @@ function getOAuthIparams(req) {
 }
 
 function getOAuthConfigs(req) {
-
   const oauthConfig = readOAuthConfig();
-
   const templatedOAuthConfig = _.template(oauthConfig)(Object.assign({
     oauth_iparams: getOAuthIparams(req)
   }, helper.templateMethods));
@@ -146,16 +162,18 @@ function oauthInit(req, res, next) {
   const oAuthConfigs = getOAuthConfigs(req);
 
   const [customHeaders, authorizationParams] = fetchCustomOptions(oAuthConfigs);
+  const product = getProductName(req);
+  const queryString = req.query.callback ? `?callback=${req.query.callback}&product=${product}` : '';
 
   const oauthStrategy = new OAuth2Strategy({
     clientID: oAuthConfigs.client_id,
     clientSecret: oAuthConfigs.client_secret,
-    callbackURL: OAUTH_CALLBACK,
+    callbackURL: `${OAUTH_CALLBACK}${queryString}`,
     authorizationURL: oAuthConfigs.authorize_url,
     tokenURL: oAuthConfigs.token_url,
     customHeaders
   }, function (accessToken, refreshToken) {
-    tokenHandler(accessToken, refreshToken, oauthIParams, res);
+    tokenHandler(accessToken, refreshToken, oauthIParams, res, product);
   });
 
   oauthStrategy.authorizationParams = () => {
@@ -171,7 +189,8 @@ function oauthInit(req, res, next) {
 }
 
 function refreshInit(req, res) {
-  const data = fetchCredentials(req);
+  const currentProductName = product || products[0];
+  const data = fetchCredentials(req, currentProductName);
 
   if (data.refresh_token) {
     return refresh.requestNewAccessToken(STRATEGY, data['refresh_token'],
@@ -190,7 +209,7 @@ function refreshInit(req, res) {
         }
 
         if (isNotAgent()) {
-          oauthUtil.storeCredentials(credentials);
+          oauthUtil.storeCredentials(credentials, currentProductName);
           if (accessToken || refreshToken) {
             return res.status(httpUtil.status.ok).json({
               success: true
@@ -224,11 +243,13 @@ function verifyState(req, res, next) {
   const state = req.query.state;
 
   try {
+    const product = getProductName(req);
+
     if (!state) {
       throw new Error(BLANK_STATE);
     }
 
-    if (state !== oauthUtil.fetchState()) {
+    if (state !== oauthUtil.fetchState(product)) {
       throw new Error(INVALID_STATE);
     }
   }
@@ -242,6 +263,7 @@ function verifyState(req, res, next) {
 oauthRouter.use('/auth/index', (req, res, next) => {
   if (req.query.callback) {
     callback = req.query.callback;
+    product = getProductName(req);
   }
 
   if (isNotAgent()) {
@@ -251,7 +273,6 @@ oauthRouter.use('/auth/index', (req, res, next) => {
       return res.render('oauth-forms.html');
     }
   }
-
   oauthInit(req, res, next);
 });
 
@@ -262,11 +283,12 @@ oauthRouter.use('/auth/callback', (req, res, next) => {
 });
 
 oauthRouter.get('/auth/index', (req, res) => {
-  const oauthIparams = req.query.oauth_iparams ? JSON.parse(req.query.oauth_iparams) : {};
+  const oauthIparams = getOAuthIparams(req) || {};
   const stateUuid = uuid.v4();
+  const product = getProductName(req);
 
-  oauthUtil.storeIparams(oauthIparams);
-  oauthUtil.storeState(stateUuid);
+  oauthUtil.storeIparams(oauthIparams, product);
+  oauthUtil.storeState(stateUuid, product);
 
   passport.authenticate(STRATEGY, {
     state: stateUuid
@@ -278,7 +300,8 @@ oauthRouter.get('/auth/callback', passport.authenticate(STRATEGY, {
 }));
 
 oauthRouter.get('/accesstoken', (req, res) => {
-  const credentials = fetchCredentials(req);
+  const product = req.query.product || products[0];
+  const credentials = fetchCredentials(req, product);
 
   if (credentials) {
     return res.send(credentials.access_token);
@@ -291,7 +314,15 @@ oauthRouter.get('/oauth_iparams', (req, res) => {
   const oauthConfig = configUtil.getOAuthIparam();
 
   if (oauthConfig.oauth_iparams && !_.isEmpty(oauthConfig.oauth_iparams)) {
-    return res.json(oauthConfig.oauth_iparams);
+    const iparams = oauthConfig.oauth_iparams;
+
+    const values = getOAuthIparams(req) || {};
+
+    for (const key of Object.keys(iparams)) {
+      iparams[key].value = values[key];
+    }
+
+    return res.json(iparams);
   }
 
   return res.json({});

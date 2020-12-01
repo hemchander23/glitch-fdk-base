@@ -3,15 +3,19 @@
 const debuglog = __debug.bind(null, __filename);
 
 const DataStore = require(`${global.FDK_PATH}/lib/utils/data-util`).DataStore;
-const stateStore = new DataStore();
 const manifest = require(`${global.FDK_PATH}/lib/manifest.js`);
 const path = require('path');
 const configUtil = require(`${global.FDK_PATH}/lib/utils/config-util.js`);
+const appUtil = require(`${global.FDK_PATH}/lib/utils/app-util`);
+const fileUtil = require(`${global.FDK_PATH}/lib/utils/file-util`);
+const nsUtil = fileUtil.nsresolver;
 
-const Router = require(`/app/node_modules/express`).Router;
+const Router = require(`${global.FDK_PATH}/node_modules/express`).Router;
 const appsRouter = new Router();
-
+const LOCAL_URL = 'http://localhost:10001';
 let oauthStatus = 'notstarted';
+
+const getProductKey = (product) => nsUtil.getInternalNamespace('product_name', { product });
 
 const getExtensionDetail = () => ({
   extension_id: -1,
@@ -24,8 +28,8 @@ const getExtensionDetail = () => ({
   instructions: manifest.manifest.instructions,
   features: manifest.features,
   cover_art: {
-    thumb: 'http://localhost:10001/web/assets/freshworks_logo.svg',
-    thumb2x: 'http://localhost:10001/web/assets/freshworks_logo.svg'
+    thumb: `${LOCAL_URL}/web/assets/freshworks_logo.svg`,
+    thumb2x: `${LOCAL_URL}/web/assets/freshworks_logo.svg`
   },
   screenshots: [{
     large: 'https://dej20ntrln9u1.cloudfront.net/images/test_data/791/live_screenshot/large/Screen_Shot_2018_01_24_at_11.03.20_PM.png',
@@ -42,7 +46,7 @@ const getExtensionDetail = () => ({
   options: {},
   is_local: true,
   has_config: configUtil.hasConfig(),
-  configs_url: 'http://localhost:10001/custom_configs/form',
+  configs_url: `${LOCAL_URL}/custom_configs/form`,
   published_date: 'a few moments',
   platform_details: {
     '2.0': true
@@ -58,31 +62,48 @@ const getExtensionDetail = () => ({
   app_type: 1
 });
 
-const getInstalledExtensionDetail = () => ({
-  installed_extension_id: -1,
-  installed_versions: [ -1 ],
-  extension_id: -1,
-  version_id: -1,
-  installed: !!stateStore.fetch('isLocalAppInstalled'),
-  enabled: !!stateStore.fetch('isLocalAppEnabled'),
-  configs: configUtil.getValuesForLocalTesting() || {},
-  state: 2,
-  extension_type: 6
-});
+const getInstalledExtensionDetail = (product) => {
+  const productKey = getProductKey(product);
+  const stateStore = new DataStore({ scope: productKey });
+
+  return {
+    installed_extension_id: -1,
+    installed_versions: [-1],
+    extension_id: -1,
+    version_id: -1,
+    installed: !!stateStore.fetch('isLocalAppInstalled'),
+    enabled: !!stateStore.fetch('isLocalAppEnabled'),
+    configs: configUtil.getValuesForLocalTesting(product) || {},
+    state: 2,
+    extension_type: 6
+  };
+};
 
 appsRouter.get('/apps/customApps', (req, res) => {
-  const isLocalAppInstalled = !!stateStore.fetch('isLocalAppInstalled');
+  //Adding product query support for omni apps (for future omni app gallery E2E support)
+  const product = req.query.product || Object.keys(manifest.product)[0];
+  const productKey = getProductKey(product);
+  const stateStore = new DataStore({ scope: productKey });
 
-  return res.json([{
-    extensionDetail: getExtensionDetail(),
-    installedExtnDetail: isLocalAppInstalled ? getInstalledExtensionDetail() : {}
-  }]);
+  const isLocalAppInstalled = !!stateStore.fetch('isLocalAppInstalled');
+  let response = [];
+
+  if (Object.keys(manifest.product).includes(req.query.product)) {
+    response = [{
+      extensionDetail: getExtensionDetail(),
+      installedExtnDetail: isLocalAppInstalled ? getInstalledExtensionDetail(product) : {}
+    }];
+  }
+
+  return res.json(response);
 });
 
 appsRouter.get('/apps/:id', (req, res) => {
+  //Adding product query support for omni apps (for future omni app gallery E2E support)
+  const product = req.query.product || Object.keys(manifest.product)[0];
   const response = {
     extDetail: getExtensionDetail(),
-    installedExtn: getInstalledExtensionDetail()
+    installedExtn: getInstalledExtensionDetail(product)
   };
 
   debuglog(`/app/${req.params.id} responding with ${JSON.stringify(response)}`);
@@ -93,44 +114,69 @@ appsRouter.get('/apps/:id', (req, res) => {
 appsRouter.post('/apps/:id/install', (req, res) => {
   debuglog('Installing local app.');
 
-  configUtil.setConfig(req.body.configs);
+  //Adding product query support for omni apps (for future omni app gallery E2E support)
+  const product = req.query.product || Object.keys(manifest.product)[0];
+  const productKey = getProductKey(product);
+  const stateStore = new DataStore({ scope: productKey });
+
+  configUtil.setConfig(req.body.configs, product);
   stateStore.store('isLocalAppInstalled', true);
   stateStore.store('isLocalAppEnabled', true);
+  return appUtil.executeEvent('onAppInstall', req.body, res, {
+    statusCode: 200,
+    installed_extension_id: -1
+  }, product);
+});
 
-  return res.send({
-    statusCode: 200
-  });
+appsRouter.get('/apps/:id/app_setup_event_status', (req, res) => {
+  debuglog('App Event Status Check.');
+  //Adding product query support for omni apps (for future omni app gallery E2E support)
+  const product = req.query.product || Object.keys(manifest.product)[0];
+  const eventName = req.query.event === 'delete' ? 'onAppUninstall' : 'onAppInstall';
+
+  return appUtil.checkAppEventStatus(eventName, res, product);
 });
 
 appsRouter.delete('/apps/:id/uninstall', (req, res) => {
   debuglog('Uninstalling local app.');
-  configUtil.purgeConfig();
+  //Adding product query support for omni apps (for future omni app gallery E2E support)
+  const product = req.query.product || Object.keys(manifest.product)[0];
+  const productKey = getProductKey(product);
+  const stateStore = new DataStore({ scope: productKey });
+
+  configUtil.purgeConfig(product);
   stateStore.delete('isLocalAppInstalled');
   stateStore.delete('isLocalAppEnabled');
   // this wont work due to name spacing issues
   stateStore.delete('oauth');
-
-  return res.send({
-    statusCode: 200
-  });
+  return appUtil.executeEvent('onAppUninstall', req.body, res, {
+    statusCode: 200,
+    installed_extension_id: -1
+  }, product);
 });
 
 appsRouter.get('/apps/:id/configs', (req, res) => {
   debuglog('Fetching local app configs.');
+  //Adding product query support for omni apps (for future omni app gallery E2E support)
+  const product = req.query.product || Object.keys(manifest.product)[0];
 
   return res.send({
     statusCode: 200,
-    configs: configUtil.getValuesForLocalTesting()
+    configs: configUtil.getValuesForLocalTesting(product)
   });
 });
 
 appsRouter.put('/apps/:id/update', (req, res) => {
   debuglog(`Received local app update call. ${JSON.stringify(req.body)}`);
+  //Adding product query support for omni apps (for future omni app gallery E2E support)
+  const product = req.query.product || Object.keys(manifest.product)[0];
 
   const state = req.body.state;
+  const productKey = getProductKey(product);
+  const stateStore = new DataStore({ scope: productKey });
 
   if (state === 'edit') {
-    configUtil.setConfig(req.body.configs);
+    configUtil.setConfig(req.body.configs, product);
   }
 
   if (state === 'enable') {
@@ -171,8 +217,10 @@ appsRouter.post('/data-pipe', (req, res) => {
 
 appsRouter.get('/apps/:id/:version/app_oauth_handshake', (req, res) => {
   oauthStatus = 'started';
+//Adding product query support for omni apps (for future omni app gallery E2E support)
+  const product = req.query.product || Object.keys(manifest.product)[0];
 
-  return res.redirect('/auth/index?callback=/oauth_landing.html');
+  return res.redirect(`/auth/index?callback=${LOCAL_URL}/oauth_landing.html?product=${product}`);
 });
 
 appsRouter.post('/apps/:id/reauthorize', (req, res) => res.send({ status: 200 }));

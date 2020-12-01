@@ -18,18 +18,30 @@ const addonVersion = dbApi.fetch('version_details').addon.version;
 
 function getEventData(req, res) {
   const event = req.params.event;
+  let product = req.query.product;
 
   try {
-    const eventData = JSON.parse(fileUtil.readFile(`${process.cwd()}/server/test_data/${event}.json`));
+    let filePath = null;
+
+    if (product) {
+      filePath = `${process.cwd()}/server/test_data/${product}/${event}.json`;
+    }
+    else {
+      filePath = `${process.cwd()}/server/test_data/${event}.json`;
+    }
+    let eventData = JSON.parse(fileUtil.readFile(filePath));
 
     if (!eventData) {
-      console.log(`Error while parsing ${event}.json`);
-      res.json({});
-    } else {
-      res.json(eventData);
+      console.log(`\x1b[33m[WARN]\x1b[0m ${event}.json does not exist. File will be generated after simulation`);
+      if (!product) {
+        product = Object.keys(manifest.product)[0];
+      }
+      eventData = JSON.parse(fileUtil.readFile(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/events/payloads/${product}/${event}.json`));
     }
+    res.json(eventData);
   }
   catch (err) {
+    console.log(err.message);
     console.log(`Error while parsing ${event}.json`);
     res.json({});
   }
@@ -37,39 +49,36 @@ function getEventData(req, res) {
 
 function storeEventData(req, res) {
   const event = req.params.event;
+  const product = req.query.product;
 
-  fileUtil.writeFile(`${process.cwd()}/server/test_data/${event}.json`, JSON.stringify(req.body, null, 2));
+  let pathToWrite = `${process.cwd()}/server/test_data/${event}.json`;
+
+  if (product) {
+    pathToWrite = `${process.cwd()}/server/test_data/${product}/${event}.json`;
+  }
+  fileUtil.writeFile(pathToWrite, JSON.stringify(req.body, null, 2));
   res.send();
 }
 
 function resetEventData(req, res) {
   const event = req.params.event;
-  const product = Object.keys(manifest.product)[0];
+  const product = req.query.product || Object.keys(manifest.product)[0];
   const eventData = require(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/events/payloads/${product}/${event}.json`);
 
   fileUtil.writeFile(`${process.cwd()}/server/test_data/${event}.json`, JSON.stringify(eventData, null, 2));
   res.json(eventData);
 }
 
-function eventsPage(req, res) {
-  if (manifest.features.includes('backend')) {
-    return res.render('event-page.html');
-  }
-
-  return res.render('event-page-404.html');
-}
-
 function eventsList(req, res) {
-  const product = Object.keys(manifest.product)[0];
+  const product = req.query.product || Object.keys(manifest.product)[0];
 
   res.send({ events: eventUtil.eventsList(product) });
 }
 
-webEventsRouter.use('/web/assets', express.static(`${__dirname}/../web/assets`));
-webEventsRouter.get('/web/events', eventsPage);
 webEventsRouter.get('/web/eventsList', eventsList);
 webEventsRouter.get('/web/events/:event', getEventData);
 webEventsRouter.post('/web/events/:event', storeEventData);
 webEventsRouter.post('/web/events/reset/:event', resetEventData);
+
 
 module.exports = webEventsRouter;

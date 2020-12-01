@@ -10,6 +10,9 @@ const coverageUtil = require('../utils/coverage-util');
 const configUtil = require('../utils/config-util');
 const manifest = require('../manifest');
 const oauth = require('../routes/oauth2');
+const actionsUtil = require('../utils/actions-util');
+const fileUtil = require('../utils/file-util');
+
 
 const express = require('express');
 const Router = express.Router;
@@ -44,12 +47,12 @@ function constructV2Response(req) {
   const appDetails = {
     id: 1,
     version_id: 1,
-    configs: configUtil.getValuesForLocalTesting(),
+    configs: configUtil.getValuesForLocalTesting(currentProduct),
     displayName: process.cwd().split(path.sep).pop(),
     placeholders: locations
   };
 
-  if (manifest.features.includes('oauth') && !_.has(oauth.fetchCredentials(req), 'access_token')) {
+  if (manifest.features.includes('oauth') && !_.has(oauth.fetchCredentials(req, currentProduct), 'access_token')) {
     convertURLs(appDetails.placeholders, 'oauth/local-testing-oauth-msg.html');
   } else {
     convertURLs(appDetails.placeholders);
@@ -66,18 +69,23 @@ function iframeAPIHandlerV2 (req, res) {
   res.send(appDetails);
 }
 
-function iframeAPIHandler (req, res) {
+function iframeAPIHandler(req, res) {
+  const product = req.query.product || Object.keys(manifest.product)[0];
   const appDetails = {
-    configs: configUtil.getNonSecureValues(),
+    configs: configUtil.getNonSecureValues(product),
     displayName: process.cwd().split(path.sep).pop(),
     product: manifest.product,
-    features: manifest.features
+    features: manifest.features,
+    actions: actionsUtil.actionsList().length > 0,
+    omni: manifest.features.includes('omni'),
+    products: Object.keys(manifest.product),
+    platform: manifest.pfVersion
   };
 
   if (manifest.features.includes('oauth') && oauth.isNotAgent()) {
     let isAuthorized = false;
 
-    if (_.has(oauth.fetchCredentials(req), 'access_token')) {
+    if (_.has(oauth.fetchCredentials(req, product), 'access_token')) {
       isAuthorized = true;
     }
     appDetails.isAuthorized = isAuthorized;
@@ -122,7 +130,19 @@ iframeRouter.post('/iframe/coverage', (req, res) => {
   res.send('OK');
 });
 
+function testingPage(req, res) {
+  if (manifest.features.includes('backend')) {
+      res.send(fileUtil.readFile(__dirname + '/../web/views/event-page.html'));
+  }
+  else {
+      res.send(fileUtil.readFile(__dirname + '/../web/views/event-page-404.html'));
+  }
+}
+
 iframeRouter.get('/iframe/api', iframeAPIHandler);
 iframeRouter.get('/iframe/api/v2', iframeAPIHandlerV2);
+
+iframeRouter.get('/web/test', testingPage);
+iframeRouter.use('/web/assets', express.static(`${__dirname}/../web/assets`));
 
 module.exports = iframeRouter;

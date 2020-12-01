@@ -4,10 +4,9 @@ const debuglog = __debug.bind(null, __filename);
 
 const fileUtil = require('../utils/file-util');
 const manifest = require('../manifest');
-const restoreAction = require('../utils/actions-util');
-const validateRequest = require('../validations/schema-validation');
-const _ = require('lodash');
 const actionsUtil = require('../utils/actions-util');
+const validateRequest = require('../validations/schema.js');
+const _ = require('lodash');
 
 const Router = require('express').Router;
 const actionsRouter = new Router();
@@ -76,7 +75,7 @@ function storeActionData(req, res) {
 
 function resetActionData(req, res) {
   const action = req.params.action;
-  const actionData = restoreAction.restoreActionData(action);
+  const actionData = actionsUtil.restoreActionData(action);
 
   if (actionData !== undefined || !_.isEmpty(actionData)) {
     res.json(actionData);
@@ -89,21 +88,11 @@ function resetActionData(req, res) {
   }
 }
 
-function testingPage(req, res) {
-  if (_.includes(manifest.features, 'backend')) {
-    res.send(fileUtil.readFile(__dirname + '/../web/views/event-page.html'));
-  }
-  else {
-    res.send(fileUtil.readFile(__dirname + '/../web/views/event-page-404.html'));
-  }
+function actionsList(req, res){
+  res.send({actions: actionsUtil.actionsList()});
 }
 
-function actionsList(req, res) {
-  res.send({ actions: actionsUtil.actionsList()});
-}
-
-actionsRouter.get('/web/test', testingPage);
-actionsRouter.get('/web/actionsList', actionsList);
+actionsRouter.get('/web/actions', actionsList);
 actionsRouter.get('/web/actions/:action', getActionData);
 actionsRouter.post('/web/actions/:action', storeActionData);
 actionsRouter.post('/web/actions/reset/:action', resetActionData);

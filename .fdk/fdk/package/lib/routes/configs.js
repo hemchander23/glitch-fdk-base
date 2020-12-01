@@ -22,15 +22,15 @@ const OMNIAPP = 'freshworks';
 /*
   Save custom Iparams data to storage (file) with namespace
 */
-function saveIParamsToDB(data) {
-  configUtil.setConfig(data);
+function saveIParamsToDB(data, product) {
+  configUtil.setConfig(data, product);
 }
 
 /*
   Fetch custom IParams data from storage (file) with namespace
 */
-function getIParamsFromDB() {
-  return configUtil.getValuesForLocalTesting();
+function getIParamsFromDB(product) {
+  return configUtil.getValuesForLocalTesting(product);
 }
 
 /*
@@ -39,7 +39,7 @@ function getIParamsFromDB() {
   If exists return data else return {}
 */
 function fetchCustomIParams(req, res) {
-  let customIParams = getIParamsFromDB();
+  let customIParams = getIParamsFromDB(req.query.product);
 
   if (customIParams === null || customIParams === undefined) {
     customIParams = {};
@@ -56,7 +56,7 @@ function fetchCustomIParams(req, res) {
   Store posted custom IParams to DB
 */
 function storeCustomIParams(req, res) {
-  saveIParamsToDB(req.body);
+  saveIParamsToDB(req.body, req.query.product);
   res.send();
 }
 
@@ -66,9 +66,21 @@ function storeCustomIParams(req, res) {
     -> Authorize and redirect to form page
 */
 function customIParamsPage(req, res) {
-  if (manifest.features.includes('oauth') && !_.has(oauth.fetchCredentials(), 'access_token')) {
+  let product = req.query.product;
+
+  if (Object.keys(manifest.product).length > 1 && !product) {
     res.writeHead(httpUtil.status.found, {
-      'Location': 'http://localhost:10001/auth/index?callback=http://localhost:10001/custom_configs'
+      'Location': 'http://localhost:10001/choose_product?callback=http://localhost:10001/custom_configs'
+    });
+    return res.end();
+  }
+
+  product = product || Object.keys(manifest.product)[0];
+  if (manifest.features.includes('oauth') && !_.has(oauth.fetchCredentials(null, product), 'access_token')) {
+    const queryString = product ? `?product=${product}` : '';
+
+    res.writeHead(httpUtil.status.found, {
+      'Location': `http://localhost:10001/auth/index?callback=http://localhost:10001/custom_configs${queryString}`
     });
     return res.end();
   }
@@ -157,6 +169,7 @@ async function customIParamsForm(req, res) {
   if (configUtil.hasJSONConfig()) {
     // !! DONOT REPLACE THIS LINE WITH REQUIRE AS IT CACHES IPARAMS AND WE DONT WANT THAT !!
     const iparamJSON = iparamToFormServJSON(configUtil.getConfig());
+    const hasIparamsJs = configUtil.hasIparamsJs();
     const products = Object.keys(manifest.product);
 
     const productName = products.length > 1 ? OMNIAPP : products[0] ;
@@ -164,7 +177,7 @@ async function customIParamsForm(req, res) {
     const config = constructConfigs(productName);
     // eslint-disable-next-line new-cap
     const formServiceHelper = new FormService(config);
-    const result = await formServiceHelper.getHtml(iparamJSON);
+    const result = await formServiceHelper.getHtml(iparamJSON, hasIparamsJs);
 
     return res.send(result);
   }
