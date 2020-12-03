@@ -1,17 +1,13 @@
 {
   "platform-version": "2.0",
   "product": {
-    "freshchat": {
+    "freshdesk": {
       "location": {
-        "conversation_user_info": {
-          "url": "template.html",
-          "icon": "icon.svg"
+        "full_page_app": {
+          "url": "full_page.html",
+          "icon": "./img/icon.png"
         }
       }
     }
-  },
-  "dependencies": {
-    "ascii85": "1.0.2",
-    "buffer": "5.5.0"
   }
 }

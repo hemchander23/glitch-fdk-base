@@ -1,8 +1,21 @@
 {
-  "Contact-Address": {
-    "display_name": "Contact address",
-    "description": "Please enter the contact address",
-    "type": "paragraph",
-    "required": true
+  "domain": {
+    "display_name": "domain",
+    "description": "Please enter your domain",
+    "type": "domain",
+    "required": true,
+    "type_attributes": {
+      "product": "freshdesk"
+    }
+  },
+  "apikey": {
+    "display_name": "api-key",
+    "description": "Please enter your api-key",
+    "type": "api_key",
+    "required": true,
+    "type_attributes": {
+      "product": "freshdesk"
+    },
+    "secure": true
   }
 }

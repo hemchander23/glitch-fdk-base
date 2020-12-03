@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for js/app.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">js/</a> app.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">47.73% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>21/44</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">41.67% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>5/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">52.38% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>11/21</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">47.73% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>21/44</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</td><td class="line-coverage quiet"><span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">document.addEventListener('DOMContentLoaded', function () {
+  initializeCalendar();
+  app.initialized().then(function (client) {
+    window.client = client;
+    window.restaurant = getEntity("restaurants");
+    window.appointment = getEntity("appointments");
+    manageInstanceInteractions();
+    updateView();
+  });
+});
+&nbsp;
+function newRestaurant() <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  client.interface.trigger("showModal", {</span>
+      title: "Add Restaurant",
+      template: "./modal/restaurant.html"
+    })
+    .catch(function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      notify("danger", "Something went wrong while opening the restaurant modal")</span>
+<span class="cstat-no" title="statement not covered" >      console.error(error);</span>
+    });
+}
+&nbsp;
+function getEntity(entityName) {
+  var entity = client.db.entity({
+    version: 'v1'
+  });
+  return entity.get(entityName);
+}
+&nbsp;
+function loadRestaurants() {
+  restaurant.getAll()
+    .then(function (data) {
+      $("#restaurant_list").html(generateRestaurantList(data.records));
+    })
+    .catch(function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      notify("danger", "Something went wrong while loading the restaurants")</span>
+<span class="cstat-no" title="statement not covered" >      console.error(error);</span>
+    })
+}
+&nbsp;
+function loadAppointments(callback) {
+  if (typeof appointment !== 'undefined') {
+    client.iparams.get()
+      .then(function (iparam) {
+        appointment.getAll()
+          .then(function (data) {
+            var events = data.records.map(function (i) {
+              return createCalendarEventObj(i, iparam);
+            });
+            callback(events);
+          })
+          .catch(function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            console.error(error);</span>
+          })
+      })
+      .catch(function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        console.error(error);</span>
+      })
+&nbsp;
+  }
+}
+&nbsp;
+function generateRestaurantList(records) {
+  return records.map(function (i) {
+    console.log(i);
+    return `&lt;li class="list-group-item"&gt;
+            &lt;div class="row"&gt;
+              &lt;div class="col-sm-3"&gt;
+                &lt;img src='${i.data.photo_url ? i.data.photo_url: "https://i.imgur.com/ZyONF7N.png" }' style='min-width: 100px;' width="100px" height="100px" /&gt;
+              &lt;/div&gt;
+              &lt;div class="col-sm-6 ml-2" style='min-width: 350px;' &gt;
+                &lt;h4&gt;${i.data.name}&lt;/h4&gt;
+                &lt;b&gt; ${i.display_id}&lt;/b&gt;
+                &lt;p&gt;${i.data.description} ...&lt;/p&gt;
+                &lt;a href="#"&gt;
+                    &lt;fw-label value="${ catalogStatus(i.data.status).status }" color="${ catalogStatus(i.data.status).color }"&gt;&lt;/fw-label&gt;
+                    &lt;fw-button size="mini" style="display:${ i.data.status == '1' ? <span class="branch-0 cbranch-no" title="branch not covered" >'inline':</span> 'none' }" color="secondary" onclick='deleteRestaurant("${i.display_id}","${ escape(i.data.name) }")'&gt; Delete &lt;/fw-button&gt;
+                &lt;/a&gt;
+              &lt;/div&gt;
+              &lt;div class="col-sm-3"&gt;
+&nbsp;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;/li&gt;`
+  }).join("");
+}
+&nbsp;
+function filterRestaurants() <span class="fstat-no" title="function not covered" >{</span>
+  var status = <span class="cstat-no" title="statement not covered" >document.getElementById("catalog_in").value;</span>
+  var qs = <span class="cstat-no" title="statement not covered" >{},</span>
+    getAllRestaurants;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (status &amp;&amp; status != "0") {</span>
+<span class="cstat-no" title="statement not covered" >    qs = {</span>
+      query: {
+        status: String(status)
+      }
+    };
+<span class="cstat-no" title="statement not covered" >    getAllRestaurants = restaurant.getAll(qs)</span>
+  } else {
+<span class="cstat-no" title="statement not covered" >    getAllRestaurants = restaurant.getAll();</span>
+  }
+<span class="cstat-no" title="statement not covered" >  getAllRestaurants.then(function (data) <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    $("#restaurant_list").html(generateRestaurantList(data.records));</span>
+  });
+}
+&nbsp;
+function deleteRestaurant(id, name) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  client.interface.trigger("showConfirm", {</span>
+    title: "Delete " + unescape(name) + " ?",
+    message: "Note: You also cannot delete restaurants if they already have appointments",
+    saveLabel: "Delete"
+  }).then(function (action) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (action.message == "Delete") {</span>
+<span class="cstat-no" title="statement not covered" >      console.log(id);</span>
+<span class="cstat-no" title="statement not covered" >      restaurant.delete(id);</span>
+<span class="cstat-no" title="statement not covered" >      notify("success", `Restaurant - ${ unescape(name) } deleted successfully`);</span>
+<span class="cstat-no" title="statement not covered" >      updateView();</span>
+    }
+  }).catch(function (error) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    console.error(error);</span>
+<span class="cstat-no" title="statement not covered" >    client.instance.close();</span>
+  });
+&nbsp;
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 03 2020 09:49:28 GMT+0530 (India Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

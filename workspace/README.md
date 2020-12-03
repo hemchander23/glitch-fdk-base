@@ -1,4 +1,4 @@
-## Welcome to the App 🎉
+### Catalog manager
+A Super simple Catalog manager built using C.O
+![](https://user-images.githubusercontent.com/19341550/99782175-d36c7800-2b3e-11eb-9af4-463c943d5427.png)
 
-- Ensure to create/add your app files only under the workspace directory
-- Please use `fwgl` npm module to connect this Glitch app with your product.
