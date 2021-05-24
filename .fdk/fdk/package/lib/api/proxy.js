@@ -21,7 +21,8 @@ const MESSAGES = {
   invalid_content_type: 'Unsupported content type',
   invalid_url_https: 'Invalid URL - Must be HTTPS',
   invalid_url_ip: 'Invalid URL - IP is disallowed',
-  invalid_url_fqdn: 'Invalid URL - Must be FQDN'
+  invalid_url_fqdn: 'Invalid URL - Must be FQDN',
+  domain_not_whitelisted: 'This domain has not been whitelisted'
 };
 
 const VALID_CONTENT_TYPES = [
@@ -85,7 +86,32 @@ function isValidContentType(response) {
   return true;
 }
 
-function validateUrl(requestURL) {
+function isWhitelistedDomain(whitelistedDomains, url) {
+  debuglog('Checking if the request url is whitelisted in manifest');
+  for (let domain of whitelistedDomains) {
+    if (domain.startsWith('https://*')) {
+      domain = domain.replace('*', '[a-z0-9-]*');
+      const exp = new RegExp(domain);
+
+      if (url.match(exp)) {
+        debuglog(`Matched "${url}" with ${domain}`);
+        return true;
+      }
+    }
+    else if (domain === url) {
+      debuglog(`Matched "${url}" with ${domain}`);
+      return true;
+    }
+    else if (url.startsWith(domain) && url.includes(domain)) {
+      debuglog(`Matched "${url}" with ${domain}`);
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function validateUrl(requestURL, whitelistedDomains) {
   const urlObj = url.parse(requestURL);
 
   debuglog(`Parsed ${requestURL} as ${JSON.stringify(urlObj)}`);
@@ -107,6 +133,12 @@ function validateUrl(requestURL) {
       response: MESSAGES.invalid_url_fqdn
     }, errorSkeleton);
   }
+
+  if (!isWhitelistedDomain(whitelistedDomains, requestURL)) {
+    throw Object.assign({
+      response: MESSAGES.domain_not_whitelisted
+    }, errorSkeleton);
+  }
 }
 
 function fetchOauthConfigs(req) {
@@ -117,6 +149,10 @@ function fetchOauthConfigs(req) {
     access_token: oauthCredential.access_token,
     oauth_iparams: oauthIparams || {}
   };
+}
+
+function substituteTemplates(options, templates) {
+  return JSON.parse(_.template(JSON.stringify(options))(templates));
 }
 
 function templatize(req) {
@@ -139,7 +175,10 @@ function templatize(req) {
   }
 
   try {
-    return JSON.parse(_.template(JSON.stringify(reqOptions))(templates));
+    return {
+      ...substituteTemplates(reqOptions, templates),
+      whitelistedDomains: substituteTemplates(manifest.whitelistedDomains, templates)
+    };
   }
   catch (err) {
     debuglog(`Template substitution errored with ${err}`);
@@ -157,7 +196,7 @@ module.exports = {
 
     try {
       reqOptions = templatize(req);
-      validateUrl(reqOptions.url);
+      validateUrl(reqOptions.url, reqOptions.whitelistedDomains);
       validatedOpts = getRequestOptions(reqOptions);
     }
     catch (err) {

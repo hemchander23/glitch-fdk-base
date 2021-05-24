@@ -11,7 +11,7 @@ const {
 } = require('../actions/record');
 
 const httpUtil = require('../utils/http-util');
-const { getNextLink } = require('../utils/custom-objects');
+const { getNextPageToken } = require('../utils/custom-objects');
 const DEFAULT_PAGE_LIMIT = 100;
 
 /**
@@ -34,20 +34,22 @@ async function fetch(req, res) {
 
   if (!record || !record.id || record.query || record.next) {
     const records = await getRecords(entity, record, pagination);
-    let href = null;
+    let token = null;
 
     if (records.length > pagination.limit) {
       debuglog('setting up next link');
       const lastRecord = records.pop();
 
-      href = getNextLink(req, lastRecord, pagination.limit);
-      debuglog(`href obtained ${href}`);
+      token = getNextPageToken(lastRecord);
+      debuglog(`token obtained ${token}`);
     }
 
-    return res.send({
-      records,
-      links: { next: href }
-    });
+    const result = { records };
+
+    if (token) {
+      result.links = { next: token };
+    }
+    return res.send(result);
   }
 
   const response = await getRecord(entity, record);
