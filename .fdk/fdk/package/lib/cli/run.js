@@ -6,9 +6,9 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const ngrok = require('ngrok');
 const fs = require('fs');
+const fileUtil = require('../utils/file-util');
 const path = require('path');
 const ws = require('express-ws');
-const basicAuth = require('express-basic-auth');
 const websocket = require('ws');
 
 const _ = require('lodash');
@@ -35,37 +35,23 @@ const watcher = require('../watcher');
 const configUtil = require('../utils/config-util');
 const coUtil = require('../utils/custom-objects');
 
-const app = express();
-var cred = {};
-cred[process.env.FW_GLITCH_USER || 'admin'] = process.env.FW_GLITCH_PASSWORD || 'password';
-//Home
-app.get("/", function (req, res) {
-  var homeContent = "Check the README.MD";
-  try {
-    homeContent = fs.readFileSync("/app/index.html");
-  } catch (e) {}
-  res.status(200).type('text/html').send(homeContent);
-});
-//Set the basic auth to protect unauthorized access
-if (!process.env.INSEC)
-  app.use(basicAuth({
-    users: cred
-  }));
+// Frontend Framework imports
+const appPackageJSONPath = `${process.cwd()}/package.json`;
 
+
+const app = express();
 const expressWs = ws(app);
 const istanbulBodyParser = bodyParser.json({
   limit: '5MB'
 });
 const normalBodyParser = bodyParser.json();
-const textBodyParser = bodyParser.text({
-  type: '*/*'
-});
+const textBodyParser = bodyParser.text({ type: '*/*' });
 const exWss = expressWs.getWss('/notify-change');
 const productInfo = require('../utils/product-info-util');
 
 const DOMAIN = productInfo.getTestLink();
-const HTTP_PORT = 3000;
-const WS_CLOSE_TIMEOUT = 400000;
+const HTTP_PORT = 10001;
+const WS_CLOSE_TIMEOUT = 4000;
 
 const CACHED_VIEWS = {};
 
@@ -155,9 +141,9 @@ module.exports = {
       }
 
       /**
-       * Provided selective template regex to make lodash skip ES6 template
-       * literal ${}
-       */
+        * Provided selective template regex to make lodash skip ES6 template
+        * literal ${}
+        */
       return callback(null, _.template(CACHED_VIEWS[templatePath], {
         interpolate: /<%=([\s\S]+?)%>/g
       })(options));
@@ -212,7 +198,24 @@ module.exports = {
     app.use(webEventsRouter);
     app.use(oauthRouter);
     app.use(actionsRouter);
-    app.use('/coverage', express.static('/app/workspace/coverage'));
+
+
+    try {
+      if (fileUtil.existsFile(appPackageJSONPath)) {
+        const appPackageJson = require(appPackageJSONPath);
+        const frontendFramework = require('../utils/frontend_framework-util');
+
+        if (appPackageJson.hasOwnProperty('fdkConfig')) {
+          coverageUtil.snooze();
+          await frontendFramework.run(appPackageJson.fdkConfig, app);
+        }
+      }
+
+    }
+    catch (error) {
+      console.error(JSON.stringify(error.errors));
+      process.exit(1);
+    }
 
     // Finally, listen:
     const server = await listenOn(app, HTTP_PORT);
@@ -229,7 +232,8 @@ module.exports = {
       await setupLifeCycle(forceResyncEntities);
 
       logServerStartMsg();
-    } catch (error) {
+    }
+    catch (error) {
       console.error(JSON.stringify(error.errors));
       process.exit(1);
     }
@@ -245,7 +249,8 @@ module.exports = {
     process.on('uncaughtException', async (err) => {
       if (err.code === 'EADDRINUSE') {
         console.error('Another instance of server running? Port in use.');
-      } else {
+      }
+      else {
         console.error(err);
       }
       if (enableTunnel) {

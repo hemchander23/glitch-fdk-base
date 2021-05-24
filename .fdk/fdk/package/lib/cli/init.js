@@ -17,6 +17,7 @@ const SERVERLESS_APPS = require(`${os.homedir()}/.fdk/addon/addon-${addonVersion
 const RE_IGNORED_FILES = util.IGNORED_FILES;
 const OMNI_PRODUCT = 'omni';
 
+
 function getTemplatesFor(product) {
   return _.intersection(TEMPLATE_ORDER[product], fs.readdirSync(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/template/${product}`).filter(e => !e.match(RE_IGNORED_FILES)));
 }
@@ -31,7 +32,7 @@ const supportedProducts = Object.keys(templatesAllowed);
 
 const ignoreFiles = ['.fdk', '.report.json'];
 
-function initTemplate(product, template, prjDir){
+function initTemplate(product, template, prjDir) {
   debuglog(`Initializing template "${template}" with product "${product}".`);
 
   fs.copySync(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/template/${product}/${template}`, prjDir);
@@ -47,6 +48,7 @@ function initTemplate(product, template, prjDir){
       fs.copySync(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/events/payloads/${product}/`, `${prjDir}/server/test_data`);
     }
   }
+
   console.log(`A new ${util.capitalize(product)} app was successfully created from template "${template}" with the following files.\n`);
   nodeTree(process.cwd());
 }
@@ -58,7 +60,7 @@ module.exports = {
 
     var errMessages = [];
 
-    function isValidproduct(product){
+    function isValidproduct(product) {
 
       if (!supportedProducts.includes(product)) {
         errMessages.push(`The specified product ${product} is not valid. The supported products are ${supportedProducts}.`);
@@ -66,28 +68,28 @@ module.exports = {
       if (!_.isEmpty(errMessages)) {
         return errorHandler.printError('The app could not be created due to the following issues(s):', errMessages);
       }
-      if (!_.includes(supportedProducts, product)){
+      if (!_.includes(supportedProducts, product)) {
         return false;
       }
       return true;
     }
 
-    function isValidTemplate(template){
+    function isValidTemplate(template) {
       if (template && !templatesAllowed[product].includes(template)) {
         errMessages.push(`The specified template ${template} is not valid. The supported templates are ${templatesAllowed[product]}.`);
       }
       if (!_.isEmpty(errMessages)) {
         return errorHandler.printError('The app could not be created due to the following issues(s):', errMessages);
       }
-      if (template && !templatesAllowed[product].includes(template)){
+      if (template && !templatesAllowed[product].includes(template)) {
         return false;
       }
       return true;
     }
 
-    function createTemplate(product, template){
+    function createTemplate(product, template) {
       if (template) {
-        if (isValidTemplate(template)){
+        if (isValidTemplate(template)) {
           initTemplate(product, template, prjDir);
         }
       }
@@ -98,7 +100,7 @@ module.exports = {
           message: 'Choose a template:',
           choices: _.intersection(TEMPLATE_ORDER[product], templatesAllowed[product])
         }).then(val => {
-          initTemplate(product, val.template, prjDir );
+          initTemplate(product, val.template, prjDir);
         });
       }
       else {
@@ -119,11 +121,12 @@ module.exports = {
         name: 'product',
         message: 'Choose a product:',
         choices: supportedProducts
-      }).then((val) => {product = val.product;
+      }).then((val) => {
+        product = val.product;
         createTemplate(product, template);
       });
     }
-    if (isValidproduct(product)){
+    if (isValidproduct(product)) {
       createTemplate(product, template);
     }
 

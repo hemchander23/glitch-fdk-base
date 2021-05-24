@@ -13,6 +13,9 @@ const fileUtil = require('../utils/file-util');
 const validator = require('./validate');
 const digestFile = require('../utils/file-util').digest;
 const manifest = require('../manifest');
+// const packageJson = require(`${process.cwd()}/package.json`) || {};
+const appPackageJSONPath = `${process.cwd()}/package.json`;
+const bundler = require('../utils/bundler-util');
 const nsUtil = require('../utils/file-util').nsresolver;
 
 const {
@@ -38,7 +41,7 @@ function fetchDirectory(options, callback) {
     return callback();
   }
 
-  return fileUtil.getFiles(options, function(error, files) {
+  return fileUtil.getFiles(options, function (error, files) {
     if (error) {
       debuglog(`Error while fetching '${options.dir}' files ${error.message}`);
       return callback(new Error(PACKAGE_ERROR_MESSAGE));
@@ -54,7 +57,7 @@ function fetchDirectory(options, callback) {
 
 function fetchFile(filename, callback) {
   if (fileUtil.fileExists(filename)) {
-    return callback(null, [ filename ]);
+    return callback(null, [filename]);
   }
 
   return callback();
@@ -81,7 +84,7 @@ const fetchReportFile = callback => fetchFile('./.report.json', callback);
 const fetchREADMEFile = callback => fetchFile('./README.md', callback);
 
 function fetchDigestFile(callback) {
-  return digestFile.genDigestFile(() => callback(null, [ './digest.md5' ]));
+  return digestFile.genDigestFile(() => callback(null, ['./digest.md5']));
 }
 
 function generateZIP(zipper) {
@@ -131,7 +134,7 @@ function packApp(skipValidation) {
 
   const outputStream = fileUtil.createWriteStream(dest);
 
-  outputStream.on('close', async function(error) {
+  outputStream.on('close', async function (error) {
     if (error) {
       cleanFiles(true);
       debuglog(`Error while creating package ${error.message}`);
@@ -151,7 +154,7 @@ function packApp(skipValidation) {
     cleanFiles();
   });
 
-  zipper.on('error', function(error) {
+  zipper.on('error', function (error) {
     cleanFiles(true);
     debuglog(`Error while zipping ${error.message}`);
     eh.error(new Error(PACKAGE_ERROR_MESSAGE));
@@ -163,7 +166,22 @@ function packApp(skipValidation) {
 }
 
 module.exports = {
-  run: async function(skipValidation) {
+  run: async function (skipValidation) {
+
+    try {
+      if (fileUtil.existsFile(appPackageJSONPath)) {
+        const appPackageJson = require(appPackageJSONPath);
+
+        if (appPackageJson.hasOwnProperty('fdkConfig')) {
+          await bundler.run(appPackageJson.fdkConfig);
+        }
+      }
+    }
+    catch (err) {
+      console.error(JSON.stringify(err.errors));
+      process.exit(1);
+    }
+
     debuglog(`'pack' called with ${JSON.stringify(arguments)}`);
 
     const errors = await validator.run(PRE_PKG_VALIDATION, skipValidation);
