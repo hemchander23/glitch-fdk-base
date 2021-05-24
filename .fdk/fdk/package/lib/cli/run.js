@@ -50,8 +50,8 @@ const exWss = expressWs.getWss('/notify-change');
 const productInfo = require('../utils/product-info-util');
 
 const DOMAIN = productInfo.getTestLink();
-const HTTP_PORT = 10001;
-const WS_CLOSE_TIMEOUT = 4000;
+const HTTP_PORT = 3000;
+const WS_CLOSE_TIMEOUT = 40000;
 
 const CACHED_VIEWS = {};
 
