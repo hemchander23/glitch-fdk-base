@@ -17,6 +17,7 @@ const commonRules = {
   'no-debugger': ERROR,
   'no-unreachable': ERROR,
   // These are custom lint rules. Please refer to the custom-lint-rules directory
+  'no-unlisted-url': WARN,
   'no-unhandled-promise': WARN,
   'no-logging-rejections': WARN,
   'no-non-client-request-model': WARN

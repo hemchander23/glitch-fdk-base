@@ -2,6 +2,8 @@
 
 /* eslint-disable no-underscore-dangle */
 
+const os = require('os');
+
 const { omit } = require('lodash');
 
 const DataStore = require('./data-util').DataStore;
@@ -18,7 +20,9 @@ const validRoutes = {
   'install': ['smi', 'proxy', 'oauth'],
   'configure': ['db', 'proxy', 'oauth', 'smi', 'entity', 'record']
 };
-
+const productInfo = require('../utils/product-info-util');
+const addonVersion = productInfo.getAddonVersion();
+const authDetails = require(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/auth_details.json`);
 
 function getJSONContent(fileName) {
   const data = fileUtil.readFile(`${process.cwd()}/config/${fileName}`);
@@ -129,6 +133,38 @@ function getIparamsJs() {
     return fileUtil.readFile(`${process.cwd()}/config/assets/${iparamsJs}`);
 }
 
+/**
+ * Decodes the payload part of JWT token
+ *
+ * @param {*} token - JWT token part of incoming request
+ */
+function getJWTPayload (token) {
+  const base64Payload = token.split('.')[1];
+  const payload = Buffer.from(base64Payload, 'base64');
+
+  return JSON.parse(payload);
+}
+
+/**
+ * Validates route against the issuer part of JWT token
+ *
+ * @param {*} token - JWT token part of incoming request
+ * @param {*} route - datapipe allowed routes
+ *
+ * @returns {boolean} false if route is not part of issuer privileges
+ */
+function isAllowedIssuerRoute (token, route) {
+  if (token) {
+    const issuer = getJWTPayload(token).iss;
+    const issuerAuthDetails = authDetails.issuers[issuer];
+
+    if (issuerAuthDetails && !(route in issuerAuthDetails.privileges)){
+      return false;
+    }
+  }
+  return true;
+}
+
 module.exports = {
   hasHTMLConfig,
   hasJSONConfig,
@@ -143,5 +179,6 @@ module.exports = {
   getOAuthIparam,
   getCustomIparamState,
   isValidRoute,
-  getIparamsJs
+  getIparamsJs,
+  isAllowedIssuerRoute
 };

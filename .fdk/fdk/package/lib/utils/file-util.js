@@ -60,6 +60,15 @@ function ensureFile(fileName) {
   }
 }
 
+function existsFile(fileName){
+  try {
+    return fs.existsSync(fileName);
+  }
+  catch (err){
+    eh.error(err);
+  }
+}
+
 function writeFile(file, data) {
   try {
     fs.outputFileSync(file, data);
@@ -289,6 +298,7 @@ module.exports = {
   getFiles,
   createWriteStream,
   ensureFile,
+  existsFile,
   writeFile,
   deleteFile,
   readFile,

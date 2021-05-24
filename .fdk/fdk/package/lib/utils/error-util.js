@@ -62,7 +62,8 @@ class ValidationError extends BaseError {
     }
 
     return [{
-      message: this.message
+      message: this.message,
+      errorSource: this.errorSource
     }];
   }
 }
@@ -81,6 +82,7 @@ class RecordNotFoundError extends BaseError {
     super(message, args);
     this.name = this.constructor.name;
     this.status = http.status.not_found;
+    this.errorSource = 'APP';
   }
 
   toJSON() {}
@@ -100,6 +102,7 @@ class CustomObjectError extends BaseError {
     super(message, args);
     this.name = this.constructor.name;
     this.status = http.status.bad_request;
+    this.errorSource = 'APP';
   }
 
   toJSON() {}

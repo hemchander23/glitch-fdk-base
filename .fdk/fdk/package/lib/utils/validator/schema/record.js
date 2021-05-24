@@ -1,7 +1,7 @@
 'use strict';
 
 const nameRegex = '^[a-zA-Z0-9_-]+$';
-
+const MAX_NUMERIC_LIMIT = 999999999999999;
 const entitySchema = {
   type: 'object',
   properties: {
@@ -25,10 +25,14 @@ const recordFieldSchema = {
         maxLength: 2048
       },
       {
-        type: 'number'
+        type: 'number',
+        maximum: MAX_NUMERIC_LIMIT,
+        minimum: -1 * MAX_NUMERIC_LIMIT
       },
       {
-        type: 'integer'
+        type: 'integer',
+        maximum: MAX_NUMERIC_LIMIT,
+        minimum: -1 * MAX_NUMERIC_LIMIT
       },
       {
         type: 'boolean'

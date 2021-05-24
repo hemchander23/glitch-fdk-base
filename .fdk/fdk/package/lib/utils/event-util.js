@@ -53,22 +53,21 @@ function parseServerFile() {
   const code = fs.readFileSync(`${process.cwd()}/server/server.js`, 'utf8');
   const ast = esprima.parse(code).body;
 
-  return ast.find((node) => {
+  const exportsExp = ast.find((node) => {
     return (node.type === 'ExpressionStatement'
       && node.expression.type === 'AssignmentExpression'
       && node.expression.left.name === 'exports');
   });
+  const properties = exportsExp.expression.right.properties;
+
+  return properties;
 }
 
-function getServerJSEvents() {
+function getServerJSEvents(properties) {
   let events = null;
-  const exportsExp = parseServerFile();
-
   let definedFunc = [];
 
-  if (exportsExp) {
-    const properties = exportsExp.expression.right.properties;
-
+  if (properties) {
     definedFunc = getDefinedFunctions(properties);
     const eventProp = properties.find((prop) => {
       return (prop.key.name === 'events'
@@ -113,16 +112,13 @@ function getCRCResponse(method, headers, query) {
   }
 }
 
-function getManifestEvents() {
-  const exportsExp = parseServerFile();
+function getManifestEvents(properties) {
   const products = manifest.product;
   const manifestProducts = Object.keys(products);
   const events = {};
   let definedFunctions = null;
 
-  if (exportsExp) {
-    const properties = exportsExp.expression.right.properties;
-
+  if (properties) {
     definedFunctions = getDefinedFunctions(properties);
   }
 
@@ -147,12 +143,20 @@ function getManifestEvents() {
 }
 
 function getEventsList() {
+  let properties = null;
+
+  try {
+    properties = parseServerFile();
+  } catch (error) {
+        debuglog(`${error.message}`);
+        throw new Error('Error while parsing file containing serverless functions. Please use the exports section as recommended in the Serverless Apps section of the SDK documentation.');
+  }
   switch (manifest.pfVersion) {
     case '2.0': {
-      return getServerJSEvents();
+      return getServerJSEvents(properties);
     }
     default: {
-      return getManifestEvents();
+      return getManifestEvents(properties);
     }
   }
 }

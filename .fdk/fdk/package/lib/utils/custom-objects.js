@@ -2,7 +2,6 @@
 
 const debuglog = __debug.bind(null, __filename);
 
-const url = require('url');
 const inquirer = require('inquirer');
 const { QueryTypes } = require('sequelize');
 
@@ -118,40 +117,6 @@ function getEntityFields(entity, filterable = false) {
   });
 }
 
-function validateField(fieldDefinition, record) {
-  const {
-    name: fieldName,
-    type: fieldType,
-    required
-  } = fieldDefinition;
-
-  /**
-   * Empty fields will be added with null value, hence no need to check for '!record.hasOwnProperty'
-   * Required field should not be null
-   *
-   */
-  if (!!required && record[fieldName] === null) {
-    return {
-      dataPath: '/record',
-      message: `should have required property '${fieldName}'`
-    };
-  }
-
-  if (!record.hasOwnProperty(fieldName)) {
-    return;
-  }
-
-  const recordFieldType = typeof record[fieldName];
-
-  // Non-required field can be null
-  if (recordFieldType !== fieldDatatypes[fieldType] && record[fieldName] !== null) {
-    return {
-      dataPath: `/record/${fieldName}`,
-      message: `incorrect datatype, expected '${fieldDatatypes[fieldType]}' got '${recordFieldType}'`
-    };
-  }
-}
-
 function validateDateField(fieldDefinition, record) {
   const {
     name: fieldName
@@ -166,6 +131,60 @@ function validateDateField(fieldDefinition, record) {
   }
 }
 
+function validateFieldDataType(fieldDefinition, record) {
+  const {
+    name: fieldName,
+    type: fieldType
+  } = fieldDefinition;
+  const recordFieldType = typeof record[fieldName];
+
+  // Checking for undefined as filter query may not contain the value
+  // create/update record payload will have null-replaced for missing fields rather than undefined
+  if (record[fieldName] === undefined) {
+    return;
+  }
+
+  // Non-required field can be null
+  if (recordFieldType !== fieldDatatypes[fieldType] && record[fieldName] !== null) {
+    return {
+      dataPath: `/record/${fieldName}`,
+      message: `incorrect datatype, expected '${fieldDatatypes[fieldType]}' got '${recordFieldType}'`
+    };
+  }
+  // validation for DATE_TIME datatype
+  if (fieldType === 'DATE_TIME') {
+    return validateDateField(fieldDefinition, record);
+  }
+}
+
+function validateField(fieldDefinition, record, isQuery = false) {
+  const {
+    name: fieldName,
+    required
+  } = fieldDefinition;
+
+  // escaping required check for query params
+  if (!isQuery){
+    /**
+     * Empty fields will be added with null value, hence no need to check for '!record.hasOwnProperty'
+     * Required field should not be null
+     *
+     */
+    if (!!required && record[fieldName] === null) {
+      return {
+        dataPath: '/record',
+        message: `should have required property '${fieldName}'`
+      };
+    }
+
+    if (!record.hasOwnProperty(fieldName)) {
+      return;
+    }
+  }
+
+  return validateFieldDataType(fieldDefinition, record);
+}
+
 function getAddtionalPropertiesErrors(entityDefinition, record) {
   const additionalProperties = Object.keys(record)
     .filter(field => !entityDefinition.fields.some(entity => entity.name === field));
@@ -178,18 +197,14 @@ function getAddtionalPropertiesErrors(entityDefinition, record) {
   }));
 }
 
-function isValidRecord(record, options) {
+function isValidRecord(record, options, isQuery = false) {
   const entityName = options.meta.entity.name;
 
   // it already guaranteed that this entity will be defined in the manifest
   const entityDefinition = manifest.entities[entityName];
 
   const errors = [
-    ...entityDefinition.fields.map(field => validateField(field, record)).filter(e => !!e),
-    ...entityDefinition.fields
-      .filter(field => field.type === 'DATE_TIME')
-      .map(field => validateDateField(field, record))
-      .filter(e => !!e),
+    ...entityDefinition.fields.map(field => validateField(field, record, isQuery)).filter(e => !!e),
     ...getAddtionalPropertiesErrors(entityDefinition, record)
   ];
 
@@ -244,6 +259,9 @@ function groupQueryParams(reqQuery) {
  * @param {*} reqQuery
  */
 async function constructQueryParams(entity, reqQuery) {
+  //validating query param
+  reqQuery.map(recordQuery =>
+    isValidRecord(recordQuery, { meta: { entity: { name: entity.name } } }, true));
   const clusteredQueryParam = groupQueryParams(reqQuery);
   const filterableFields = await getEntityFields(entity, true);
   const filterableFieldsMap = {};
@@ -261,17 +279,6 @@ async function constructQueryParams(entity, reqQuery) {
 
     if (!fieldDetail) {
       throw new CustomObjectError(`'${fieldName}' not a filterable field`);
-    }
-
-    // DATE_TIME validation for query
-    if (fieldDetail.type === 'DATE_TIME') {
-      const errors = clusteredQueryParam[fieldName]
-        .map(queryValue => validateDateField(fieldDetail, { [fieldName]: queryValue }))
-        .filter(e => !!e);
-
-      if (errors.length) {
-        throw new ValidationError('validation failed', { errors });
-      }
     }
 
     return {
@@ -336,34 +343,24 @@ function decodeRecordData(recordString) {
 
 /**
  * Decodes and fetchest the next record to be fetch from pagination token
- * @param {string} nextRecordLink - next page url
+ * @param {string} nextRecordToken - next page url
  */
-function getRecordIdFromToken(nextRecordLink) {
+function getRecordIdFromToken(nextRecordToken) {
   try {
-    const nextToken = url.parse(nextRecordLink, true).query.next_token;
-    const recordDetail = decodeRecordData(nextToken);
+    const recordDetail = decodeRecordData(nextRecordToken);
 
     return recordDetail.id;
   } catch (error) {
-    throw new CustomObjectError('Error while parsing pagination link');
+    throw new CustomObjectError('Error while decoding next link token');
   }
 }
 
 /**
  * Generates the next page link for pagination
- * @param {object} req - express req
  * @param {object} lastRecord - latest record detail
- * @param {number} limit - page size
  */
-function getNextLink(req, lastRecord, limit) {
-  const baseUrl = url.format({
-    protocol: req.protocol,
-    host: req.get('host'),
-    pathname: req.path
-  });
-  const token = encodeRecordData(lastRecord);
-
-  return `${baseUrl}?page_size=${limit}&next_token=${token}`;
+function getNextPageToken(lastRecord) {
+  return encodeRecordData(lastRecord);
 }
 
 // moved module.exports to the top given there is an unavoidable cyclic dep
@@ -374,6 +371,6 @@ module.exports = {
   getEntityFields,
   encodeRecordData,
   getRecordIdFromToken,
-  getNextLink,
+  getNextPageToken,
   addNullToMissingFields
 };

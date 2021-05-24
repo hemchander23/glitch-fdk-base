@@ -35,6 +35,7 @@ module.exports = {
     // 4xx
     bad_request: 400,
     unauthorized: 401,
+    forbidden:403,
     not_found: 404,
     unsupported_media: 415,
     unprocessable_entity: 422,
