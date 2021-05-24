@@ -4,6 +4,7 @@
 
 const _ = require('lodash');
 const os = require('os');
+const url = require('url');
 
 const fileUtil = require('../utils/file-util');
 const manifest = require('../manifest');
@@ -17,6 +18,9 @@ const fdkconfig = require(`${os.homedir()}/.fdk/addon/addon-${addonVersion}/prod
 const SUPPORTED_PLATFORMS = ['2.0', '2.1'];
 const ICON_HEIGHT = 64;
 const ICON_WIDTH = 64;
+const IP_REGEX = /\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b/;
+const IPARAM_REGEX = /\<\%\=\s*.*\s*\%\>/;
+const STAR_REGEX = /^(https:\/\/)[\*]+([\-\.]{1}[a-z0-9]+)*\.[a-z]*$/;
 const validationConst = constants.validationContants;
 const validOmniAppProducts = fdkconfig.omni_products;
 
@@ -137,6 +141,62 @@ function validateLocation(appType) {
   }
 }
 
+function validateWhitelistedDomains() {
+  const err = [];
+  const ipDomains = [];
+  const slashDomains = [];
+  const httpDomains = [];
+  const localhostDomains = [];
+  const domainWithPath = [];
+  const regexDomains = [];
+
+  for (const domain of manifest.whitelistedDomains) {
+    if (domain.indexOf('*') !== -1) {
+      if (!domain.match(STAR_REGEX)) {
+        regexDomains.push(domain);
+      }
+    }
+    else {
+      const urlObject = url.parse(domain.replace(IPARAM_REGEX, 'abc'));
+
+      if (urlObject.path !== '/') {
+        domainWithPath.push(domain);
+      }
+      else if (domain.endsWith('/')) {
+        slashDomains.push(domain);
+      }
+      if (urlObject.hostname === 'localhost') {
+        localhostDomains.push(domain);
+      }
+      if (!(domain.startsWith('https://'))) {
+        httpDomains.push(domain);
+      }
+      if (!_.isNull(IP_REGEX.exec(urlObject.hostname))) {
+        ipDomains.push(domain);
+      }
+    }
+  }
+  if (!(_.isEmpty(ipDomains))) {
+    err.push(`Whitelisted domains must not contain IP addresses: ${ipDomains}`);
+  }
+  if (!(_.isEmpty(slashDomains))) {
+    err.push(`Whitelisted domains must not end with a '/': ${slashDomains}`);
+  }
+  if (!(_.isEmpty(httpDomains))) {
+    err.push(`Whitelisted domains must use HTTPS: ${httpDomains}`);
+  }
+  if (!(_.isEmpty(domainWithPath))) {
+    err.push(`Whitelisted domains must not have path: ${domainWithPath}`);
+  }
+  if (!(_.isEmpty(localhostDomains))) {
+    err.push(`Whitelisted domains must not be localhost: ${localhostDomains}`);
+  }
+  if (!(_.isEmpty(regexDomains))) {
+    err.push(`Whitelisted domains must not have more than one subdomain: ${regexDomains}`);
+  }
+  return err;
+}
+
 module.exports = {
   name: 'manifest',
 
@@ -146,8 +206,14 @@ module.exports = {
     let omniError;
     let locationErr;
 
+    const whitelistDomainErr = validateWhitelistedDomains();
+
     if (manifest.features.includes('omni')) {
       omniError = validateOmniApp();
+    }
+
+    if (!(_.isUndefined(whitelistDomainErr))) {
+      errMsgs.push(whitelistDomainErr);
     }
 
     if (_.isUndefined(productErr)) {

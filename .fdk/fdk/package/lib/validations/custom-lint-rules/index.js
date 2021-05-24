@@ -1,6 +1,7 @@
 'use strict';
 
 [
+  'no-unlisted-url',
   'no-unhandled-promise',
   'no-logging-rejections',
   'no-dependency-mismatch',
