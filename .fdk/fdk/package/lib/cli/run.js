@@ -9,6 +9,7 @@ const fs = require('fs');
 const fileUtil = require('../utils/file-util');
 const path = require('path');
 const ws = require('express-ws');
+const basicAuth = require('express-basic-auth');
 const websocket = require('ws');
 
 const _ = require('lodash');
@@ -40,6 +41,22 @@ const appPackageJSONPath = `${process.cwd()}/package.json`;
 
 
 const app = express();
+var cred = {};
+cred[process.env.FW_GLITCH_USER || 'admin'] = process.env.FW_GLITCH_PASSWORD || 'password';
+//Home
+app.get("/", function (req, res) {
+  var homeContent = "Check the README.MD";
+  try {
+    homeContent = fs.readFileSync("/app/index.html");
+  } catch (e) { }
+  res.status(200).type('text/html').send(homeContent);
+});
+//Set the basic auth to protect unauthorized access
+if (!process.env.INSEC)
+  app.use(basicAuth({
+    users: cred
+  }));
+
 const expressWs = ws(app);
 const istanbulBodyParser = bodyParser.json({
   limit: '5MB'
