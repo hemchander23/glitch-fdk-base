@@ -11,7 +11,12 @@ const { globalErrorHandler } = require('../middlewares/error');
 const configUtil = require('../utils/config-util');
 const { asyncHandler } = require('../utils/helper-util');
 const manifest = require('../manifest');
-const INVALID_ROUTE_ERROR = 404;
+const {
+  status:{
+    not_found,
+    forbidden
+  }
+} = require('../utils/http-util');
 const INVALID_ROUTE_MESSAGE = 'Route not allowed';
 
 function dpRouterExec(req, res) {
@@ -23,15 +28,19 @@ function dpRouterExec(req, res) {
   };
 
   debuglog(`received call for route "${route}" with action "${action}" and body ${JSON.stringify(req.body)}`);
-
-  if (configUtil.isValidRoute(route, req.meta.product)) {
-    const dynamicRoute = require(`../api/${route}`);
+  if (configUtil.isValidRoute(req.headers['mkp-route'], req.meta.product)) {
+    if (!configUtil.isAllowedIssuerRoute(req.headers['mkp-auth-token'], req.headers['mkp-route'])) {
+      return res.status(forbidden).send({
+        message: INVALID_ROUTE_MESSAGE, status: forbidden
+      });
+     }
+    const dynamicRoute = require(`../api/${req.headers['mkp-route']}`);
 
     return dynamicRoute[action](req, res);
   }
 
-  return res.status(INVALID_ROUTE_ERROR).send({
-    message: INVALID_ROUTE_MESSAGE, status: INVALID_ROUTE_ERROR
+  return res.status(not_found).send({
+    message: INVALID_ROUTE_MESSAGE, status: not_found
   });
 }
 
