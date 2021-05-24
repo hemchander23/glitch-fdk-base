@@ -1,0 +1,320 @@
+{
+  "timestamp": 1593015490.2012472,
+  "account_id": "1967183444532229946",
+  "domain": "sample.myfreshworks.com",
+  "event": "onDealUpdate",
+  "region": "US",
+  "productContext": {
+    "url": "https://sample.myfreshworks.com/crm",
+    "name": "freshworks_crm"
+  },
+  "data": {
+    "actor": {
+      "id": 1437,
+      "name": "John Doe",
+      "email": "sample@xyz.com",
+      "job_title": null,
+      "work_number": null,
+      "mobile_number": null,
+      "language": "en",
+      "time_zone": "UTC",
+      "is_active": true,
+      "deal_pipeline_id": 154,
+      "is_forgotten": false,
+      "created_at": "2020-06-09T12:21:48Z",
+      "updated_at": "2020-06-11T08:57:10Z",
+      "uuid": "190440313184929466",
+      "type": "user"
+    },
+    "deal": {
+      "name": {
+        "label": "Name",
+        "type": "text",
+        "value": "sd"
+      },
+      "owner_id": {
+        "label": "Sales owner",
+        "type": "dropdown",
+        "value": 1437
+      },
+      "deal_pipeline_id": {
+        "label": "Deal pipeline",
+        "type": "dropdown",
+        "value": 154
+      },
+      "deal_stage_id": {
+        "label": "Deal stage",
+        "type": "dropdown",
+        "value": 1061
+      },
+      "deal_reason_id": {
+        "label": "Lost reason",
+        "type": "dropdown",
+        "value": null
+      },
+      "closed_date": {
+        "label": "Closed date",
+        "type": "date",
+        "value": null
+      },
+      "sales_account_id": {
+        "label": "Account name",
+        "type": "auto_complete",
+        "value": null
+      },
+      "tags": {
+        "label": "Tags",
+        "type": "auto_complete",
+        "value": []
+      },
+      "currency_id": {
+        "label": "Currency",
+        "type": "dropdown",
+        "value": 155
+      },
+      "amount": {
+        "label": "Deal value",
+        "type": "decimal",
+        "value": "0.0"
+      },
+      "base_currency_amount": {
+        "label": "Deal value in Base Currency",
+        "type": "decimal",
+        "value": "0.0"
+      },
+      "deal_payment_status_id": {
+        "label": "Payment status",
+        "type": "dropdown",
+        "value": null
+      },
+      "expected_close": {
+        "label": "Expected close date",
+        "type": "date",
+        "value": null
+      },
+      "probability": {
+        "label": "Probability (%)",
+        "type": "decimal",
+        "value": 100
+      },
+      "territory_id": {
+        "label": "Territory",
+        "type": "dropdown",
+        "value": null
+      },
+      "deal_type_id": {
+        "label": "Type",
+        "type": "dropdown",
+        "value": null
+      },
+      "lead_source_id": {
+        "label": "Source",
+        "type": "dropdown",
+        "value": null
+      },
+      "campaign_id": {
+        "label": "Campaign",
+        "type": "dropdown",
+        "value": null
+      },
+      "last_contacted_sales_activity_mode": {
+        "label": "Last activity type",
+        "type": "dropdown",
+        "value": null
+      },
+      "age": {
+        "label": "Age (in days)",
+        "type": "number",
+        "value": 0
+      },
+      "recent_note": {
+        "label": "Recent note",
+        "type": "paragraph",
+        "value": null
+      },
+      "last_contacted_via_sales_activity": {
+        "label": "Last activity date",
+        "type": "date_time",
+        "value": null
+      },
+      "active_sales_sequences": {
+        "label": "Active sales sequences",
+        "type": "multi_select_dropdown",
+        "value": []
+      },
+      "completed_sales_sequences": {
+        "label": "Completed sales sequences",
+        "type": "multi_select_dropdown",
+        "value": []
+      },
+      "created_at": {
+        "label": "Created at",
+        "type": "date_time",
+        "value": "2020-06-11T09:18:21Z"
+      },
+      "updater_id": {
+        "label": "Updated by",
+        "type": "dropdown",
+        "value": 1437
+      },
+      "updated_at": {
+        "label": "Updated at",
+        "type": "date_time",
+        "value": "2020-06-11T09:18:38Z"
+      },
+      "web_form_id": {
+        "label": "Web form",
+        "type": "dropdown",
+        "value": null
+      },
+      "upcoming_activities_time": {
+        "label": "Upcoming activities",
+        "type": "date_time",
+        "value": null
+      },
+      "stage_updated_time": {
+        "label": "Deal stage updated at",
+        "type": "date_time",
+        "value": "2020-06-11T09:18:21Z"
+      },
+      "last_assigned_at": {
+        "label": "Last assigned at",
+        "type": "date_time",
+        "value": "2020-06-11T09:18:22Z"
+      },
+      "expected_deal_value": {
+        "label": "Expected deal value",
+        "type": "decimal",
+        "value": "0.0"
+      },
+      "id": 1640,
+      "lost_from": null,
+      "is_deleted": false,
+      "first_assigned_at": {
+        "label": "First assigned at",
+        "dom_type": "date_time",
+        "value": "2020-06-11T09:18:22Z"
+      },
+      "won_from": null,
+      "import_csv_id": {
+        "label": "Import label",
+        "dom_type": "multi_select_dropdown",
+        "value": []
+      },
+      "contact_ids": [],
+      "import_id": null,
+      "deal_prediction_tag": {
+        "label": "Deal Prediction",
+        "dom_type": "text",
+        "value": null
+      },
+      "team_user_ids": [],
+      "product_ids": [],
+      "creator_id": {
+        "label": "Created by",
+        "type": "dropdown",
+        "value": 1437
+      },
+      "deal_product_id": {
+        "label": "Product",
+        "type": "dropdown",
+        "value": null
+      },
+      "custom_fields": [],
+      "source_additional_info": {}
+    },
+    "associations": {
+      "owner": {
+        "id": 1437,
+        "name": "John Doe",
+        "type": "user",
+        "email": "sample@xyz.com",
+        "is_active": true,
+        "work_number": null,
+        "mobile_number": null,
+        "time_zone": "UTC",
+        "created_at": "2020-06-09T12:21:48Z",
+        "updated_at": "2020-06-11T08:57:10Z",
+        "deal_pipeline_id": 154,
+        "job_title": null,
+        "uuid": "190440313184929466"
+      },
+      "source": null,
+      "campaign": null,
+      "sales_account": null,
+      "deal_pipeline": {
+        "id": 154,
+        "name": "Default Pipeline",
+        "position": 1,
+        "is_default": true
+      },
+      "territory": null,
+      "deal_type": null,
+      "deal_reason": null,
+      "deal_product": null,
+      "deal_payment_status": null,
+      "updater": {
+        "id": 1437,
+        "name": "John Doe",
+        "type": "user",
+        "email": "sample@xyz.com",
+        "is_active": true,
+        "work_number": null,
+        "mobile_number": null,
+        "time_zone": "UTC",
+        "created_at": "2020-06-09T12:21:48Z",
+        "updated_at": "2020-06-11T08:57:10Z",
+        "deal_pipeline_id": 154,
+        "job_title": null,
+        "uuid": "190440313184929466"
+      },
+      "deal_stage": {
+        "id": 1061,
+        "name": "New",
+        "position": 1,
+        "forecast_type": "Open"
+      },
+      "currency": {
+        "id": 155,
+        "currency_code": "INR",
+        "exchange_rate": "1.0"
+      },
+      "team_users": [],
+      "contacts": [],
+      "products": [],
+      "creator": {
+        "id": 1437,
+        "name": "John Doe",
+        "type": "user",
+        "email": "sample@xyz.com",
+        "is_active": true,
+        "work_number": null,
+        "mobile_number": null,
+        "time_zone": "UTC",
+        "created_at": "2020-06-09T12:21:48Z",
+        "updated_at": "2020-06-11T08:57:10Z",
+        "deal_pipeline_id": 154,
+        "job_title": null,
+        "uuid": "190440313184929466"
+      }
+    },
+    "changes": {
+      "model_changes": {
+        "name": [
+          "Deal",
+          "Deal Update"
+        ],
+        "updater_id": [
+          null,
+          1437
+        ],
+        "updated_at": [
+          "2020-06-11T09:18:21Z",
+          "2020-06-11T09:18:38Z"
+        ]
+      },
+      "system_changes": {},
+      "misc_changes": {}
+    }
+  }
+}

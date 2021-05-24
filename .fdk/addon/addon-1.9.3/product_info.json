@@ -1,0 +1,58 @@
+{
+    "products":[
+       "freshdesk",
+       "freshservice",
+       "freshsales",
+       "freshchat",
+       "freshconnect",
+       "freshcaller",
+       "freshteam",
+       "freshworks_crm",
+       "omni"
+    ],
+    "doc_urls":{
+       "Freshdesk":"https://developer.freshdesk.com/v2/docs/freshworks-cli/",
+       "Freshservice":"https://developer.freshservice.com/docs/freshworks-cli/",
+       "Freshsales":"https://developer.freshsales.io/docs/freshsales-sdk/",
+       "Freshchat":"https://developers.freshchat.com/v2/docs/quick-start/",
+       "Freshconnect":"https://developers.freshconnect.com/v2/docs/quick-start/",
+       "Freshcaller":"https://developers.freshcaller.com/docs/freshworks-cli/",
+       "Freshteam":"https://developer.freshdesk.com/v2/docs/freshworks-cli/",
+       "Freshworks CRM": "https://developer.freshworks.com/crm/docs/freshworks-cli/"
+    },
+    "deploy_urls":{
+       "freshdesk":"https://developer.freshdesk.com/v2/docs/freshdesk-apps/",
+       "freshsales":"https://developer.freshsales.io/docs/freshsales-apps/",
+       "freshservice":"https://developer.freshservice.com/docs/freshservice-apps/",
+       "freshchat":"https://developers.freshchat.com/v2/docs/quick-start/",
+       "freshconnect":"https://developers.freshconnect.com/v2/docs/quick-start/",
+       "freshcaller":"https://developers.freshcaller.com/docs/freshworks-cli/",
+       "freshteam":"https://developers.freshteam.com/docs/freshworks-cli/",
+       "freshworks_crm": "https://developer.freshworks.com/crm/docs/quick-start/"
+    },
+    "test_urls":{
+       "freshdesk":"https://domain.freshdesk.com/a/tickets/1?dev=true",
+       "freshservice":"https://domain.freshservice.com/helpdesk/tickets/1?dev=true",
+       "freshsales":"https://domain.freshsales.io/contacts/2007663673?dev=true",
+       "freshchat":"https://web.freshchat.com/a/230117337757345/inbox/3/0/conversation/233020826993979?dev=true",
+       "freshconnect" : "https://domain.freshconnect.io/conversations/12345?dev=true",
+       "freshcaller":"https://domain.freshcaller.com/dashboard?dev=true",
+       "freshteam":"https://domain.freshteam.com/dashboard?dev=true",
+       "freshworks_crm": "https://domain.myfreshworks.com/crm/sales/contacts/2007663673?dev=true"
+    },
+    "omni_products": [
+      "freshsales",
+      "freshworks_crm"
+    ],
+    "products_map": {
+      "freshdesk": "Freshdesk",
+      "freshsales": "Freshsales",
+      "freshservice": "Freshservice",
+      "freshchat": "Freshchat",
+      "freshcaller": "Freshcaller",
+      "freshworks_crm": "Freshworks CRM",
+      "freshconnect": "Freshconnect",
+      "freshteam": "Freshteam"
+    }
+ }
+ 

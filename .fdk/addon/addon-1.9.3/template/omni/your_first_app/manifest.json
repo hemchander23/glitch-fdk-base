@@ -1,0 +1,37 @@
+{
+  "platform-version": "2.1",
+  "product": {
+    "freshworks_crm": {
+      "location": {
+        "deal_entity_menu": {
+          "url": "index.html",
+          "icon": "styles/images/icon.svg"
+        },
+        "sales_account_entity_menu": {
+          "url": "index.html",
+          "icon": "styles/images/icon.svg"
+        }
+      }
+    },
+    "freshsales": {
+      "location": {
+        "left_nav_chat": {
+          "url": "index.html",
+          "icon": "styles/images/icon.svg"
+        },
+        "left_nav_cti": {
+          "url": "index.html",
+          "icon": "styles/images/icon.svg"
+        },
+        "deal_entity_menu": {
+          "url": "index.html",
+          "icon": "styles/images/icon.svg"
+        },
+        "sales_account_entity_menu": {
+          "url": "index.html",
+          "icon": "styles/images/icon.svg"
+        }
+      }
+    }
+  }
+}

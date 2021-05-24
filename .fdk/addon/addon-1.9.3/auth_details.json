@@ -1,0 +1,9 @@
+{
+  "issuers": {
+    "freshchat_end_user_portal": {
+      "privileges": {
+        "smi": {}
+      }
+    }
+  }
+}

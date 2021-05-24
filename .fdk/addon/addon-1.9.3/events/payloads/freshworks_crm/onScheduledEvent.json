@@ -1,0 +1,16 @@
+{
+  "timestamp": 1496400354326,
+  "account_id": "1967183444532229946",
+  "domain": "sample.myfreshworks.com",
+  "event": "onScheduledEvent",
+  "region": "US",
+  "productContext": {
+    "url": "https://sample.myfreshworks.com/crm",
+    "name": "freshworks_crm"
+  },
+  "data": {
+    "sample_data1": "sample value1",
+    "sample_data2": "sample value2",
+    "sample_data3": 3
+  }
+}

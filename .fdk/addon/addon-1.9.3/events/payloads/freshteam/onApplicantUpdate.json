@@ -1,0 +1,117 @@
+{
+  "timestamp": 1496400354326,
+  "account_id": 1,
+  "domain": "sample.freshteam.com",
+  "event": "onApplicantUpdate",
+  "region": "US",
+  "data": {
+    "applicant": {
+      "id": 17,
+      "created_at": "2021-03-29T08:27:43.000Z",
+      "updated_at": "2021-03-29T08:36:00.000Z",
+      "deleted": false,
+      "status": "open",
+      "job_id": 3,
+      "job_title": "QA Lead",
+      "requisition_id": 5,
+      "stage": "on_site",
+      "sub_stage_id": 24,
+      "on_hold_till": null,
+      "on_hold_at": null,
+      "rejected_at": null,
+      "archived_at": null,
+      "moved_at": null,
+      "custom_fields": {}
+    },
+    "associations": {
+        "sub_stage": {
+            "id": 24,
+            "deleted": false,
+            "name": "Technical round",
+            "position": 1,
+            "default": false,
+            "stage": "on_site"
+        },
+        "candidate": {
+            "id": 3,
+            "eeo_veteran": null,
+            "eeo_ethnicity": null,
+            "eeo_disabled": null,
+            "eeo_gender": null,
+            "first_name": "Gwen",
+            "middle_name": null,
+            "last_name": "Stacy",
+            "email": "gwen@example.com",
+            "source_id": 1,
+            "source_category_id": 1,
+            "spam": false,
+            "description": "Results-oriented Sales Account Executive focused on maximizing sales by managing all accounts\n      systematically and logically. Committed to ideals of consistency and dedication in order build the most\n      successful business partnerships. Exceptional interpersonal time management and negotiation skills.",
+            "cool_off_date": null,
+            "referred_by_id": null,
+            "owner_id": 11,
+            "tags": [
+                "sas"
+            ],
+            "skills": [],
+            "location": {
+                "city": null,
+                "state": "New Jersey",
+                "street": null,
+                "country_code": null,
+                "zip_code": null
+            },
+            "date_of_birth": null,
+            "skype_id": null,
+            "mobile": "+19876543210",
+            "phone": null,
+            "profile_links": [
+                {
+                    "name": "web",
+                    "url": ""
+                }
+            ],
+            "gender": "female",
+            "total_experience_in_months": null,
+            "qualifications": [],
+            "positions": [],
+            "resumes": [],
+            "cover_letters": [],
+            "portfolios": [],
+            "referrals": []
+        },
+        "followers": [
+            {
+                "id": 16,
+                "user_id": 5,
+                "name": "Langdon Brennan",
+                "email": "lbrennan@freshteam.com"
+            }
+        ]
+    },
+    "actor": {
+      "id": 1,
+      "name": "Jacob Preston",
+      "email": "johnjamespreston@test.com"
+    },
+    "changes": {
+        "model_changes": {
+            "status": [
+                "archived",
+                "open"
+            ], "sub_stage_id": [
+                21,
+                24
+            ], "followers": {
+                "added": [
+                    {
+                        "id": 16,
+                        "user_id": 5,
+                        "name": "Langdon Brennan",
+                        "email": "lbrennan@freshteam.com"
+                    }
+                ]
+            }
+        }
+    }
+  }
+}

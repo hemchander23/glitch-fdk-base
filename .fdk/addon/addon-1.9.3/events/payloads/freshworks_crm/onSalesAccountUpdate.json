@@ -1,0 +1,297 @@
+{
+  "timestamp": 1593015490.2012472,
+  "account_id": "1967183444532229946",
+  "domain": "sample.myfreshworks.com",
+  "event": "onSalesAccountUpdate",
+  "region": "US",
+  "productContext": {
+    "url": "https://sample.myfreshworks.com/crm",
+    "name": "freshworks_crm"
+  },
+  "data": {
+    "actor": {
+      "id": 1437,
+      "name": "John Doe",
+      "email": "sample@xyz.com",
+      "job_title": null,
+      "work_number": null,
+      "mobile_number": null,
+      "language": "en",
+      "time_zone": "UTC",
+      "is_active": true,
+      "deal_pipeline_id": 154,
+      "is_forgotten": false,
+      "created_at": "2020-06-09T12:21:48Z",
+      "updated_at": "2020-06-11T08:57:10Z",
+      "uuid": "190440313184929466",
+      "type": "user"
+    },
+    "sales_account": {
+      "name": {
+        "label": "Name",
+        "type": "text",
+        "value": "account124"
+      },
+      "parent_sales_account_id": {
+        "label": "Parent account",
+        "type": "auto_complete",
+        "value": null
+      },
+      "owner_id": {
+        "label": "Sales owner",
+        "type": "dropdown",
+        "value": 1437
+      },
+      "number_of_employees": {
+        "label": "Number of employees",
+        "type": "dropdown",
+        "value": null
+      },
+      "annual_revenue": {
+        "label": "Annual revenue",
+        "type": "decimal",
+        "value": null
+      },
+      "tags": {
+        "label": "Tags",
+        "type": "auto_complete",
+        "value": []
+      },
+      "website": {
+        "label": "Website",
+        "type": "url",
+        "value": null
+      },
+      "phone": {
+        "label": "Phone",
+        "type": "phone_number",
+        "value": null
+      },
+      "industry_type_id": {
+        "label": "Industry type",
+        "type": "dropdown",
+        "value": null
+      },
+      "business_type_id": {
+        "label": "Business type",
+        "type": "dropdown",
+        "value": null
+      },
+      "territory_id": {
+        "label": "Territory",
+        "type": "dropdown",
+        "value": null
+      },
+      "address": {
+        "label": "Address",
+        "type": "text",
+        "value": null
+      },
+      "city": {
+        "label": "City",
+        "type": "text",
+        "value": null
+      },
+      "state": {
+        "label": "State",
+        "type": "text",
+        "value": null
+      },
+      "zipcode": {
+        "label": "Zipcode",
+        "type": "text",
+        "value": null
+      },
+      "country": {
+        "label": "Country",
+        "type": "text",
+        "value": null
+      },
+      "facebook": {
+        "label": "Facebook",
+        "type": "text",
+        "value": null
+      },
+      "twitter": {
+        "label": "Twitter",
+        "type": "text",
+        "value": null
+      },
+      "linkedin": {
+        "label": "LinkedIn",
+        "type": "text",
+        "value": null
+      },
+      "last_contacted": {
+        "label": "Last contacted time",
+        "type": "date_time",
+        "value": null
+      },
+      "last_contacted_mode": {
+        "label": "Last contacted mode",
+        "type": "dropdown",
+        "value": null
+      },
+      "last_contacted_sales_activity_mode": {
+        "label": "Last activity type",
+        "type": "dropdown",
+        "value": null
+      },
+      "recent_note": {
+        "label": "Recent note",
+        "type": "paragraph",
+        "value": null
+      },
+      "last_contacted_via_sales_activity": {
+        "label": "Last activity date",
+        "type": "date_time",
+        "value": null
+      },
+      "completed_sales_sequences": {
+        "label": "Completed sales sequences",
+        "type": "multi_select_dropdown",
+        "value": []
+      },
+      "active_sales_sequences": {
+        "label": "Active sales sequences",
+        "type": "multi_select_dropdown",
+        "value": []
+      },
+      "created_at": {
+        "label": "Created at",
+        "type": "date_time",
+        "value": "2020-06-09T15:25:03Z"
+      },
+      "updater_id": {
+        "label": "Updated by",
+        "type": "dropdown",
+        "value": 1437
+      },
+      "updated_at": {
+        "label": "Updated at",
+        "type": "date_time",
+        "value": "2020-06-11T09:11:05Z"
+      },
+      "last_assigned_at": {
+        "label": "Last assigned at",
+        "type": "date_time",
+        "value": "2020-06-09T15:25:04Z"
+      },
+      "id": 4245,
+      "is_deleted": false,
+      "open_deals_amount": {
+        "label": "Open deals amount",
+        "dom_type": "decimal",
+        "value": "0.0"
+      },
+      "merged_to": 0,
+      "first_assigned_at": {
+        "label": "First assigned at",
+        "dom_type": "date_time",
+        "value": "2020-06-09T15:25:04Z"
+      },
+      "first_contacted": {
+        "label": "First contacted",
+        "dom_type": "date_time",
+        "value": null
+      },
+      "won_deals_amount": {
+        "label": "Won deals amount",
+        "dom_type": "decimal",
+        "value": "0.0"
+      },
+      "parent_owner_id": null,
+      "parent_territory_id": null,
+      "import_csv_id": {
+        "label": "Import label",
+        "dom_type": "multi_select_dropdown",
+        "value": []
+      },
+      "import_id": null,
+      "avatar": null,
+      "team_user_ids": [],
+      "status": "Active",
+      "mcr_id": 1270376368551788500,
+      "creator_id": {
+        "label": "Created by",
+        "type": "dropdown",
+        "value": 1437
+      },
+      "custom_fields": []
+    },
+    "associations": {
+      "owner": {
+        "id": 1437,
+        "name": "John Doe",
+        "type": "user",
+        "email": "sample@xyz.com",
+        "is_active": true,
+        "work_number": null,
+        "mobile_number": null,
+        "time_zone": "UTC",
+        "created_at": "2020-06-09T12:21:48Z",
+        "updated_at": "2020-06-11T08:57:10Z",
+        "deal_pipeline_id": 154,
+        "job_title": null,
+        "uuid": "190440313184929466"
+      },
+      "territory": null,
+      "industry_type": null,
+      "business_type": null,
+      "parent_sales_account": null,
+      "updater": {
+        "id": 1437,
+        "name": "John Doe",
+        "type": "user",
+        "email": "sample@xyz.com",
+        "is_active": true,
+        "work_number": null,
+        "mobile_number": null,
+        "time_zone": "UTC",
+        "created_at": "2020-06-09T12:21:48Z",
+        "updated_at": "2020-06-11T08:57:10Z",
+        "deal_pipeline_id": 154,
+        "job_title": null,
+        "uuid": "190440313184929466"
+      },
+      "team_users": [],
+      "creator": {
+        "id": 1437,
+        "name": "John Doe",
+        "type": "user",
+        "email": "sample@xyz.com",
+        "is_active": true,
+        "work_number": null,
+        "mobile_number": null,
+        "time_zone": "UTC",
+        "created_at": "2020-06-09T12:21:48Z",
+        "updated_at": "2020-06-11T08:57:10Z",
+        "deal_pipeline_id": 154,
+        "job_title": null,
+        "uuid": "190440313184929466"
+      }
+    },
+    "changes": {
+      "model_changes": {
+        "name": [
+          "Account name",
+          "Account name update"
+        ],
+        "created_at": [
+          "2020-06-09T15:25:03Z",
+          "2020-06-09T15:25:03Z"
+        ],
+        "updater_id": [
+          null,
+          1437
+        ],
+        "updated_at": [
+          "2020-06-09T15:25:03Z",
+          "2020-06-11T09:11:05Z"
+        ]
+      },
+      "system_changes": {},
+      "misc_changes": {}
+    }
+  }
+}

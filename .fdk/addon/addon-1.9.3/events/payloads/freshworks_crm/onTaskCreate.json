@@ -1,0 +1,99 @@
+{
+  "timestamp": 1593015490.2012472,
+  "account_id": "1967183444532229946",
+  "domain": "sample.myfreshworks.com",
+  "event": "onTaskCreate",
+  "region": "US",
+  "productContext": {
+    "url": "https://sample.myfreshworks.com/crm",
+    "name": "freshworks_crm"
+  },
+  "data": {
+    "actor": {
+      "id": 1437,
+      "name": "John Doe",
+      "email": "sample@xyz.com",
+      "job_title": null,
+      "work_number": null,
+      "mobile_number": null,
+      "language": "en",
+      "time_zone": "UTC",
+      "is_active": true,
+      "deal_pipeline_id": 154,
+      "is_forgotten": false,
+      "created_at": "2020-06-09T12:21:48Z",
+      "updated_at": "2020-06-11T08:57:10Z",
+      "uuid": "190440313184929466",
+      "type": "user"
+    },
+    "task": {
+      "id": 4066,
+      "status": "Open",
+      "due_date": "2020-06-12T09:30:00Z",
+      "title": "Task create",
+      "description": null,
+      "is_deleted": false,
+      "completed_date": null,
+      "created_at": "2020-06-11T09:20:53Z",
+      "updated_at": "2020-06-11T09:20:53Z",
+      "task_type_id": 397,
+      "owner_id": 1437,
+      "creator_id": 1437,
+      "updater_id": null,
+      "outcome_id": null,
+      "targetable_id": 5691,
+      "targetable_type": "Contact",
+      "source_additional_info": {}
+    },
+    "associations": {
+      "owner": {
+        "id": 1437,
+        "name": "John Doe",
+        "type": "user",
+        "email": "sample@xyz.com",
+        "is_active": true,
+        "work_number": null,
+        "mobile_number": null,
+        "time_zone": "UTC",
+        "created_at": "2020-06-09T12:21:48Z",
+        "updated_at": "2020-06-11T08:57:10Z",
+        "deal_pipeline_id": 154,
+        "job_title": null,
+        "uuid": "190440313184929466"
+      },
+      "task_type": {
+        "name": "Follow up",
+        "position": 1,
+        "sales_activity_type_id": 1062
+      },
+      "task_users": [
+        {
+          "_association_id": 4153,
+          "user_id": 1437
+        }
+      ],
+      "outcome": null,
+      "updater": null,
+      "targetable": {
+        "id": 5691,
+        "_model": "Contact",
+        "mcr_id": 1270678500500865000
+      },
+      "creator": {
+        "id": 1437,
+        "name": "John Doe",
+        "type": "user",
+        "email": "sample@xyz.com",
+        "is_active": true,
+        "work_number": null,
+        "mobile_number": null,
+        "time_zone": "UTC",
+        "created_at": "2020-06-09T12:21:48Z",
+        "updated_at": "2020-06-11T08:57:10Z",
+        "deal_pipeline_id": 154,
+        "job_title": null,
+        "uuid": "190440313184929466"
+      }
+    }
+  }
+}

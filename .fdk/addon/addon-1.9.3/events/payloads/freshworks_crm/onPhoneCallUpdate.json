@@ -1,0 +1,110 @@
+{
+  "timestamp": 1496400354326,
+  "account_id": "13",
+  "domain": "sample.myfreshworks.com",
+  "event": "onPhoneCallUpdate",
+  "region": "US",
+  "version": "2.0",
+  "productContext": {
+    "url": "https://sample.myfreshworks.com/crm",
+    "name": "freshworks_crm"
+  },
+  "data": {
+    "phone_call": {
+      "phone_number": "+9999999999",
+      "phone_caller_number": "+9999999999",
+      "phone_caller_number_country": "US",
+      "note": "added note",
+      "id": 16,
+      "user_id": null,
+      "entity_id": 4,
+      "call_direction": "Incoming",
+      "call_duration": 7,
+      "call_status": "No-answer",
+      "call_cost": "0.0125",
+      "recording_duration": null,
+      "needs_response": true,
+      "is_manual": false,
+      "is_deleted": false,
+      "root_phone_call_id": 16,
+      "outcome_id": 2,
+      "source": null,
+      "created_at": "2018-10-25T18:14:39Z",
+      "updated_at": "2019-02-18T13:22:53Z"
+    },
+    "actor": {
+      "id": 1,
+      "name": "Sample User",
+      "email": "sampleuser@gmail.com",
+      "job_title": null,
+      "work_number": null,
+      "mobile_number": "9999999999",
+      "language": "en",
+      "time_zone": "Chennai",
+      "is_active": true,
+      "deal_pipeline_id": 1,
+      "is_forgotten": false,
+      "created_at": "2019-08-23T06:00:55Z",
+      "updated_at": "2019-08-23T06:00:55Z",
+      "type": "user"
+    },
+    "associations": {
+      "user": {
+        "id": 1,
+        "name": "Sample User",
+        "type": "user",
+        "email": "sampleuser@gmail.com",
+        "is_active": true,
+        "work_number": "9999999999",
+        "mobile_number": null,
+        "time_zone": "Chennai",
+        "created_at": "2019-02-13T15:08:40Z",
+        "updated_at": "2019-02-14T13:39:10Z",
+        "deal_pipeline_id": 1,
+        "job_title": null
+      },
+      "root_phone_call": {
+        "id": 16,
+        "user_id": null,
+        "call_direction": true
+      },
+      "outcome": {
+        "id": 2,
+        "name": "Left message",
+        "position": 2
+      },
+      "entity": {
+        "id": 4,
+        "_model": "Lead"
+      }
+    },
+    "changes": {
+      "model_changes": {
+        "note": [
+          null,
+          "added note"
+        ],
+        "outcome_id": [
+          null,
+          2
+        ],
+        "updated_at": [
+          "2019-02-15T14:16:46Z",
+          "2019-02-18T13:22:53Z"
+        ],
+        "entity": [
+          {
+            "id": 1,
+            "_model": "Lead"
+          },
+          {
+            "id": 4,
+            "_model": "Lead"
+          }
+        ]
+      },
+      "system_changes": {},
+      "misc_changes": {}
+    }
+  }
+}

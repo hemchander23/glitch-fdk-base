@@ -1,0 +1,11 @@
+{
+  "timestamp": 1496400354326,
+  "account_id": "1967183444532229946",
+  "domain": "https://sample.myfreshworks.com",
+  "productContext": {
+    "url": "https://sample.myfreshworks.com/crm",
+    "name": "freshworks_crm"
+  },
+  "event": "onAppInstall",
+  "region": "US"
+}
