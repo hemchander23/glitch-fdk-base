@@ -74,7 +74,8 @@ function checkForUpdate(returnControlToIndex) {
 
         try {
           remoteInfo = JSON.parse(body);
-        } catch (e) {
+        }
+        catch (e) {
           return callback(`Error while fetching the version - ${e.message}`);
         }
 
@@ -100,18 +101,21 @@ function checkForUpdate(returnControlToIndex) {
           ans.toUpdate = ans.toUpdate.toLowerCase();
           if (!ans.toUpdate.match(/^yes|no$/)) {
             return notifyNewVersion(callback);
-          } else if (ans.toUpdate === 'yes') {
+          }
+          else if (ans.toUpdate === 'yes') {
             try {
               // child_process.execSync(remoteInfo.fdkCli.cmd, {
               //   stdio: [0, 1, 2]
               // });
-            } catch (e) {
+            }
+            catch (e) {
               console.log(`Installation failed - ${e.message}`);
             }
           }
           return callback();
         });
-      } else {
+      }
+      else {
         return callback();
       }
     },
@@ -122,8 +126,8 @@ function checkForUpdate(returnControlToIndex) {
         if localInfo.addon.version == undefined -> Perform update (missing, or new installation)
         if localInfo.addon.version <= addon in remote - > Perform update (new version available)
       */
-      if (localInfo === undefined ||
-        helper.isGreaterThan(localInfo.addon.version, remoteInfo.addon.version)) {
+      if (localInfo === undefined
+        || helper.isGreaterThan(localInfo.addon.version, remoteInfo.addon.version)) {
 
         debuglog(`Found new version of addon - ${remoteInfo.addon.version}`);
         debuglog(`Updating local addon to - ${remoteInfo.addon.version}`);
@@ -143,7 +147,8 @@ function checkForUpdate(returnControlToIndex) {
 
           return callback();
         });
-      } else {
+      }
+      else {
         debuglog(`Addon is already at the latest version - ${localInfo.addon.version}`);
         return callback();
       }
@@ -162,9 +167,7 @@ function checkForUpdate(returnControlToIndex) {
     /**
       Update last updated time to now (If Success)
     */
-    dbApi.store('last_updated', {
-      time_stamp: Date.now()
-    });
+    dbApi.store('last_updated', { time_stamp: Date.now() });
 
     returnControlToIndex();
   });

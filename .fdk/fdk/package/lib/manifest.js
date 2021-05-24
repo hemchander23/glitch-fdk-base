@@ -136,6 +136,7 @@ function reload() {
   // Easy access to common use properties:
   module.exports.pfVersion = doc['platform-version'];
   module.exports.product = doc.product;
+  module.exports.whitelistedDomains = doc['whitelisted-domains'] || [];
   module.exports.dependencies = doc.dependencies || {};
   module.exports.devDependencies = doc.devDependencies || {};
   module.exports.features = inferFeatures(doc);
@@ -149,6 +150,7 @@ module.exports = {
   pfVersion: null,
   product: null,
   features: null,
+  whitelistedDomains: null,
   dependencies: null,
   actions: null,
   entities: getEntities(),
